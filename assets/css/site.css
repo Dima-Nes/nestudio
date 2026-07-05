@@ -512,8 +512,8 @@ body.is-ready .portfolio-text {
 	z-index: 90000;
 	margin-bottom: 12px;
 	padding: 8px 0 12px;
-	background: var(--nav-bg);
-	backdrop-filter: blur(14px);
+	/* background: var(--nav-bg);
+	backdrop-filter: blur(14px); */
 	-webkit-backdrop-filter: blur(14px);
 	overflow-anchor: none;
 }
