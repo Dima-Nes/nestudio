@@ -513,8 +513,8 @@ body.is-ready .portfolio-text {
 	margin-bottom: 12px;
 	padding: 8px 0 12px;
 	/* background: var(--nav-bg);
-	backdrop-filter: blur(14px); */
-	-webkit-backdrop-filter: blur(14px);
+	backdrop-filter: blur(14px); 
+	-webkit-backdrop-filter: blur(14px);*/
 	overflow-anchor: none;
 }
 
@@ -1116,6 +1116,21 @@ body.dark .cta-card--dark .cta-text {
 .footer-bottom-links a {
 	color: var(--text);
 }
+
+
+
+body[data-page="works"] .masonry-col {
+	padding-bottom: 48px;
+}
+
+@media (max-width: 640px) {
+	body[data-page="works"] .masonry-col {
+		padding-bottom: 72px;
+	}
+}
+
+
+
 
 /* ==========================================================================
    Bottom navigation
@@ -3015,4 +3030,20 @@ body[data-page="contact"] .ghost-button:hover {
 	body[data-page="contact"] .contact-grid {
 		grid-template-columns: 1fr;
 	}
+}
+
+
+
+.hero-photo {
+	background: var(--card);
+}
+
+.hero-photo .media-frame {
+	background: var(--card);
+}
+
+.hero-photo .media-frame img {
+	object-fit: cover;
+	object-position: center center;
+	background: transparent;
 }
