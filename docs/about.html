@@ -8,8 +8,259 @@
     name="description"
     content="nestudio - AI-продакшен для бизнеса: ролики, презентации, продуктовые визуалы, AI-аватары и лендинги за 48 часов."
   />
+  <meta name="theme-color" content="#0e1116" />
   <link rel="stylesheet" href="/assets/css/site.css" />
   <link rel="icon" type="image/png" href="/img/logo.png">
+
+  <!-- ================================================================
+       MOBILE FIX / about page only
+       Все правила ниже ограничены body[data-page="about"] и включаются
+       только на ширинах <= 1100px, поэтому десктопный вид страницы
+       и остальные страницы сайта не затрагиваются.
+       ================================================================ -->
+  <style>
+    /* ---------- Базовая защита от горизонтального скролла ---------- */
+    body[data-page="about"] { overflow-x: hidden; }
+
+    body[data-page="about"] .page,
+    body[data-page="about"] section {
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    body[data-page="about"] .page * { min-width: 0; }
+
+    body[data-page="about"] img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    body[data-page="about"] .hero-text,
+    body[data-page="about"] .about-copy p,
+    body[data-page="about"] .about-point span,
+    body[data-page="about"] .process-desc,
+    body[data-page="about"] .studio-copy,
+    body[data-page="about"] .cta-text,
+    body[data-page="about"] .cta-meta-value,
+    body[data-page="about"] .metric-label,
+    body[data-page="about"] .hero-title {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    /* ---------- Планшет и ниже ---------- */
+    @media (max-width: 1100px) {
+      body[data-page="about"] .hero,
+      body[data-page="about"] .metrics,
+      body[data-page="about"] .about-grid,
+      body[data-page="about"] .process-grid,
+      body[data-page="about"] .studio-grid,
+      body[data-page="about"] .cta {
+        display: grid;
+        gap: 16px;
+      }
+
+      body[data-page="about"] .hero { grid-template-columns: 1fr; }
+      body[data-page="about"] .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      body[data-page="about"] .about-grid { grid-template-columns: 1fr; }
+      body[data-page="about"] .process-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      body[data-page="about"] .studio-grid { grid-template-columns: 1fr; }
+      body[data-page="about"] .cta { grid-template-columns: 1fr; }
+
+      /* Контент не должен зависеть от JS-анимаций на мобильных */
+      body[data-page="about"] .reveal,
+      body[data-page="about"] .reveal--fast,
+      body[data-page="about"] .reveal--delay-1,
+      body[data-page="about"] .reveal--delay-2,
+      body[data-page="about"] .reveal--delay-3,
+      body[data-page="about"] .reveal--delay-4 {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        visibility: visible;
+      }
+
+      body[data-page="about"] .line-wrap { overflow: visible; }
+      body[data-page="about"] .line { transform: none; opacity: 1; }
+
+      body[data-page="about"] .hero-photo {
+        min-height: 0;
+        height: auto;
+      }
+
+      body[data-page="about"] .hero-photo img,
+      body[data-page="about"] .about-visual img {
+        width: 100%;
+        height: clamp(200px, 42vw, 340px);
+        object-fit: cover;
+      }
+
+      body[data-page="about"] .studio-cardmedia img {
+        width: 100%;
+        height: clamp(190px, 40vw, 300px);
+        object-fit: cover;
+      }
+    }
+
+    /* ---------- Телефон ---------- */
+    @media (max-width: 760px) {
+      body[data-page="about"] .page {
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-bottom: calc(104px + env(safe-area-inset-bottom));
+      }
+
+      body[data-page="about"] .hero,
+      body[data-page="about"] .metrics,
+      body[data-page="about"] .about-grid,
+      body[data-page="about"] .process-grid,
+      body[data-page="about"] .studio-grid,
+      body[data-page="about"] .cta {
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      body[data-page="about"] .process-grid { grid-template-columns: 1fr; }
+
+      body[data-page="about"] .hero-card,
+      body[data-page="about"] .about-card,
+      body[data-page="about"] .metric-card,
+      body[data-page="about"] .process-card,
+      body[data-page="about"] .studio-cardmeta,
+      body[data-page="about"] .cta-card {
+        padding: 18px 16px;
+      }
+
+      body[data-page="about"] .about-visual { padding: 0; overflow: hidden; }
+
+      body[data-page="about"] .hero-title {
+        font-size: clamp(30px, 8.6vw, 46px);
+        line-height: 1.06;
+        letter-spacing: -0.02em;
+      }
+
+      body[data-page="about"] .about-lead {
+        font-size: clamp(19px, 5.2vw, 26px);
+        line-height: 1.24;
+      }
+
+      body[data-page="about"] .cta-title {
+        font-size: clamp(23px, 6.4vw, 32px);
+        line-height: 1.16;
+      }
+
+      body[data-page="about"] .hero-text,
+      body[data-page="about"] .about-copy p,
+      body[data-page="about"] .process-desc,
+      body[data-page="about"] .studio-copy,
+      body[data-page="about"] .cta-text {
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      body[data-page="about"] .metric-number {
+        font-size: clamp(30px, 9vw, 46px);
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+
+      body[data-page="about"] .metric-label {
+        font-size: 12.5px;
+        line-height: 1.35;
+      }
+
+      body[data-page="about"] .metric-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      body[data-page="about"] .icon-badge {
+        flex: 0 0 auto;
+        width: 32px;
+        height: 32px;
+      }
+
+      body[data-page="about"] .icon-badge .icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      body[data-page="about"] .about-points {
+        display: grid;
+        gap: 10px;
+      }
+
+      body[data-page="about"] .about-point {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14.5px;
+        line-height: 1.4;
+      }
+
+      body[data-page="about"] .process-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      body[data-page="about"] .process-time { font-size: 12px; white-space: nowrap; }
+      body[data-page="about"] .process-name { font-size: 19px; line-height: 1.2; }
+
+      body[data-page="about"] .studio-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      body[data-page="about"] .studio-title { font-size: 18px; line-height: 1.2; }
+
+      body[data-page="about"] .cta-meta {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      body[data-page="about"] .cta-meta-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      body[data-page="about"] .cta-meta-value { font-size: 14.5px; line-height: 1.4; }
+
+      /* Кликабельные элементы - удобный тап-таргет */
+      body[data-page="about"] .cta-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        min-height: 52px;
+        margin-top: 18px;
+        text-align: center;
+      }
+    }
+
+    /* ---------- Узкие телефоны ---------- */
+    @media (max-width: 400px) {
+      body[data-page="about"] .metrics { grid-template-columns: 1fr; }
+      body[data-page="about"] .page { padding-left: 12px; padding-right: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body[data-page="about"] * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 <body class="is-loading" data-page="about" data-base="../">
   <div id="site-header"></div>
@@ -42,6 +293,8 @@
         <img
           src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1600&auto=format&fit=crop"
           alt="Команда nestudio"
+          loading="lazy"
+          decoding="async"
         />
       </div>
     </section>
@@ -167,6 +420,8 @@
         <img
           src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
           alt="Рабочий процесс студии"
+          loading="lazy"
+          decoding="async"
         />
       </article>
     </section>
@@ -282,6 +537,8 @@
           <img
             src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1600&auto=format&fit=crop"
             alt="Стратегия и структура"
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div class="studio-cardmeta">
@@ -307,6 +564,8 @@
           <img
             src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop"
             alt="Дизайн, production и delivery"
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div class="studio-cardmeta">
@@ -411,5 +670,14 @@
   <div id="site-bottom-nav"></div>
 
   <script src="/assets/js/site.js"></script>
+  <script>
+    /* Страховка: если site.js не отработал (медленная сеть, ошибка на мобильном),
+       страница всё равно должна быть видимой, а не пустой. */
+    (function () {
+      var unlock = function () { document.body.classList.remove('is-loading'); };
+      window.addEventListener('load', function () { setTimeout(unlock, 1200); });
+      setTimeout(unlock, 3000);
+    })();
+  </script>
 </body>
 </html>
