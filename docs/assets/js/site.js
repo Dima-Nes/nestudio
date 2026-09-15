@@ -29,7 +29,6 @@
 		await loadPartials();
 
 		initTheme();
-		initLang();
 		initCurrentYear();
 		initBottomNav();
 		initImages();
@@ -412,18 +411,6 @@
 			});
 		}
 	}
-
-	function initLang() {
-		const langToggle = document.getElementById('langToggle');
-		const langLabel = document.getElementById('langLabel');
-		const savedLang = localStorage.getItem('lang') || 'ru';
-
-		applyLang(savedLang);
-
-		if (!langToggle) {
-			return;
-		}
-
 		langToggle.addEventListener('click', event => {
 			event.preventDefault();
 			const nextLang = document.documentElement.lang === 'en' ? 'ru' : 'en';
