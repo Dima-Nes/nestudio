@@ -29,7 +29,6 @@
 		await loadPartials();
 
 		initTheme();
-		initLang();
 		initCurrentYear();
 		initBottomNav();
 		initImages();
@@ -410,44 +409,6 @@
 			requestAnimationFrame(() => {
 				window.scrollTo(0, y);
 			});
-		}
-	}
-
-	function initLang() {
-		const langToggle = document.getElementById('langToggle');
-		const langLabel = document.getElementById('langLabel');
-		const savedLang = localStorage.getItem('lang') || 'ru';
-
-		applyLang(savedLang);
-
-		if (!langToggle) {
-			return;
-		}
-
-		langToggle.addEventListener('click', event => {
-			event.preventDefault();
-			const nextLang = document.documentElement.lang === 'en' ? 'ru' : 'en';
-			applyLang(nextLang);
-			localStorage.setItem('lang', nextLang);
-		});
-
-		function applyLang(lang) {
-			document.documentElement.lang = lang;
-			if (langLabel) {
-				langLabel.textContent = lang === 'en' ? 'RU' : 'EN';
-			}
-			if (langToggle) {
-				langToggle.setAttribute('aria-label', lang === 'en' ? 'Switch to Russian' : 'Switch to English');
-			}
-			// Apply translations to all .i18n elements
-			document.querySelectorAll('.i18n').forEach(el => {
-				const text = lang === 'en' ? el.dataset.en : el.dataset.ru;
-				if (text) {
-					el.textContent = text;
-				}
-			});
-			// Also update html[lang] for accessibility
-			document.documentElement.setAttribute('lang', lang);
 		}
 	}
 
