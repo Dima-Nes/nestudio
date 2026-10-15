@@ -3089,15 +3089,16 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .filter-btn .cnt{opacity:.55;font-size:11px;margin-left:3px}
 .works{grid-template-columns:repeat(var(--cols,3),minmax(0,1fr))}
 /* modal */
-.vmodal{position:fixed;inset:0;z-index:200000;display:none;align-items:center;justify-content:center;padding:20px;
- background:rgba(10,10,10,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.vmodal{position:fixed;inset:0;z-index:200000;display:none;align-items:center;justify-content:center;padding:max(20px,env(safe-area-inset-top,20px)) max(16px,env(safe-area-inset-right,16px)) max(16px,env(safe-area-inset-bottom,16px)) max(16px,env(safe-area-inset-left,16px));
+ background:rgba(10,10,10,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overscroll-behavior:contain}
 .vmodal.open{display:flex;animation:vfade .25s ease}
 @keyframes vfade{from{opacity:0}to{opacity:1}}
-.vbox{position:relative;width:min(1100px,100%);max-height:calc(100vh - 40px);display:flex;flex-direction:column;gap:12px;animation:vup .35s cubic-bezier(.22,1,.36,1)}
+.vbox{position:relative;width:min(1100px,100%);max-height:calc(100dvh - 32px);display:flex;flex-direction:column;gap:12px;animation:vup .35s cubic-bezier(.22,1,.36,1)}
 @keyframes vup{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
-.vframe{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5);margin:0 auto}
-.vbox.vert .vframe{aspect-ratio:9/16;width:auto;height:min(78vh,calc((100vw - 40px)*16/9))}
-.vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vframe{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55);margin:0 auto;display:flex;align-items:center;justify-content:center}
+.vbox.vert .vframe{aspect-ratio:9/16;width:auto;height:min(68dvh,calc((100vw - 32px)*16/9));max-height:calc(100dvh - 160px)}
+.vframe iframe,.vframe video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:contain;background:#000;border-radius:inherit}
+.vframe-blocker{position:absolute;top:0;right:0;width:58px;height:58px;z-index:5;pointer-events:auto;background:transparent}
 .vinfo{color:#fff;display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;max-width:900px;margin:0 auto;width:100%}
 .vbox.vert .vinfo{max-width:560px}
 .vinfo h3{font-size:20px;line-height:1.15;letter-spacing:-.03em;font-weight:600;margin:0 0 6px}
@@ -3106,11 +3107,11 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .vinfo .vtext{flex:1 1 320px;min-width:0;max-height:22vh;overflow:auto}
 .vext{flex:0 0 auto;display:inline-flex;align-items:center;min-height:34px;padding:0 14px;border-radius:999px;background:#fff;color:#111;font-size:12px;font-weight:500;white-space:nowrap}
 .vext[hidden]{display:none}
-.vclose{position:fixed;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;z-index:200001;line-height:1}
-.vclose:hover{background:rgba(255,255,255,.26)}
-.vnav{position:fixed;top:50%;width:44px;height:44px;margin-top:-22px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer;z-index:200001}
+.vclose{position:fixed;top:max(14px,env(safe-area-inset-top,14px));right:max(14px,env(safe-area-inset-right,14px));width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:24px;cursor:pointer;z-index:200002;line-height:1;display:flex;align-items:center;justify-content:center;transition:background-color .2s ease,transform .2s ease;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.vclose:hover{background:rgba(255,255,255,.28);transform:scale(1.06)}
+.vnav{position:fixed;top:50%;width:44px;height:44px;margin-top:-22px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer;z-index:200001;display:flex;align-items:center;justify-content:center}
 .vnav:hover{background:rgba(255,255,255,.26)}.vprev{left:14px}.vnext{right:14px}
-@media (max-width:640px){.vnav{display:none}.vmodal{padding:56px 10px 10px}.vinfo h3{font-size:17px}}
+@media (max-width:640px){.vnav{display:none}.vmodal{padding:max(56px,calc(env(safe-area-inset-top,0px) + 52px)) 12px max(14px,env(safe-area-inset-bottom,14px))}.vbox.vert .vframe{height:min(66dvh,calc((100vw - 24px)*16/9));max-height:calc(100dvh - 150px)}.vinfo h3{font-size:17px}.vinfo p{font-size:12px}}
 .vlocal{position:absolute;inset:0;display:block;color:#fff}
 .vlocal img{width:100%;height:100%;object-fit:cover;opacity:.85}
 .vlocal .play{opacity:1;transform:none;width:76px;height:76px;margin:-38px 0 0 -38px}
@@ -3160,7 +3161,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 
   <section class="works" id="works" aria-label="Работы">
     
-<article class="card reveal vcard" data-cats="ads corp" data-src="local" data-id="BELINVEST" data-file="media/belinvest.mp4" data-vertical="1" data-title="Белинвестбанк" data-long="Имиджевый ролик для Белинвестбанка: сотрудники в фирменном стиле банка, светлый офис, работа с клиентами и уверенная подача бренда. Вертикальный формат для соцсетей." data-tag="Реклама" data-date="окт 2026">
+<article class="card reveal vcard" data-cats="ads corp" data-src="local" data-id="BELINVEST" data-file="media/v2 4k — копия.mp4" data-vertical="1" data-title="Белинвестбанк" data-long="Имиджевый ролик для Белинвестбанка: сотрудники в фирменном стиле банка, светлый офис, работа с клиентами и уверенная подача бренда. Вертикальный формат для соцсетей." data-tag="Реклама" data-date="окт 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Белинвестбанк">
     <div class="cardimage ar-v1">
       <img src="media/belinvest.jpg" data-fallback="" alt="Белинвестбанк" loading="lazy" referrerpolicy="no-referrer">
@@ -3340,10 +3341,10 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Реклама · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads" data-src="gd" data-id="1jZtoTIPPtNHwDrKbCw9X7lMMBK_gxk9i" data-file="" data-vertical="1" data-title="Pad Thai, неоновая вывеска" data-long="Рекламный ролик для ресторана Pad Thai: неоновая вывеска, вечерний свет и атмосфера места. Сделан в двух форматах, вертикальном и горизонтальном." data-tag="Реклама" data-date="сен 2026">
+<article class="card reveal vcard" data-cats="ads" data-src="local" data-id="PADTHAI" data-file="media/pad_thai.mp4" data-vertical="1" data-title="Pad Thai, неоновая вывеска" data-long="Рекламный ролик для ресторана Pad Thai: неоновая вывеска, вечерний свет и атмосфера места. Сделан в двух форматах, вертикальном и горизонтальном." data-tag="Реклама" data-date="сен 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Pad Thai, неоновая вывеска">
     <div class="cardimage ar-v1">
-      <img src="https://drive.google.com/thumbnail?id=1jZtoTIPPtNHwDrKbCw9X7lMMBK_gxk9i&amp;sz=w800" data-fallback="" alt="Pad Thai, неоновая вывеска" loading="lazy" referrerpolicy="no-referrer">
+      <img src="media/pad_thai.jpg" data-fallback="https://drive.google.com/thumbnail?id=1jZtoTIPPtNHwDrKbCw9X7lMMBK_gxk9i&amp;sz=w800" alt="Pad Thai, неоновая вывеска" loading="lazy" referrerpolicy="no-referrer">
       <div class="ph"><span>Pad Thai, неоновая вывеска</span></div>
       <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
       <span class="badge">Реклама</span>
@@ -4619,13 +4620,16 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
   let current = null;
   function open(card){
     current = card;
-    const id = card.dataset.id, yt = card.dataset.src === 'yt', vert = card.dataset.vertical === '1';
+    const id = card.dataset.id;
+    const isLocal = card.dataset.src === 'local' || Boolean(card.dataset.file && card.dataset.file.trim());
+    const yt = card.dataset.src === 'yt';
+    const vert = card.dataset.vertical === '1';
     box.classList.toggle('vert', vert);
-    const src = yt
-      ? 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1&modestbranding=1'
-      : 'https://drive.google.com/file/d/' + id + '/preview';
-    if (card.dataset.src === 'local') {
-      frame.innerHTML = '<video src="' + card.dataset.file + '" poster="' + card.querySelector('img').getAttribute('src') + '" controls autoplay playsinline style="position:absolute;inset:0;width:100%;height:100%;background:#000"></video>';
+    if (isLocal) {
+      const fileUrl = encodeURI(card.dataset.file);
+      const img = card.querySelector('img');
+      const poster = img ? (img.getAttribute('src') || '') : '';
+      frame.innerHTML = '<video src="' + fileUrl + '" poster="' + poster + '" controls autoplay playsinline preload="metadata"></video>';
     } else if (yt && location.protocol === 'file:') {
       // YouTube refuses to play embeds on pages opened as a local file (no referrer) — show cover + link instead
       const img = card.querySelector('img');
@@ -4634,17 +4638,30 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
         '<span class="play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>' +
         '<span class="vlocal-note">Смотреть на YouTube ↗</span></a>';
     } else {
-      frame.innerHTML = '<iframe src="' + src + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+      const src = yt
+        ? 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1&modestbranding=1'
+        : 'https://drive.google.com/file/d/' + id + '/preview';
+      frame.innerHTML = '<iframe src="' + src + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
+        (!yt ? '<div class="vframe-blocker" aria-hidden="true"></div>' : '');
     }
     mt.textContent = card.dataset.title;
     md.textContent = card.dataset.long;
     mm.textContent = card.dataset.tag + ' · ' + card.dataset.date;
-    mx.hidden = card.dataset.src === 'local';
-    mx.href = yt ? 'https://www.youtube.com/watch?v=' + id : 'https://drive.google.com/file/d/' + id + '/view';
-    mx.textContent = yt ? 'Открыть на YouTube ↗' : 'Открыть на Google Диске ↗';
+    mx.hidden = isLocal;
+    if (!isLocal) {
+      mx.href = yt ? 'https://www.youtube.com/watch?v=' + id : 'https://drive.google.com/file/d/' + id + '/view';
+      mx.textContent = yt ? 'Открыть на YouTube ↗' : 'Открыть на Google Диске ↗';
+    }
     if (!modal.classList.contains('open')) { modal.classList.add('open'); document.documentElement.style.overflow = 'hidden'; }
   }
-  function close(){ modal.classList.remove('open'); frame.innerHTML = ''; document.documentElement.style.overflow = ''; current = null; }
+  function close(){
+    const vid = frame.querySelector('video');
+    if (vid) { try { vid.pause(); vid.removeAttribute('src'); vid.load(); } catch(e){} }
+    modal.classList.remove('open');
+    frame.innerHTML = '';
+    document.documentElement.style.overflow = '';
+    current = null;
+  }
   function step(d){ const v = visible(); const i = v.indexOf(current); if (i < 0) return; open(v[(i + d + v.length) % v.length]); }
   works.addEventListener('click', e => { const c = e.target.closest('.card'); if (c) open(c); });
   modal.addEventListener('click', e => { if (e.target === modal) close(); });
