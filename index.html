@@ -3089,33 +3089,49 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .filter-btn .cnt{opacity:.55;font-size:11px;margin-left:3px}
 .works{grid-template-columns:repeat(var(--cols,3),minmax(0,1fr))}
 /* modal */
-.vmodal{position:fixed;inset:0;z-index:200000;display:none;align-items:center;justify-content:center;padding:max(20px,env(safe-area-inset-top,20px)) max(16px,env(safe-area-inset-right,16px)) max(16px,env(safe-area-inset-bottom,16px)) max(16px,env(safe-area-inset-left,16px));
- background:rgba(10,10,10,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overscroll-behavior:contain}
+.vmodal{position:fixed;inset:0;z-index:200000;display:none;align-items:center;justify-content:center;
+ padding:max(56px,env(safe-area-inset-top)) 12px max(16px,env(safe-area-inset-bottom));
+ background:rgba(8,8,8,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow-y:auto;overscroll-behavior:contain}
 .vmodal.open{display:flex;animation:vfade .25s ease}
 @keyframes vfade{from{opacity:0}to{opacity:1}}
-.vbox{position:relative;width:min(1100px,100%);max-height:calc(100dvh - 32px);display:flex;flex-direction:column;gap:12px;animation:vup .35s cubic-bezier(.22,1,.36,1)}
+.vbox{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;margin:auto;animation:vup .35s cubic-bezier(.22,1,.36,1)}
 @keyframes vup{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
-.vframe{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55);margin:0 auto;display:flex;align-items:center;justify-content:center}
-.vbox.vert .vframe{aspect-ratio:9/16;width:auto;height:min(68dvh,calc((100vw - 32px)*16/9));max-height:calc(100dvh - 160px)}
-.vframe iframe,.vframe video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:contain;background:#000;border-radius:inherit}
-.vframe-blocker{position:absolute;top:0;right:0;width:58px;height:58px;z-index:5;pointer-events:auto;background:transparent}
-.vinfo{color:#fff;display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;max-width:900px;margin:0 auto;width:100%}
-.vbox.vert .vinfo{max-width:560px}
-.vinfo h3{font-size:20px;line-height:1.15;letter-spacing:-.03em;font-weight:600;margin:0 0 6px}
-.vinfo p{font-size:13px;line-height:1.5;color:rgba(255,255,255,.72);margin:0;max-width:70ch}
+.vframe{position:relative;background:#000;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55);flex:0 0 auto;
+ -webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.vframe video,.vframe iframe,.vframe .yt-host{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;object-fit:contain;display:block}
+.vframe .yt-host{inset:auto;left:0;right:0;top:-140px;height:calc(100% + 280px)}
+.vframe .yt-host iframe{position:absolute;inset:0;width:100%;height:100%}
+.vframe video::-webkit-media-controls{display:none!important}
+.pl-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;transition:opacity .4s ease;pointer-events:none}
+.vframe.started .pl-cover{opacity:0}
+.pl-tap{position:absolute;inset:0;z-index:2;cursor:pointer}
+.pl-play{position:absolute;left:50%;top:50%;z-index:3;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;border:0;padding:0;
+ background:rgba(255,255,255,.92);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.35);
+ transition:opacity .3s ease,transform .3s ease;opacity:0;transform:scale(.8);pointer-events:none}
+.pl-play svg{width:28px;height:28px;fill:#111;margin-left:4px}
+.vframe[data-state="paused"] .pl-play{opacity:1;transform:none;pointer-events:auto}
+.vframe.passthru .pl-tap,.vframe.passthru .pl-play{pointer-events:none}
+.pl-bar{position:absolute;left:0;right:0;bottom:0;z-index:4;height:24px;display:flex;align-items:flex-end;cursor:pointer;touch-action:none}
+.pl-track{position:relative;width:100%;height:4px;background:rgba(255,255,255,.25);transition:height .15s ease}
+.pl-bar:hover .pl-track,.pl-bar.drag .pl-track{height:6px}
+.pl-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#fff}
+.vframe:not(.started) .pl-bar{opacity:0}
+.pl-spin{position:absolute;left:50%;top:50%;z-index:3;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;
+ border:3px solid rgba(255,255,255,.25);border-top-color:#fff;animation:plspin .8s linear infinite;display:none;pointer-events:none}
+.vframe[data-state="loading"] .pl-spin{display:block}
+@keyframes plspin{to{transform:rotate(360deg)}}
+.vinfo{color:#fff;width:100%;min-width:0}
+.vinfo h3{font-size:18px;line-height:1.2;letter-spacing:-.02em;font-weight:600;margin:0 0 6px}
+.vinfo p{font-size:13px;line-height:1.5;color:rgba(255,255,255,.7);margin:0}
 .vinfo .vmeta{font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px}
-.vinfo .vtext{flex:1 1 320px;min-width:0;max-height:22vh;overflow:auto}
-.vext{flex:0 0 auto;display:inline-flex;align-items:center;min-height:34px;padding:0 14px;border-radius:999px;background:#fff;color:#111;font-size:12px;font-weight:500;white-space:nowrap}
-.vext[hidden]{display:none}
-.vclose{position:fixed;top:max(14px,env(safe-area-inset-top,14px));right:max(14px,env(safe-area-inset-right,14px));width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;font-size:24px;cursor:pointer;z-index:200002;line-height:1;display:flex;align-items:center;justify-content:center;transition:background-color .2s ease,transform .2s ease;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.vclose:hover{background:rgba(255,255,255,.28);transform:scale(1.06)}
-.vnav{position:fixed;top:50%;width:44px;height:44px;margin-top:-22px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer;z-index:200001;display:flex;align-items:center;justify-content:center}
+.vclose{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;z-index:200001;line-height:1}
+.vclose:hover{background:rgba(255,255,255,.26)}
+.vnav{position:fixed;top:50%;width:44px;height:44px;margin-top:-22px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer;z-index:200001}
 .vnav:hover{background:rgba(255,255,255,.26)}.vprev{left:14px}.vnext{right:14px}
-@media (max-width:640px){.vnav{display:none}.vmodal{padding:max(56px,calc(env(safe-area-inset-top,0px) + 52px)) 12px max(14px,env(safe-area-inset-bottom,14px))}.vbox.vert .vframe{height:min(66dvh,calc((100vw - 24px)*16/9));max-height:calc(100dvh - 150px)}.vinfo h3{font-size:17px}.vinfo p{font-size:12px}}
-.vlocal{position:absolute;inset:0;display:block;color:#fff}
+@media (max-width:760px){.vnav{display:none}.vinfo h3{font-size:16px}.vframe{border-radius:14px}}
+.vlocal{position:absolute;inset:0;display:block;color:#fff;z-index:5}
 .vlocal img{width:100%;height:100%;object-fit:cover;opacity:.85}
-.vlocal .play{opacity:1;transform:none;width:76px;height:76px;margin:-38px 0 0 -38px}
-.vlocal .play svg{width:32px;height:32px}
+.vlocal .play{opacity:1;transform:none;width:72px;height:72px;margin:-36px 0 0 -36px}
 .vlocal-note{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);padding:9px 16px;border-radius:999px;background:rgba(0,0,0,.6);font-size:13px;white-space:nowrap}
 
 </style>
@@ -3161,7 +3177,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 
   <section class="works" id="works" aria-label="Работы">
     
-<article class="card reveal vcard" data-cats="ads corp" data-src="local" data-id="BELINVEST" data-file="media/v2 4k — копия.mp4" data-vertical="1" data-title="Белинвестбанк" data-long="Имиджевый ролик для Белинвестбанка: сотрудники в фирменном стиле банка, светлый офис, работа с клиентами и уверенная подача бренда. Вертикальный формат для соцсетей." data-tag="Реклама" data-date="окт 2026">
+<article class="card reveal vcard" data-cats="ads corp" data-src="local" data-id="BELINVEST" data-file="media/belinvest.mp4" data-vertical="1" data-title="Белинвестбанк" data-long="Имиджевый ролик для Белинвестбанка: сотрудники в фирменном стиле банка, светлый офис, работа с клиентами и уверенная подача бренда. Вертикальный формат для соцсетей." data-tag="Реклама" data-date="окт 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Белинвестбанк">
     <div class="cardimage ar-v1">
       <img src="media/belinvest.jpg" data-fallback="" alt="Белинвестбанк" loading="lazy" referrerpolicy="no-referrer">
@@ -3173,7 +3189,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Реклама · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="clips" data-src="gd" data-id="1h0Vqiq6hS8KHKbA27vhpwvizUk8BTSnt" data-file="" data-vertical="0" data-title="Клип с аниме-интеграцией для официального релиза" data-long="Музыкальный клип для швейцарского заказчика: живой видеоряд и аниме-вставки в одной истории. Клип выходит в официальный релиз вместе с альбомом." data-tag="" data-date="сен 2026">
+<article class="card reveal vcard" data-cats="clips" data-src="gd" data-id="1h0Vqiq6hS8KHKbA27vhpwvizUk8BTSnt" data-file="" data-vertical="0" data-title="Клип с аниме-интеграцией для официального релиза" data-long="Музыкальный клип для швейцарского заказчика: живой видеоряд и аниме-вставки в одной истории. Клип выходит в официальный релиз вместе с альбомом." data-tag="Клипы" data-date="сен 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Клип с аниме-интеграцией для официального релиза">
     <div class="cardimage ar-p2">
       <img src="https://drive.google.com/thumbnail?id=1h0Vqiq6hS8KHKbA27vhpwvizUk8BTSnt&amp;sz=w800" data-fallback="" alt="Клип с аниме-интеграцией для официального релиза" loading="lazy" referrerpolicy="no-referrer">
@@ -3185,7 +3201,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · сен 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="clips greet" data-src="gd" data-id="1cyYubZzWadyJl5BCqUm-2NMxNTkpAJBS" data-file="" data-vertical="0" data-title="Песня и клип в подарок" data-long="Подарочный проект для швейцарского заказчика: мы написали музыку и сняли к ней видеоряд с нуля." data-tag="" data-date="сен 2026">
+<article class="card reveal vcard" data-cats="clips greet" data-src="gd" data-id="1cyYubZzWadyJl5BCqUm-2NMxNTkpAJBS" data-file="" data-vertical="0" data-title="Песня и клип в подарок" data-long="Подарочный проект для швейцарского заказчика: мы написали музыку и сняли к ней видеоряд с нуля." data-tag="Клипы" data-date="сен 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Песня и клип в подарок">
     <div class="cardimage ar-p1">
       <img src="https://drive.google.com/thumbnail?id=1cyYubZzWadyJl5BCqUm-2NMxNTkpAJBS&amp;sz=w800" data-fallback="" alt="Песня и клип в подарок" loading="lazy" referrerpolicy="no-referrer">
@@ -3197,7 +3213,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · сен 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="clips" data-src="gd" data-id="1ZhAyNlXQTgKju_Dy3Kza6nFaV8yr7Mkx" data-file="" data-vertical="0" data-title="Maria Magdalena" data-long="Клип на композицию Maria Magdalena для швейцарского заказчика: проникновенная история, тонкий свет и эмоциональный монтаж." data-tag="" data-date="сен 2026">
+<article class="card reveal vcard" data-cats="clips" data-src="gd" data-id="1ZhAyNlXQTgKju_Dy3Kza6nFaV8yr7Mkx" data-file="" data-vertical="0" data-title="Maria Magdalena" data-long="Клип на композицию Maria Magdalena для швейцарского заказчика: проникновенная история, тонкий свет и эмоциональный монтаж." data-tag="Клипы" data-date="сен 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Maria Magdalena">
     <div class="cardimage ar-p2">
       <img src="https://drive.google.com/thumbnail?id=1ZhAyNlXQTgKju_Dy3Kza6nFaV8yr7Mkx&amp;sz=w800" data-fallback="" alt="Maria Magdalena" loading="lazy" referrerpolicy="no-referrer">
@@ -3209,7 +3225,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · сен 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="video" data-src="gd" data-id="1Q2YgLDZb-hC8G9TwCtp1m9PeTiLwZ_5x" data-file="" data-vertical="0" data-title="Ролик для YouTube-канала, США · часть 1" data-long="Ролик для американского креатора Максима, который развивает свой YouTube-канал." data-tag="" data-date="мар 2026">
+<article class="card reveal vcard" data-cats="video" data-src="gd" data-id="1Q2YgLDZb-hC8G9TwCtp1m9PeTiLwZ_5x" data-file="" data-vertical="0" data-title="Ролик для YouTube-канала, США · часть 1" data-long="Ролик для американского креатора Максима, который развивает свой YouTube-канал." data-tag="Видео" data-date="мар 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Ролик для YouTube-канала, США · часть 1">
     <div class="cardimage ar-p1">
       <img src="https://drive.google.com/thumbnail?id=1Q2YgLDZb-hC8G9TwCtp1m9PeTiLwZ_5x&amp;sz=w800" data-fallback="" alt="Ролик для YouTube-канала, США · часть 1" loading="lazy" referrerpolicy="no-referrer">
@@ -3221,7 +3237,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Видео · мар 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="video" data-src="gd" data-id="1Vz_fmmpfRVVbCPUsx31JRBWJ65bklQHZ" data-file="" data-vertical="0" data-title="Ролик для YouTube-канала, США · часть 2" data-long="Ролик для американского креатора Максима, который развивает свой YouTube-канал." data-tag="" data-date="апр 2026">
+<article class="card reveal vcard" data-cats="video" data-src="gd" data-id="1Vz_fmmpfRVVbCPUsx31JRBWJ65bklQHZ" data-file="" data-vertical="0" data-title="Ролик для YouTube-канала, США · часть 2" data-long="Ролик для американского креатора Максима, который развивает свой YouTube-канал." data-tag="Видео" data-date="апр 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Ролик для YouTube-канала, США · часть 2">
     <div class="cardimage ar-p2">
       <img src="https://drive.google.com/thumbnail?id=1Vz_fmmpfRVVbCPUsx31JRBWJ65bklQHZ&amp;sz=w800" data-fallback="" alt="Ролик для YouTube-канала, США · часть 2" loading="lazy" referrerpolicy="no-referrer">
@@ -3341,10 +3357,10 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Реклама · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads" data-src="local" data-id="PADTHAI" data-file="media/pad_thai.mp4" data-vertical="1" data-title="Pad Thai, неоновая вывеска" data-long="Рекламный ролик для ресторана Pad Thai: неоновая вывеска, вечерний свет и атмосфера места. Сделан в двух форматах, вертикальном и горизонтальном." data-tag="Реклама" data-date="сен 2026">
+<article class="card reveal vcard" data-cats="ads" data-src="gd" data-id="1jZtoTIPPtNHwDrKbCw9X7lMMBK_gxk9i" data-file="" data-vertical="1" data-title="Pad Thai, неоновая вывеска" data-long="Рекламный ролик для ресторана Pad Thai: неоновая вывеска, вечерний свет и атмосфера места. Сделан в двух форматах, вертикальном и горизонтальном." data-tag="Реклама" data-date="сен 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Pad Thai, неоновая вывеска">
     <div class="cardimage ar-v1">
-      <img src="media/pad_thai.jpg" data-fallback="https://drive.google.com/thumbnail?id=1jZtoTIPPtNHwDrKbCw9X7lMMBK_gxk9i&amp;sz=w800" alt="Pad Thai, неоновая вывеска" loading="lazy" referrerpolicy="no-referrer">
+      <img src="https://drive.google.com/thumbnail?id=1jZtoTIPPtNHwDrKbCw9X7lMMBK_gxk9i&amp;sz=w800" data-fallback="" alt="Pad Thai, неоновая вывеска" loading="lazy" referrerpolicy="no-referrer">
       <div class="ph"><span>Pad Thai, неоновая вывеска</span></div>
       <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
       <span class="badge">Реклама</span>
@@ -3365,7 +3381,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Съёмка · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="clips anim" data-src="gd" data-id="1zLF3vUlH8eKLHT6RC9lXlRJSnM1OyjTS" data-file="" data-vertical="1" data-title="Шрек поёт рок, кавер" data-long="Шрек поёт рок, кавер. Работа nestudio." data-tag="" data-date="сен 2026">
+<article class="card reveal vcard" data-cats="clips anim" data-src="gd" data-id="1zLF3vUlH8eKLHT6RC9lXlRJSnM1OyjTS" data-file="" data-vertical="1" data-title="Шрек поёт рок, кавер" data-long="Шрек поёт рок, кавер. Работа nestudio." data-tag="Клипы" data-date="сен 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Шрек поёт рок, кавер">
     <div class="cardimage ar-v1">
       <img src="https://drive.google.com/thumbnail?id=1zLF3vUlH8eKLHT6RC9lXlRJSnM1OyjTS&amp;sz=w800" data-fallback="" alt="Шрек поёт рок, кавер" loading="lazy" referrerpolicy="no-referrer">
@@ -3413,7 +3429,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · май 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="video" data-src="gd" data-id="1Q1q8EmvaUNDKAhzVCggRuIdCWmIIw5-o" data-file="" data-vertical="0" data-title="3 Woke, финальный ролик" data-long="3 Woke, финальный ролик. Работа nestudio." data-tag="" data-date="май 2026">
+<article class="card reveal vcard" data-cats="video" data-src="gd" data-id="1Q1q8EmvaUNDKAhzVCggRuIdCWmIIw5-o" data-file="" data-vertical="0" data-title="3 Woke, финальный ролик" data-long="3 Woke, финальный ролик. Работа nestudio." data-tag="Видео" data-date="май 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: 3 Woke, финальный ролик">
     <div class="cardimage ar-p2">
       <img src="https://drive.google.com/thumbnail?id=1Q1q8EmvaUNDKAhzVCggRuIdCWmIIw5-o&amp;sz=w800" data-fallback="" alt="3 Woke, финальный ролик" loading="lazy" referrerpolicy="no-referrer">
@@ -3617,7 +3633,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · мар 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads" data-src="gd" data-id="1BWkGe_RY_ZHLCcGFb3FmBvf0JQEF4Xcs" data-file="" data-vertical="1" data-title="Foresto, финальная версия 9:16" data-long="Foresto, финальная версия 9:16. Работа nestudio." data-tag="" data-date="мар 2026">
+<article class="card reveal vcard" data-cats="ads" data-src="gd" data-id="1BWkGe_RY_ZHLCcGFb3FmBvf0JQEF4Xcs" data-file="" data-vertical="1" data-title="Foresto, финальная версия 9:16" data-long="Foresto, финальная версия 9:16. Работа nestudio." data-tag="Реклама" data-date="мар 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Foresto, финальная версия 9:16">
     <div class="cardimage ar-v1">
       <img src="https://drive.google.com/thumbnail?id=1BWkGe_RY_ZHLCcGFb3FmBvf0JQEF4Xcs&amp;sz=w800" data-fallback="" alt="Foresto, финальная версия 9:16" loading="lazy" referrerpolicy="no-referrer">
@@ -3629,7 +3645,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Реклама · мар 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads" data-src="gd" data-id="1Udz2Y6Bw--d-LFJvJ_GNG9H8aPqYvndz" data-file="" data-vertical="0" data-title="Foresto, финальная версия 16:9" data-long="Foresto, финальная версия 16:9. Работа nestudio." data-tag="" data-date="мар 2026">
+<article class="card reveal vcard" data-cats="ads" data-src="gd" data-id="1Udz2Y6Bw--d-LFJvJ_GNG9H8aPqYvndz" data-file="" data-vertical="0" data-title="Foresto, финальная версия 16:9" data-long="Foresto, финальная версия 16:9. Работа nestudio." data-tag="Реклама" data-date="мар 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Foresto, финальная версия 16:9">
     <div class="cardimage ar-p2">
       <img src="https://drive.google.com/thumbnail?id=1Udz2Y6Bw--d-LFJvJ_GNG9H8aPqYvndz&amp;sz=w800" data-fallback="" alt="Foresto, финальная версия 16:9" loading="lazy" referrerpolicy="no-referrer">
@@ -4193,7 +4209,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · янв 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="clips" data-src="gd" data-id="1zbCcGBq5cBa_pAUq1hI7hHTgNUEW-GTG" data-file="" data-vertical="1" data-title="Disco" data-long="Disco. Работа nestudio." data-tag="" data-date="янв 2026">
+<article class="card reveal vcard" data-cats="clips" data-src="gd" data-id="1zbCcGBq5cBa_pAUq1hI7hHTgNUEW-GTG" data-file="" data-vertical="1" data-title="Disco" data-long="Disco. Работа nestudio." data-tag="Клипы" data-date="янв 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Disco">
     <div class="cardimage ar-v1">
       <img src="https://drive.google.com/thumbnail?id=1zbCcGBq5cBa_pAUq1hI7hHTgNUEW-GTG&amp;sz=w800" data-fallback="" alt="Disco" loading="lazy" referrerpolicy="no-referrer">
@@ -4241,7 +4257,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · янв 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="clips" data-src="gd" data-id="11Qu4frE99TB9UvpY9botSvlOB5-JoXWE" data-file="" data-vertical="1" data-title="Nestudio boy" data-long="Nestudio boy. Работа nestudio." data-tag="" data-date="янв 2026">
+<article class="card reveal vcard" data-cats="clips" data-src="gd" data-id="11Qu4frE99TB9UvpY9botSvlOB5-JoXWE" data-file="" data-vertical="1" data-title="Nestudio boy" data-long="Nestudio boy. Работа nestudio." data-tag="Клипы" data-date="янв 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Nestudio boy">
     <div class="cardimage ar-v1">
       <img src="https://drive.google.com/thumbnail?id=11Qu4frE99TB9UvpY9botSvlOB5-JoXWE&amp;sz=w800" data-fallback="" alt="Nestudio boy" loading="lazy" referrerpolicy="no-referrer">
@@ -4253,7 +4269,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · янв 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="clips anim" data-src="gd" data-id="1kFkd3B8AmM8opa2nm14NczzdrorICqqc" data-file="" data-vertical="1" data-title="Гравитация" data-long="Гравитация. Работа nestudio." data-tag="" data-date="янв 2026">
+<article class="card reveal vcard" data-cats="clips anim" data-src="gd" data-id="1kFkd3B8AmM8opa2nm14NczzdrorICqqc" data-file="" data-vertical="1" data-title="Гравитация" data-long="Гравитация. Работа nestudio." data-tag="Клипы" data-date="янв 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Гравитация">
     <div class="cardimage ar-v2">
       <img src="https://drive.google.com/thumbnail?id=1kFkd3B8AmM8opa2nm14NczzdrorICqqc&amp;sz=w800" data-fallback="" alt="Гравитация" loading="lazy" referrerpolicy="no-referrer">
@@ -4457,7 +4473,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Клипы · дек 2025</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads pharma" data-src="gd" data-id="1g6SSZJARPrNTekT_NieOgXPK4LSSM_LO" data-file="" data-vertical="1" data-title="Аптеки, Кварталы, супергерои NOBEL" data-long="Аптеки, Кварталы, супергерои NOBEL. Работа nestudio." data-tag="" data-date="дек 2025">
+<article class="card reveal vcard" data-cats="ads pharma" data-src="gd" data-id="1g6SSZJARPrNTekT_NieOgXPK4LSSM_LO" data-file="" data-vertical="1" data-title="Аптеки, Кварталы, супергерои NOBEL" data-long="Аптеки, Кварталы, супергерои NOBEL. Работа nestudio." data-tag="Реклама" data-date="дек 2025">
   <button class="cardlink" type="button" aria-label="Смотреть: Аптеки, Кварталы, супергерои NOBEL">
     <div class="cardimage ar-v1">
       <img src="https://drive.google.com/thumbnail?id=1g6SSZJARPrNTekT_NieOgXPK4LSSM_LO&amp;sz=w800" data-fallback="" alt="Аптеки, Кварталы, супергерои NOBEL" loading="lazy" referrerpolicy="no-referrer">
@@ -4551,8 +4567,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
   <div class="vbox">
     <div class="vframe" id="vframe"></div>
     <div class="vinfo">
-      <div class="vtext"><div class="vmeta" id="vmeta"></div><h3 id="vtitle"></h3><p id="vdesc"></p></div>
-      <a class="vext" id="vext" href="#" target="_blank" rel="noopener">Открыть ↗</a>
+      <div class="vmeta" id="vmeta"></div><h3 id="vtitle"></h3><p id="vdesc"></p>
     </div>
   </div>
 </div>
@@ -4614,62 +4629,162 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
   let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (colsFor() !== lastCols) render(false); }, 120); });
   render(false);
 
-  // modal player
-  const modal = document.getElementById('vmodal'), frame = document.getElementById('vframe'), box = modal.querySelector('.vbox');
-  const mt = document.getElementById('vtitle'), md = document.getElementById('vdesc'), mm = document.getElementById('vmeta'), mx = document.getElementById('vext');
-  let current = null;
+  // ---------- modal + minimal player ----------
+  const modal = document.getElementById('vmodal'), frame = document.getElementById('vframe'), box = modal.querySelector('.vbox'), info = modal.querySelector('.vinfo');
+  const mt = document.getElementById('vtitle'), md = document.getElementById('vdesc'), mm = document.getElementById('vmeta');
+  let current = null, player = null, ratio = 16 / 9, tick = null;
+  const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>';
+  const ONLINE = location.protocol !== 'file:';
+
+  function fit(){
+    const mobile = innerWidth <= 760, short = innerHeight < 520;
+    const W = innerWidth - (mobile ? 24 : 160);
+    const H = innerHeight - (short ? 66 : 72) - (short ? 0 : (mobile ? 110 : 120));
+    let w = Math.min(W, H * ratio); if (w < 160) w = Math.min(W, 160);
+    frame.style.width = Math.round(w) + 'px'; frame.style.height = Math.round(w / ratio) + 'px';
+    info.style.width = Math.round(Math.max(w, Math.min(W, 520))) + 'px';
+  }
+  addEventListener('resize', () => { if (current) fit(); });
+
+  // state: 'loading' (spinner) | 'playing' | 'paused' (play button); 'started' hides the cover once the first frame is shown
+  function setState(s){ frame.dataset.state = s; if (s === 'playing') frame.classList.add('started'); }
+
+  function ui(poster){
+    frame.innerHTML = (poster ? '<img class="pl-cover" src="' + poster + '" alt="">' : '') +
+      '<div class="pl-tap"></div><span class="pl-spin"></span><button class="pl-play" type="button" aria-label="Воспроизвести">' + PLAY + '</button>' +
+      '<div class="pl-bar"><div class="pl-track"><div class="pl-fill"></div></div></div>';
+    const bar = frame.querySelector('.pl-bar'), fill = frame.querySelector('.pl-fill');
+    frame.querySelector('.pl-tap').onclick = () => { if (!player) return; const s = frame.dataset.state; if (s === 'playing') player.pause(); else if (s === 'paused') player.play(); };
+    frame.querySelector('.pl-play').onclick = () => player && player.play();
+    const seek = e => { if (!player) return; const r = bar.getBoundingClientRect(); const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); const d = player.dur(); if (d) { player.seek(x * d); fill.style.width = (x * 100) + '%'; } };
+    bar.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); bar.classList.add('drag'); try { bar.setPointerCapture(e.pointerId); } catch(_){} seek(e); });
+    bar.addEventListener('pointermove', e => { if (bar.classList.contains('drag')) seek(e); });
+    const up = () => bar.classList.remove('drag');
+    bar.addEventListener('pointerup', up); bar.addEventListener('pointercancel', up);
+    clearInterval(tick);
+    tick = setInterval(() => { if (!player || bar.classList.contains('drag')) return; const d = player.dur(); fill.style.width = d ? Math.min(100, player.time() / d * 100) + '%' : '0'; }, 250);
+    setState('loading');
+  }
+  function setRatio(w, h){ if (w && h && Math.abs(w / h - ratio) > 0.02) { ratio = w / h; fit(); } }
+
+  // ---- own <video>: Google Drive stream or local file ----
+  function htmlVideo(src, onFail){
+    const v = document.createElement('video');
+    v.playsInline = true; v.preload = 'auto'; v.setAttribute('playsinline', ''); v.setAttribute('webkit-playsinline', '');
+    let wantPlay = true, failed = false;
+    v.addEventListener('loadedmetadata', () => setRatio(v.videoWidth, v.videoHeight));
+    v.addEventListener('playing', () => setState('playing'));
+    v.addEventListener('waiting', () => { if (wantPlay) setState('loading'); });
+    v.addEventListener('pause', () => { if (!v.ended && !wantPlay) setState('paused'); });
+    v.addEventListener('ended', () => { wantPlay = false; setState('paused'); });
+    v.addEventListener('error', () => { if (failed) return; failed = true; onFail ? onFail() : setState('paused'); });
+    v.src = src;
+    frame.prepend(v);
+    const p = {
+      play(){ wantPlay = true; if (v.ended) v.currentTime = 0; setState('loading');
+        const r = v.play(); if (r && r.catch) r.catch(err => { if (err && err.name === 'AbortError') return; wantPlay = false; setState('paused'); }); },
+      pause(){ wantPlay = false; v.pause(); setState('paused'); },
+      time(){ return v.currentTime || 0; }, dur(){ return isFinite(v.duration) ? v.duration : 0; },
+      seek(t){ v.currentTime = t; },
+      destroy(){ wantPlay = false; v.pause(); v.removeAttribute('src'); try { v.load(); } catch(_){} } };
+    return p;
+  }
+
+  // ---- YouTube through the IFrame API, our controls on top ----
+  let ytReady = null;
+  function loadYT(){
+    if (ytReady) return ytReady;
+    ytReady = new Promise(res => {
+      if (window.YT && YT.Player) return res();
+      const prev = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { prev && prev(); res(); };
+      const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(s);
+    });
+    return ytReady;
+  }
+  if (ONLINE && document.querySelector('.card[data-src="yt"]')) loadYT();   // warm up early so a click starts playback at once
+
+  function ytVideo(id){
+    const host = document.createElement('div'); host.className = 'yt-host'; const inner = document.createElement('div'); host.appendChild(inner); frame.prepend(host);
+    let yp = null, alive = true, wantPlay = true, guard = null;
+    const create = () => {
+      if (!alive) return;
+      yp = new YT.Player(inner, { videoId: id, width: '100%', height: '100%',
+        playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, rel: 0, playsinline: 1, origin: location.origin },
+        events: {
+          onReady: e => { if (wantPlay) e.target.playVideo(); armGuard(); },
+          onStateChange: e => { const st = e.data;
+            if (st === 1) { frame.classList.remove('passthru'); setState('playing'); }
+            else if (st === 3) { if (wantPlay) setState('loading'); }
+            else if (st === 2 || st === 0) { if (st === 0) wantPlay = false; if (!wantPlay || st === 0) setState('paused'); }
+          } } });
+    };
+    // browser refused to start with sound (mostly iPhone): let the next tap reach YouTube itself, it always starts from a real tap
+    const armGuard = () => { clearTimeout(guard); guard = setTimeout(() => { if (alive && yp && yp.getPlayerState && yp.getPlayerState() !== 1) { frame.classList.add('passthru'); setState('paused'); } }, 2500); };
+    if (window.YT && YT.Player) create(); else loadYT().then(create);
+    const p = {
+      play(){ wantPlay = true; setState('loading'); if (yp && yp.playVideo) { yp.playVideo(); armGuard(); } },
+      pause(){ wantPlay = false; if (yp && yp.pauseVideo) yp.pauseVideo(); setState('paused'); },
+      time(){ return yp && yp.getCurrentTime ? yp.getCurrentTime() : 0; }, dur(){ return yp && yp.getDuration ? yp.getDuration() : 0; },
+      seek(t){ if (yp && yp.seekTo) yp.seekTo(t, true); },
+      destroy(){ alive = false; clearTimeout(guard); try { yp && yp.destroy(); } catch(_){} } };
+    return p;
+  }
+
+  function stop(){ if (player) { player.destroy(); player = null; } clearInterval(tick); frame.innerHTML = ''; frame.className = 'vframe'; delete frame.dataset.state; }
+
+  function coverOf(card, big){
+    const img = card.querySelector('img');
+    if (!img || img.classList.contains('broken')) return '';
+    let s = img.getAttribute('src') || '';
+    if (big && s.includes('drive.google.com/thumbnail')) s = s.replace(/sz=w\d+/, 'sz=w1280');
+    return s;
+  }
+
   function open(card){
+    stop();
     current = card;
-    const id = card.dataset.id;
-    const isLocal = card.dataset.src === 'local' || Boolean(card.dataset.file && card.dataset.file.trim());
-    const yt = card.dataset.src === 'yt';
-    const vert = card.dataset.vertical === '1';
-    box.classList.toggle('vert', vert);
-    if (isLocal) {
-      const fileUrl = encodeURI(card.dataset.file);
-      const img = card.querySelector('img');
-      const poster = img ? (img.getAttribute('src') || '') : '';
-      frame.innerHTML = '<video src="' + fileUrl + '" poster="' + poster + '" controls autoplay playsinline preload="metadata"></video>';
-    } else if (yt && location.protocol === 'file:') {
-      // YouTube refuses to play embeds on pages opened as a local file (no referrer) — show cover + link instead
-      const img = card.querySelector('img');
-      frame.innerHTML = '<a class="vlocal" href="https://www.youtube.com/watch?v=' + id + '" target="_blank" rel="noopener">' +
-        (img && !img.classList.contains('broken') && img.complete ? '<img src="' + img.src + '" alt="">' : '') +
-        '<span class="play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>' +
-        '<span class="vlocal-note">Смотреть на YouTube ↗</span></a>';
-    } else {
-      const src = yt
-        ? 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1&modestbranding=1'
-        : 'https://drive.google.com/file/d/' + id + '/preview';
-      frame.innerHTML = '<iframe src="' + src + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
-        (!yt ? '<div class="vframe-blocker" aria-hidden="true"></div>' : '');
-    }
+    const id = card.dataset.id, src = card.dataset.src, vert = card.dataset.vertical === '1';
+    ratio = vert ? 9 / 16 : 16 / 9;
     mt.textContent = card.dataset.title;
     md.textContent = card.dataset.long;
     mm.textContent = card.dataset.tag + ' · ' + card.dataset.date;
-    mx.hidden = isLocal;
-    if (!isLocal) {
-      mx.href = yt ? 'https://www.youtube.com/watch?v=' + id : 'https://drive.google.com/file/d/' + id + '/view';
-      mx.textContent = yt ? 'Открыть на YouTube ↗' : 'Открыть на Google Диске ↗';
-    }
     if (!modal.classList.contains('open')) { modal.classList.add('open'); document.documentElement.style.overflow = 'hidden'; }
+    fit();
+    const poster = coverOf(card, true);
+    if (src === 'yt' && !ONLINE) {
+      frame.innerHTML = '<a class="vlocal" href="https://www.youtube.com/watch?v=' + id + '" target="_blank" rel="noopener">' +
+        (poster ? '<img src="' + poster + '" alt="">' : '') + '<span class="play">' + PLAY + '</span><span class="vlocal-note">Смотреть на YouTube ↗</span></a>';
+      return;
+    }
+    if (src !== 'gd') ui(poster);
+    if (src === 'yt') { player = ytVideo(id); return; }
+    if (src === 'gd') {
+      // Google Drive does not let other sites stream its files directly, so its own player is used here
+      stop(); frame.innerHTML = '<iframe src="https://drive.google.com/file/d/' + id + '/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>';
+      return;
+    }
+    player = htmlVideo(card.dataset.file, null);
+    player.play();   // called inside the click, so the browser allows sound
   }
-  function close(){
-    const vid = frame.querySelector('video');
-    if (vid) { try { vid.pause(); vid.removeAttribute('src'); vid.load(); } catch(e){} }
-    modal.classList.remove('open');
-    frame.innerHTML = '';
-    document.documentElement.style.overflow = '';
-    current = null;
-  }
-  function step(d){ const v = visible(); const i = v.indexOf(current); if (i < 0) return; open(v[(i + d + v.length) % v.length]); }
-  works.addEventListener('click', e => { const c = e.target.closest('.card'); if (c) open(c); });
-  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  function close(){ stop(); modal.classList.remove('open'); document.documentElement.style.overflow = ''; current = null; }
+  function step(d){ const v = visible().filter(c => !(c.dataset.src === 'gd' && isPhone())); const i = v.indexOf(current); if (i < 0) return; open(v[(i + d + v.length) % v.length]); }
+  // phones and tablets: Drive's in-page player is unreliable there, so Drive videos open in a new tab; computers keep the modal
+  const isPhone = () => matchMedia('(hover: none) and (pointer: coarse)').matches || innerWidth <= 760;
+  works.addEventListener('click', e => {
+    const c = e.target.closest('.card'); if (!c) return;
+    if (c.dataset.src === 'gd' && isPhone()) {
+      // Google Drive videos open straight in Drive's own player (new tab), our modal is only for YouTube and local files
+      window.open('https://drive.google.com/file/d/' + c.dataset.id + '/view', '_blank', 'noopener');
+      return;
+    }
+    open(c);
+  });
+  modal.addEventListener('click', e => { if (e.target === modal || e.target === box) close(); });
   document.getElementById('vclose').onclick = close;
   document.getElementById('vprev').onclick = () => step(-1);
   document.getElementById('vnext').onclick = () => step(1);
-  addEventListener('keydown', e => { if (!current) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
-
+  addEventListener('keydown', e => { if (!current) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === ' ' && player) { e.preventDefault(); frame.dataset.state === 'playing' ? player.pause() : player.play(); } });
   requestAnimationFrame(() => { body.classList.remove('is-loading'); body.classList.add('is-ready'); });
 })();
 </script>
