@@ -4726,6 +4726,9 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     v.addEventListener('pause', () => { if (!v.ended && !wantPlay) setState('paused'); });
     v.addEventListener('ended', () => { wantPlay = false; setState('paused'); });
     v.addEventListener('error', () => { if (failed) return; failed = true; onFail ? onFail() : setState('paused'); });
+    // a host that answers but never delivers (throttled networks) gets the same fallback after 8 s
+    const stall = onFail ? setTimeout(() => { if (!failed && v.readyState < 2) { failed = true; onFail(); } }, 8000) : null;
+    v.addEventListener('loadeddata', () => clearTimeout(stall));
     v.src = src;
     frame.prepend(v);
     const p = {
@@ -4734,7 +4737,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
       pause(){ wantPlay = false; v.pause(); setState('paused'); },
       time(){ return v.currentTime || 0; }, dur(){ return isFinite(v.duration) ? v.duration : 0; },
       seek(t){ v.currentTime = t; },
-      destroy(){ wantPlay = false; v.pause(); v.removeAttribute('src'); try { v.load(); } catch(_){} } };
+      destroy(){ wantPlay = false; failed = true; clearTimeout(stall); v.pause(); v.removeAttribute('src'); try { v.load(); } catch(_){} } };
     return p;
   }
 
@@ -4811,8 +4814,18 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
       stop(); frame.innerHTML = '<iframe src="https://drive.google.com/file/d/' + id + '/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>';
       return;
     }
-    player = htmlVideo(card.dataset.file, null);
+    // 'cdn': our copy on media.nestudio.by, the Drive original (data-id) is the fallback
+    player = htmlVideo(card.dataset.file, src === 'cdn' ? () => { if (current === card) driveFallback(id, poster); } : null);
     player.play();   // called inside the click, so the browser allows sound
+  }
+  function driveFallback(id, poster){
+    stop();
+    if (isPhone()) {   // no click here any more, so a new tab can only be opened by the viewer's own tap
+      frame.innerHTML = '<a class="vlocal" href="https://drive.google.com/file/d/' + id + '/view" target="_blank" rel="noopener">' +
+        (poster ? '<img src="' + poster + '" alt="">' : '') + '<span class="play">' + PLAY + '</span><span class="vlocal-note">Смотреть на Google Диске ↗</span></a>';
+      return;
+    }
+    frame.innerHTML = '<iframe src="https://drive.google.com/file/d/' + id + '/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>';
   }
   function close(){ stop(); modal.classList.remove('open'); document.documentElement.style.overflow = ''; current = null; }
   function step(d){ const v = visible().filter(c => !(c.dataset.src === 'gd' && isPhone())); const i = v.indexOf(current); if (i < 0) return; open(v[(i + d + v.length) % v.length]); }
