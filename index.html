@@ -3118,9 +3118,15 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .pl-bar:hover .pl-track,.pl-bar.drag .pl-track{height:6px}
 .pl-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#fff}
 .vframe:not(.started) .pl-bar{opacity:0}
-.pl-fs{position:absolute;top:10px;right:10px;z-index:5;width:38px;height:38px;border:0;border-radius:50%;padding:0;background:rgba(0,0,0,.45);display:none;place-items:center;cursor:pointer}
+.pl-fs{position:absolute;top:10px;right:10px;z-index:5;width:44px;height:44px;border:0;border-radius:50%;padding:0;background:rgba(0,0,0,.45);display:none;place-items:center;cursor:pointer}
 .pl-fs:hover{background:rgba(0,0,0,.65)}
-.pl-fs svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pl-fs svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* in fullscreen the same button shrinks back: corners pointing inwards, as on YouTube */
+.pl-fs .fs-off{display:none}
+.vframe:fullscreen .pl-fs .fs-on{display:none}
+.vframe:fullscreen .pl-fs .fs-off{display:block}
+.vframe:-webkit-full-screen .pl-fs .fs-on{display:none}
+.vframe:-webkit-full-screen .pl-fs .fs-off{display:block}
 .vframe.can-fs .pl-fs{display:grid}
 .vframe:fullscreen{width:100%!important;height:100%!important;border-radius:0;box-shadow:none}
 .vframe:-webkit-full-screen{width:100%!important;height:100%!important;border-radius:0;box-shadow:none}
@@ -3135,9 +3141,11 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .vshare{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:8px 14px;border:0;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font:inherit;font-size:13px;cursor:pointer}
 .vshare:hover{background:rgba(255,255,255,.26)}
 .vshare svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.vclose{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:22px;cursor:pointer;z-index:200001;line-height:1}
+.vclose{position:fixed;top:max(10px,env(safe-area-inset-top));right:max(10px,env(safe-area-inset-right));width:46px;height:46px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.14);display:grid;place-items:center;cursor:pointer;z-index:200001}
 .vclose:hover{background:rgba(255,255,255,.26)}
-.vnav{position:fixed;top:50%;width:44px;height:44px;margin-top:-22px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer;z-index:200001}
+.vnav{position:fixed;top:50%;width:52px;height:52px;margin-top:-26px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.12);display:grid;place-items:center;cursor:pointer;z-index:200001}
+.vclose svg,.vnav svg{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.vclose svg{width:20px;height:20px}.vnav svg{width:24px;height:24px}
 .vnav:hover{background:rgba(255,255,255,.26)}.vprev{left:14px}.vnext{right:14px}
 @media (max-width:760px){.vnav{display:none}.vinfo h3{font-size:16px}.vframe{border-radius:14px}}
 .vlocal{position:absolute;inset:0;display:block;color:#fff;z-index:5}
@@ -4620,9 +4628,9 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 </footer>
 
 <div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-labelledby="vtitle">
-  <button class="vclose" id="vclose" type="button" aria-label="Закрыть">×</button>
-  <button class="vnav vprev" id="vprev" type="button" aria-label="Предыдущее">‹</button>
-  <button class="vnav vnext" id="vnext" type="button" aria-label="Следующее">›</button>
+  <button class="vclose" id="vclose" type="button" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="vnav vprev" id="vprev" type="button" aria-label="Предыдущее"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 5l-7 7 7 7"/></svg></button>
+  <button class="vnav vnext" id="vnext" type="button" aria-label="Следующее"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5l7 7-7 7"/></svg></button>
   <div class="vbox">
     <div class="vframe" id="vframe"></div>
     <div class="vinfo">
@@ -4719,7 +4727,9 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     frame.innerHTML = (poster ? '<img class="pl-cover" src="' + poster + '" alt="">' : '') +
       '<div class="pl-tap"></div><span class="pl-spin"></span><button class="pl-play" type="button" aria-label="Воспроизвести">' + PLAY + '</button>' +
       '<div class="pl-bar"><div class="pl-track"><div class="pl-fill"></div></div></div>' +
-      '<button class="pl-fs" type="button" aria-label="Во весь экран"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>';
+      '<button class="pl-fs" type="button" aria-label="Во весь экран">' +
+        '<svg class="fs-on" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>' +
+        '<svg class="fs-off" viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg></button>';
     frame.querySelector('.pl-fs').onclick = toggleFs;
     const bar = frame.querySelector('.pl-bar'), fill = frame.querySelector('.pl-fill');
     frame.querySelector('.pl-tap').onclick = () => { if (!player) return; const s = frame.dataset.state; if (s === 'playing') player.pause(); else if (s === 'paused') player.play(); };
@@ -4749,8 +4759,11 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     const v = frame.querySelector('video');
     if (v && v.webkitEnterFullscreen) { try { v.webkitEnterFullscreen(); } catch(_){} }
   }
-  const fsOff = () => { if (!fsEl() && screen.orientation && screen.orientation.unlock) try { screen.orientation.unlock(); } catch(_){} };
-  document.addEventListener('fullscreenchange', fsOff); document.addEventListener('webkitfullscreenchange', fsOff);
+  const fsChange = () => {
+    const b = frame.querySelector('.pl-fs'); if (b) b.setAttribute('aria-label', fsEl() ? 'Свернуть' : 'Во весь экран');
+    if (!fsEl() && screen.orientation && screen.orientation.unlock) try { screen.orientation.unlock(); } catch(_){}
+  };
+  document.addEventListener('fullscreenchange', fsChange); document.addEventListener('webkitfullscreenchange', fsChange);
 
   // phones and slow or data-saving connections get the lighter 720p copy when a video has one
   function fileFor(card){
