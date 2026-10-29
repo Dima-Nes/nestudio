@@ -3118,6 +3118,12 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .pl-bar:hover .pl-track,.pl-bar.drag .pl-track{height:6px}
 .pl-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#fff}
 .vframe:not(.started) .pl-bar{opacity:0}
+.pl-fs{position:absolute;top:10px;right:10px;z-index:5;width:38px;height:38px;border:0;border-radius:50%;padding:0;background:rgba(0,0,0,.45);display:none;place-items:center;cursor:pointer}
+.pl-fs:hover{background:rgba(0,0,0,.65)}
+.pl-fs svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.vframe.can-fs .pl-fs{display:grid}
+.vframe:fullscreen{width:100%!important;height:100%!important;border-radius:0;box-shadow:none}
+.vframe:-webkit-full-screen{width:100%!important;height:100%!important;border-radius:0;box-shadow:none}
 .pl-spin{position:absolute;left:50%;top:50%;z-index:3;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;
  border:3px solid rgba(255,255,255,.25);border-top-color:#fff;animation:plspin .8s linear infinite;display:none;pointer-events:none}
 .vframe[data-state="loading"] .pl-spin{display:block}
@@ -3182,7 +3188,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 
   <section class="works" id="works" aria-label="Работы">
 
-<article class="card reveal vcard" data-cats="ads" data-src="local" data-slug="znay-ih-v-litso-sotsialnyy-eko-rolik" data-id="ZNAY" data-file="media/znay.mp4" data-vertical="0" data-title="«Знай их в лицо» – социальный эко-ролик" data-long="Социальная реклама для Мингорприроды об инвазивных растениях: золотарник и борщевик вытесняют местные растения, а простые правила – косить до цветения, работать в защите, не выносить отходы в лес – помогают их остановить." data-tag="Реклама" data-date="окт 2026">
+<article class="card reveal vcard" data-cats="ads" data-src="local" data-slug="znay-ih-v-litso-sotsialnyy-eko-rolik" data-id="ZNAY" data-file="media/znay.mp4" data-file-m="media/m/znay.mp4" data-vertical="0" data-title="«Знай их в лицо» – социальный эко-ролик" data-long="Социальная реклама для Мингорприроды об инвазивных растениях: золотарник и борщевик вытесняют местные растения, а простые правила – косить до цветения, работать в защите, не выносить отходы в лес – помогают их остановить." data-tag="Реклама" data-date="окт 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: «Знай их в лицо» – социальный эко-ролик">
     <div class="cardimage ar-p1">
       <img src="media/znay.jpg" data-fallback="" alt="«Знай их в лицо» – социальный эко-ролик" loading="lazy" referrerpolicy="no-referrer">
@@ -3194,7 +3200,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Реклама · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads" data-src="local" data-slug="voronovskiy-rayon-kamen-pomnit" data-id="VORONOVO" data-file="media/voronovo.mp4" data-vertical="0" data-title="Вороновский район – «Камень помнит»" data-long="Демо-ролик о Вороновском районе: от ледника и валунов к храмам и оградам из полевого камня и сегодняшнему краю. Золотой октябрь, низкие ракурсы, барабаны и виолончель." data-tag="Реклама" data-date="окт 2026">
+<article class="card reveal vcard" data-cats="ads" data-src="local" data-slug="voronovskiy-rayon-kamen-pomnit" data-id="VORONOVO" data-file="media/voronovo.mp4" data-file-m="media/m/voronovo.mp4" data-vertical="0" data-title="Вороновский район – «Камень помнит»" data-long="Демо-ролик о Вороновском районе: от ледника и валунов к храмам и оградам из полевого камня и сегодняшнему краю. Золотой октябрь, низкие ракурсы, барабаны и виолончель." data-tag="Реклама" data-date="окт 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Вороновский район – «Камень помнит»">
     <div class="cardimage ar-v2">
       <img src="media/voronovo.jpg" data-fallback="" alt="Вороновский район – «Камень помнит»" loading="lazy" referrerpolicy="no-referrer">
@@ -3206,7 +3212,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Реклама · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads" data-src="local" data-slug="myadelskiy-rayon-turisticheskiy-imidzhevyy-rolik" data-id="MYADEL" data-file="media/myadel.mp4" data-vertical="0" data-title="Мядельский район – туристический имиджевый ролик" data-long="Демо-ролик о туристическом потенциале Мядельского района: Голубые озёра, Нарочь, святыни, активный отдых, санатории." data-tag="Реклама" data-date="окт 2026">
+<article class="card reveal vcard" data-cats="ads" data-src="local" data-slug="myadelskiy-rayon-turisticheskiy-imidzhevyy-rolik" data-id="MYADEL" data-file="media/myadel.mp4" data-file-m="media/m/myadel.mp4" data-vertical="0" data-title="Мядельский район – туристический имиджевый ролик" data-long="Демо-ролик о туристическом потенциале Мядельского района: Голубые озёра, Нарочь, святыни, активный отдых, санатории." data-tag="Реклама" data-date="окт 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Мядельский район – туристический имиджевый ролик">
     <div class="cardimage ar-v1">
       <img src="media/myadel.jpg" data-fallback="" alt="Мядельский район – туристический имиджевый ролик" loading="lazy" referrerpolicy="no-referrer">
@@ -3218,7 +3224,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Реклама · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="anim" data-src="local" data-slug="yasik-u-kraine-vershau-pilotnaya-seriya" data-id="YASIK" data-file="media/yasik.mp4" data-vertical="0" data-title="«Ясік у краіне вершаў!», пилотная серия" data-long="Пилотная серия детского мультсериала на белорусском языке. Ясік открывает чароўную кніжку, и оживают строки Якуба Коласа «Мой родны кут, як ты мне мілы!..»: Ясік бежит к родной деревне, летит на бусле над полями и речкой. Серия учит детей любить белорусское слово и родной край." data-tag="Анимация" data-date="окт 2026">
+<article class="card reveal vcard" data-cats="anim" data-src="local" data-slug="yasik-u-kraine-vershau-pilotnaya-seriya" data-id="YASIK" data-file="media/yasik.mp4" data-file-m="media/m/yasik.mp4" data-vertical="0" data-title="«Ясік у краіне вершаў!», пилотная серия" data-long="Пилотная серия детского мультсериала на белорусском языке. Ясік открывает чароўную кніжку, и оживают строки Якуба Коласа «Мой родны кут, як ты мне мілы!..»: Ясік бежит к родной деревне, летит на бусле над полями и речкой. Серия учит детей любить белорусское слово и родной край." data-tag="Анимация" data-date="окт 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: «Ясік у краіне вершаў!», пилотная серия">
     <div class="cardimage ar-p2">
       <img src="media/yasik.jpg" data-fallback="" alt="«Ясік у краіне вершаў!», пилотная серия" loading="lazy" referrerpolicy="no-referrer">
@@ -3230,7 +3236,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Анимация · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads video" data-src="local" data-slug="geely-ex5-samokat-dlya-goroda" data-id="GEELY" data-file="media/geely.mp4" data-vertical="1" data-title="Geely EX5: «Самокат для города?»" data-long="Динамичный промо-ролик электрокроссовера Geely EX5 по мотивам автоэкспедиции Минск — Армения (7000 км без поломок): горные серпантины, закаты Кавказа, контраст мнений и эффектная подача автомобиля." data-tag="Реклама" data-date="окт 2026">
+<article class="card reveal vcard" data-cats="ads video" data-src="local" data-slug="geely-ex5-samokat-dlya-goroda" data-id="GEELY" data-file="media/geely.mp4" data-file-m="media/m/geely.mp4" data-vertical="1" data-title="Geely EX5: «Самокат для города?»" data-long="Динамичный промо-ролик электрокроссовера Geely EX5 по мотивам автоэкспедиции Минск — Армения (7000 км без поломок): горные серпантины, закаты Кавказа, контраст мнений и эффектная подача автомобиля." data-tag="Реклама" data-date="окт 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Geely EX5: «Самокат для города?»">
     <div class="cardimage ar-v1">
       <img src="media/geely.jpg" data-fallback="" alt="Geely EX5: «Самокат для города?»" loading="lazy" referrerpolicy="no-referrer">
@@ -3242,7 +3248,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     <p class="carddate">Реклама · окт 2026</p>
   </button>
 </article>
-<article class="card reveal vcard" data-cats="ads corp" data-src="local" data-slug="belinvestbank" data-id="BELINVEST" data-file="media/belinvest.mp4" data-vertical="1" data-title="Белинвестбанк" data-long="Имиджевый ролик для Белинвестбанка: сотрудники в фирменном стиле банка, светлый офис, работа с клиентами и уверенная подача бренда. Вертикальный формат для соцсетей." data-tag="Реклама" data-date="окт 2026">
+<article class="card reveal vcard" data-cats="ads corp" data-src="local" data-slug="belinvestbank" data-id="BELINVEST" data-file="media/belinvest.mp4" data-file-m="media/m/belinvest.mp4" data-vertical="1" data-title="Белинвестбанк" data-long="Имиджевый ролик для Белинвестбанка: сотрудники в фирменном стиле банка, светлый офис, работа с клиентами и уверенная подача бренда. Вертикальный формат для соцсетей." data-tag="Реклама" data-date="окт 2026">
   <button class="cardlink" type="button" aria-label="Смотреть: Белинвестбанк">
     <div class="cardimage ar-v1">
       <img src="media/belinvest.jpg" data-fallback="" alt="Белинвестбанк" loading="lazy" referrerpolicy="no-referrer">
@@ -4712,7 +4718,9 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
   function ui(poster){
     frame.innerHTML = (poster ? '<img class="pl-cover" src="' + poster + '" alt="">' : '') +
       '<div class="pl-tap"></div><span class="pl-spin"></span><button class="pl-play" type="button" aria-label="Воспроизвести">' + PLAY + '</button>' +
-      '<div class="pl-bar"><div class="pl-track"><div class="pl-fill"></div></div></div>';
+      '<div class="pl-bar"><div class="pl-track"><div class="pl-fill"></div></div></div>' +
+      '<button class="pl-fs" type="button" aria-label="Во весь экран"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>';
+    frame.querySelector('.pl-fs').onclick = toggleFs;
     const bar = frame.querySelector('.pl-bar'), fill = frame.querySelector('.pl-fill');
     frame.querySelector('.pl-tap').onclick = () => { if (!player) return; const s = frame.dataset.state; if (s === 'playing') player.pause(); else if (s === 'paused') player.play(); };
     frame.querySelector('.pl-play').onclick = () => player && player.play();
@@ -4726,6 +4734,30 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     setState('loading');
   }
   function setRatio(w, h){ if (w && h && Math.abs(w / h - ratio) > 0.02) { ratio = w / h; fit(); } }
+
+  // ---- fullscreen: the whole frame with our controls where the browser allows it, iPhone's own player for our <video> ----
+  const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+  const fsApi = () => !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+  function toggleFs(){
+    if (fsEl()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+    const req = frame.requestFullscreen || frame.webkitRequestFullscreen;
+    if (req && fsApi()) {
+      // phones: a horizontal video turns sideways by itself
+      Promise.resolve(req.call(frame)).then(() => { if (ratio > 1 && screen.orientation && screen.orientation.lock) return screen.orientation.lock('landscape'); }).catch(() => {});
+      return;
+    }
+    const v = frame.querySelector('video');
+    if (v && v.webkitEnterFullscreen) { try { v.webkitEnterFullscreen(); } catch(_){} }
+  }
+  const fsOff = () => { if (!fsEl() && screen.orientation && screen.orientation.unlock) try { screen.orientation.unlock(); } catch(_){} };
+  document.addEventListener('fullscreenchange', fsOff); document.addEventListener('webkitfullscreenchange', fsOff);
+
+  // phones and slow or data-saving connections get the lighter 720p copy when a video has one
+  function fileFor(card){
+    const c = navigator.connection || {};
+    const light = isPhone() || c.saveData || /(^|-)[23]g$/.test(c.effectiveType || '');
+    return (light && card.dataset.fileM) || card.dataset.file;
+  }
 
   // ---- own <video>: Google Drive stream or local file ----
   function htmlVideo(src, onFail){
@@ -4821,12 +4853,13 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
       return;
     }
     if (src !== 'gd') ui(poster);
-    if (src === 'yt') { player = ytVideo(id); return; }
+    if (src === 'yt') { player = ytVideo(id); frame.classList.toggle('can-fs', fsApi()); return; }
     // Google Drive does not let other sites stream its files directly, so its own player is used here
     // (on phones only a shared link gets here, the grid opens Drive in a new tab)
     if (src === 'gd') { driveFallback(id, poster); return; }
     // 'cdn': our copy on media.nestudio.by, the Drive original (data-id) is the fallback
-    player = htmlVideo(card.dataset.file, src === 'cdn' ? () => { if (current === card) driveFallback(id, poster); } : null);
+    player = htmlVideo(fileFor(card), src === 'cdn' ? () => { if (current === card) driveFallback(id, poster); } : null);
+    frame.classList.add('can-fs');
     player.play();   // called inside the click, so the browser allows sound
   }
   function driveFallback(id, poster){
@@ -4838,7 +4871,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
     }
     frame.innerHTML = '<iframe src="https://drive.google.com/file/d/' + id + '/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>';
   }
-  function close(){ stop(); modal.classList.remove('open'); document.documentElement.style.overflow = ''; current = null; history.replaceState(null, '', location.pathname); }
+  function close(){ if (fsEl()) toggleFs(); stop(); modal.classList.remove('open'); document.documentElement.style.overflow = ''; current = null; history.replaceState(null, '', location.pathname); }
 
   // ---- links to one video: nestudio.by/v/<slug>/ (preview for messengers) leads to /?v=<slug> ----
   const shareBtn = document.getElementById('vshare'), shareLabel = shareBtn.querySelector('span');
@@ -4871,6 +4904,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
   document.getElementById('vprev').onclick = () => step(-1);
   document.getElementById('vnext').onclick = () => step(1);
   addEventListener('keydown', e => { if (!current) return; if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1);
+    if (/^[fFаА]$/.test(e.key) && frame.classList.contains('can-fs')) toggleFs();
     if (e.key === ' ' && player) { e.preventDefault(); frame.dataset.state === 'playing' ? player.pause() : player.play(); } });
   const linked = new URLSearchParams(location.search).get('v');
   const linkedCard = linked && [...works.querySelectorAll('.card')].find(c => c.dataset.slug === linked);
