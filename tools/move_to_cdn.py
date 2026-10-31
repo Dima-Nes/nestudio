@@ -5,8 +5,9 @@ Google Drive plays its videos only in its own slow iframe (and on phones only in
 Our copies play in the site's player right away; the Drive original (data-id) stays the fallback.
 
   python3 -I tools/move_to_cdn.py list               Drive cards and the size of each original
-  python3 -I tools/move_to_cdn.py download           originals -> cdn-work/src/<slug>.mp4
-  python3 -I tools/move_to_cdn.py encode             web copies -> cdn-work/out/<slug>.mp4 (1080p) and out/m/<slug>.mp4 (720p), needs ffmpeg
+  python3 -I tools/move_to_cdn.py prepare            one video at a time: original -> cdn-work/src, web copies ->
+                                                     cdn-work/out/<slug>.mp4 (1080p) and out/m/<slug>.mp4 (720p), original deleted
+                                                     (needs ffmpeg; the originals together are bigger than a laptop's free disk)
   rclone copy cdn-work/out r2:nestudio-media         upload (rclone remote "r2" set up with the R2 keys, by the owner)
   python3 -I tools/move_to_cdn.py switch             cards with an uploaded copy -> data-src="cdn", then rebuilds the pages
 
@@ -52,20 +53,15 @@ def cmd_list():
     print(f"{len(drive_cards())} videos on Google Drive, originals {mb(total)}")
 
 
-def cmd_download():
-    os.makedirs(SRC, exist_ok=True)
-    for c in drive_cards():
-        slug, path = attr(c, "data-slug"), os.path.join(SRC, attr(c, "data-slug") + ".mp4")
-        if os.path.exists(path):
-            continue
-        with drive_get(attr(c, "data-id")) as r:
-            if not r.ok or "html" in r.headers.get("Content-Type", ""):
-                print("not downloadable (check sharing):", slug); continue
-            with open(path + ".part", "wb") as f:
-                for chunk in r.iter_content(1 << 20):
-                    f.write(chunk)
-        os.replace(path + ".part", path)
-        print("downloaded", mb(os.path.getsize(path)), slug)
+def download(fid, path):
+    with drive_get(fid) as r:
+        if not r.ok or "html" in r.headers.get("Content-Type", ""):
+            return False
+        with open(path + ".part", "wb") as f:
+            for chunk in r.iter_content(1 << 20):
+                f.write(chunk)
+    os.replace(path + ".part", path)
+    return True
 
 
 def encode(src, dst, height, crf):
@@ -76,16 +72,23 @@ def encode(src, dst, height, crf):
     os.replace(dst + ".part.mp4", dst)
 
 
-def cmd_encode():
-    os.makedirs(os.path.join(OUT, "m"), exist_ok=True)
-    for name in sorted(os.listdir(SRC)):
-        if not name.endswith(".mp4"):
-            continue
-        src = os.path.join(SRC, name)
-        for dst, h, crf in ((os.path.join(OUT, name), 1080, 23), (os.path.join(OUT, "m", name), 720, 27)):
-            if not os.path.exists(dst):
-                encode(src, dst, h, crf)
-        print(f"{mb(os.path.getsize(os.path.join(OUT, name)))} + {mb(os.path.getsize(os.path.join(OUT, 'm', name)))}  {name}")
+def cmd_prepare():
+    for d in (SRC, os.path.join(OUT, "m")):
+        os.makedirs(d, exist_ok=True)
+    total = 0
+    for c in drive_cards():
+        slug = attr(c, "data-slug"); name = slug + ".mp4"
+        big, small, src = os.path.join(OUT, name), os.path.join(OUT, "m", name), os.path.join(SRC, name)
+        if not (os.path.exists(big) and os.path.exists(small)):
+            if not os.path.exists(src) and not download(attr(c, "data-id"), src):
+                print("not downloadable (check sharing):", slug); continue
+            for dst, h, crf in ((big, 1080, 23), (small, 720, 27)):
+                if not os.path.exists(dst):
+                    encode(src, dst, h, crf)
+            os.remove(src)
+        size = os.path.getsize(big) + os.path.getsize(small); total += size
+        print(f"{mb(os.path.getsize(big))} + {mb(os.path.getsize(small))}  {slug}", flush=True)
+    print(f"ready for upload: {mb(total)} in {OUT}")
 
 
 def cmd_switch():
@@ -111,4 +114,4 @@ def cmd_switch():
 
 
 if __name__ == "__main__":
-    {"list": cmd_list, "download": cmd_download, "encode": cmd_encode, "switch": cmd_switch}[sys.argv[1] if len(sys.argv) > 1 else "list"]()
+    {"list": cmd_list, "prepare": cmd_prepare, "switch": cmd_switch}[sys.argv[1] if len(sys.argv) > 1 else "list"]()
