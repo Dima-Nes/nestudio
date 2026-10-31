@@ -7,6 +7,8 @@
    VideoObject markup, the video itself (opens right away), a short case block and related works.
    Header, footer, styles (assets/site.css) and the player (assets/site.js) are the same as on the portfolio.
 3. Pages of cards that no longer exist are removed; sitemap.xml lists the portfolio and every video page.
+   Another version of a project (card with data-of="<main slug>") keeps its page, but its canonical is the main
+   page, it is left out of the sitemap, and all versions are listed first among each other's related works.
 
 Run after adding or editing cards:  python3 -I tools/build_video_pages.py
 """
@@ -51,6 +53,8 @@ def cover(card):
     url = html.unescape(img.group(1)) if img else ""
     if url.startswith("https://drive.google.com/thumbnail"):
         return re.sub(r"sz=w\d+", "sz=w1200", url)
+    if url.endswith(".webp"):   # cards show light WebP; link previews get the full-size JPG next to it
+        url = url[:-5] + ".jpg"
     return url if url.startswith("http") else f"{SITE}/{url.lstrip('/')}" if url else ""
 
 
@@ -96,7 +100,7 @@ def video_ld(card, slug, title, desc):
     return json.dumps({"@context": "https://schema.org", "@graph": [v, crumbs, org]}, ensure_ascii=False)
 
 
-def head(title, desc, url, image, og_type, extra=""):
+def head(title, desc, url, image, og_type, extra="", canonical=""):
     img = (f'<meta property="og:image" content="{e(image)}">\n'
            f'<meta name="twitter:image" content="{e(image)}">\n') if image else ""
     return f"""<!DOCTYPE html>
@@ -107,7 +111,7 @@ def head(title, desc, url, image, og_type, extra=""):
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
-{f'<link rel="canonical" href="{url}">' if url else '<meta name="robots" content="noindex">'}
+{f'<link rel="canonical" href="{canonical or url}">' if url else '<meta name="robots" content="noindex">'}
 <meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="nestudio">
 <meta property="og:locale" content="ru_RU">
@@ -130,7 +134,9 @@ def page(card, slug, related, parts, cats):
     grid = "\n".join(rooted(c) for c in related)
     ld = f'<script type="application/ld+json">{video_ld(card, slug, title, desc)}</script>\n'
     facts = [tag, date, "вертикальное 9:16" if vertical else "горизонтальное 16:9"]
-    return head(f"{title} · {tag} · nestudio", short(desc or title), f"{SITE}/v/{slug}/", cover(card), "video.other", ld) + f"""<body class="is-loading" data-page="video">
+    main = attr(card, "data-of")   # another version of a project: search engines get the main page
+    return head(f"{title} · {tag} · nestudio", short(desc or title), f"{SITE}/v/{slug}/", cover(card), "video.other", ld,
+                f"{SITE}/v/{main}/" if main else "") + f"""<body class="is-loading" data-page="video">
 {parts['header']}
 
 <main class="page">
@@ -222,9 +228,11 @@ def main():
     for card in all_cards:
         slug = attr(card, "data-slug"); slugs.append(slug)
         cat = attr(card, "data-cats").split()[0]
+        project = attr(card, "data-of") or slug
         others = [c for c in all_cards if c is not card]
-        same = [c for c in others if cat in attr(c, "data-cats").split()]
-        related = (same + [c for c in others if c not in same])[:RELATED]
+        versions = [c for c in others if project in (attr(c, "data-of"), attr(c, "data-slug"))]
+        same = [c for c in others if cat in attr(c, "data-cats").split() and c not in versions]
+        related = (versions + same + [c for c in others if c not in same and c not in versions])[:RELATED]
         os.makedirs(os.path.join(OUT, slug), exist_ok=True)
         with open(os.path.join(OUT, slug, "index.html"), "w", encoding="utf-8", newline="\n") as f:
             f.write(page(card, slug, related, parts, cats))
@@ -234,7 +242,7 @@ def main():
 
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(not_found(parts))
-    urls = [f"{SITE}/"] + [f"{SITE}/v/{s}/" for s in slugs]
+    urls = [f"{SITE}/"] + [f"{SITE}/v/{attr(c, 'data-slug')}/" for c in all_cards if not attr(c, "data-of")]
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
                 + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n")
