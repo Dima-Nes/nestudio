@@ -77,7 +77,7 @@ def as_link(card):
 
 def rooted(card):
     """Relative media paths work on the portfolio only; video pages live two folders deeper."""
-    return re.sub(r'(src|data-file|data-file-m)="(?!https?:|/)([^"]+)"', r'\1="/\2"', card)
+    return re.sub(r'(?<![\w-])(src|data-file|data-file-m)="(?!https?:|/)([^"]+)"', r'\1="/\2"', card)
 
 
 def video_ld(card, slug, title, desc):
