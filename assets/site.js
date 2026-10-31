@@ -290,6 +290,8 @@
   if (linkedCard) { linkedCard.scrollIntoView({ block: 'center' }); open(linkedCard); }
   else if (linked) history.replaceState(null, '', location.pathname);
   else if (caseCard) open(caseCard);
+  // bottom bar «Работы» on the portfolio itself: back to the top instead of reloading
+  document.querySelectorAll('[data-nav="works"]').forEach(a => a.addEventListener('click', e => { if (HOME) { e.preventDefault(); scrollTo({ top: 0, behavior: 'smooth' }); } }));
   document.querySelectorAll('[data-play]').forEach(b => b.addEventListener('click', () => caseCard && open(caseCard)));
   requestAnimationFrame(() => { body.classList.remove('is-loading'); body.classList.add('is-ready'); });
 })();

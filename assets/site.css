@@ -3157,3 +3157,8 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .related-title{margin:28px 0 12px;opacity:1;transform:none}
 @media (max-width:760px){.case-intro,.case-intro.vertical{grid-template-columns:1fr}.case-media{order:-1}.case-intro.vertical .case-media{max-width:240px}}
 
+/* phones: contact bar at the bottom (the header there shows only one button); computers have contacts in the header */
+.bottom-nav a.primary{background:var(--surface-strong);color:var(--surface-strong-text);border-color:var(--surface-strong);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+html:has(.vmodal.open) #site-bottom-nav{display:none}
+@media (min-width:761px){#site-bottom-nav{display:none}body{padding-bottom:0}}
+

@@ -87,7 +87,8 @@ def video_ld(card, slug, title, desc):
     elif src == "gd":
         v["embedUrl"] = f"https://drive.google.com/file/d/{vid}/preview"
     elif attr(card, "data-file"):
-        v["contentUrl"] = f"{SITE}/{attr(card, 'data-file').lstrip('/')}"
+        f = attr(card, "data-file")
+        v["contentUrl"] = f if f.startswith("http") else f"{SITE}/{f.lstrip('/')}"
     crumbs = {"@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Видео-портфолио", "item": f"{SITE}/"},
         {"@type": "ListItem", "position": 2, "name": title, "item": url}]}
@@ -212,7 +213,7 @@ def main():
     open(PAGE, "w", encoding="utf-8", newline="\n").write(text)
 
     parts = {"header": block(text, '<header class="site-header">', "</header>"),
-             "footer": block(text, '<footer class="site-footer">', "</footer>"),
+             "footer": block(text, '<div id="site-bottom-nav">', "</footer>"),
              "modal": block(text, '<div class="vmodal"', "</div>\n</div>")}
     cats = {k: html.unescape(v) for k, v in re.findall(r'data-filter="(\w+)">([^<]+?)\s*<', text)}
     all_cards = [m.group(0) for m in re.finditer(r'<article class="card.*?</article>', text, flags=re.S)]
