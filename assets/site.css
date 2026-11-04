@@ -3157,6 +3157,57 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .related-title{margin:28px 0 12px;opacity:1;transform:none}
 @media (max-width:760px){.case-intro,.case-intro.vertical{grid-template-columns:1fr}.case-media{order:-1}.case-intro.vertical .case-media{max-width:240px}}
 
+/* case study under the video (cases/<slug>.md): story, frames, project passport, FAQ, call to action */
+.case-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px;align-items:start;margin:48px auto 0;max-width:1120px}
+.case-body{min-width:0;max-width:740px;font-size:16px;line-height:1.7}
+.case-body>:first-child{margin-top:0}
+.case-body h2{font-size:26px;line-height:1.2;letter-spacing:var(--tracking-medium);font-weight:var(--fw-semibold);margin:48px 0 14px;scroll-margin-top:calc(var(--header-height) + 24px);text-wrap:balance}
+.case-body h3{font-size:18px;line-height:1.3;font-weight:var(--fw-semibold);margin:28px 0 8px}
+.case-body p{margin:0 0 14px}
+.case-body ul{margin:0 0 16px;padding-left:20px}
+.case-body li{margin:0 0 6px}
+.case-body li::marker{color:var(--accent)}
+.case-body strong{font-weight:var(--fw-semibold)}
+.case-body a{text-decoration:underline;text-underline-offset:3px}
+.case-steps{list-style:none;counter-reset:step;margin:4px 0 18px;padding:0;display:grid;gap:10px}
+.case-steps li{counter-increment:step;position:relative;margin:0;padding:14px 16px 14px 58px;border-radius:var(--radius-md);background:var(--surface);border:1px solid var(--surface-border)}
+.case-steps li::before{content:counter(step);position:absolute;left:14px;top:12px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--text);font-size:14px;font-weight:var(--fw-semibold)}
+.case-body blockquote{margin:22px 0;padding:18px 22px;border-left:3px solid var(--accent);border-radius:0 var(--radius-md) var(--radius-md) 0;background:var(--surface);font-size:17px;line-height:1.6;font-style:italic}
+.case-frame{margin:22px 0}
+.case-frame.tall{max-width:380px}
+.case-frame-img{position:relative;border-radius:var(--radius-lg);overflow:hidden;background:var(--card)}
+.case-frame img{display:block;width:100%;height:auto}
+.case-frame figcaption{margin-top:8px;font-size:13px;line-height:1.5;color:var(--muted)}
+.case-frame-play{position:absolute;left:10px;bottom:10px;border:0;border-radius:var(--radius-pill);padding:7px 12px;background:rgba(0,0,0,.6);color:#fff;font:inherit;font-size:12px;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background var(--transition-base)}
+.case-frame-img:has(.case-frame-play){cursor:pointer}   /* the whole frame plays the video, see site.js */
+.case-frame-play:hover,.case-frame-img:hover .case-frame-play{background:rgba(0,0,0,.85)}
+.case-gallery{display:grid;gap:14px;margin:22px 0}
+.case-gallery.n2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.case-gallery.n3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.case-gallery .case-frame{margin:0;max-width:none}
+.case-faq{border-bottom:1px solid var(--line)}
+.case-faq summary{list-style:none;cursor:pointer;padding:16px 36px 16px 0;position:relative;font-weight:var(--fw-semibold);font-size:16px;line-height:1.4}
+.case-faq summary::-webkit-details-marker{display:none}
+.case-faq summary::after{content:"+";position:absolute;right:4px;top:12px;font-size:22px;font-weight:400;color:var(--muted);transition:transform var(--transition-base)}
+.case-faq[open] summary::after{transform:rotate(45deg)}
+.case-faq p{margin:0 0 16px;color:var(--muted)}
+.case-passport{position:sticky;top:calc(var(--header-height) + 20px)}
+.case-passport-in{padding:22px;border-radius:var(--radius-xl);background:var(--surface);border:1px solid var(--surface-border);display:flex;flex-direction:column;gap:16px}
+.case-passport .section-title{margin:0}
+.case-passport dl{margin:0;display:grid;gap:12px}
+.case-passport dt{font-size:11px;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.case-passport dd{margin:0;font-size:14px;line-height:1.45}
+.case-passport .header-cta{justify-content:center;min-height:42px;font-size:13px}
+.case-cta{max-width:1120px;margin:56px auto 8px;padding:40px 28px;border-radius:var(--radius-xl);background:var(--surface-strong);color:var(--surface-strong-text);text-align:center}
+.case-cta h2{font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:var(--tracking-medium);font-weight:var(--fw-semibold);margin:0 0 10px}
+.case-cta p{margin:0 auto 20px;max-width:56ch;opacity:.75;font-size:15px;line-height:1.6}
+.case-cta .case-actions{justify-content:center}
+.case-cta .header-cta{background:var(--surface-strong-text);color:var(--surface-strong);border-color:var(--surface-strong-text)}
+.case-cta .header-cta.ghost{background:transparent;color:inherit;border-color:currentColor}
+@media (max-width:1000px){.case-layout{grid-template-columns:1fr;gap:28px}.case-passport{position:static;order:-1}.case-passport dl{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.case-layout{margin-top:32px}.case-body{font-size:15px}.case-body h2{font-size:22px;margin-top:36px}
+ .case-gallery.n3{grid-template-columns:repeat(2,minmax(0,1fr))}.case-frame.tall{max-width:none}.case-passport dl{grid-template-columns:1fr}.case-cta{padding:32px 18px}}
+
 /* phones: contact bar at the bottom (the header there shows only one button); computers have contacts in the header */
 .bottom-nav a.primary{background:var(--surface-strong);color:var(--surface-strong-text);border-color:var(--surface-strong);box-shadow:0 8px 20px rgba(0,0,0,.08)}
 html:has(.vmodal.open) #site-bottom-nav{display:none}

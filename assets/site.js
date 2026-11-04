@@ -171,13 +171,13 @@
   }
   if (ONLINE && document.querySelector('.card[data-src="yt"]')) loadYT();   // warm up early so a click starts playback at once
 
-  function ytVideo(id){
+  function ytVideo(id, start){
     const host = document.createElement('div'); host.className = 'yt-host'; const inner = document.createElement('div'); host.appendChild(inner); frame.prepend(host);
     let yp = null, alive = true, wantPlay = true, guard = null;
     const create = () => {
       if (!alive) return;
       yp = new YT.Player(inner, { videoId: id, width: '100%', height: '100%',
-        playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, rel: 0, playsinline: 1, origin: location.origin },
+        playerVars: { autoplay: 1, start: Math.floor(start || 0), controls: 0, disablekb: 1, fs: 0, iv_load_policy: 3, modestbranding: 1, rel: 0, playsinline: 1, origin: location.origin },
         events: {
           onReady: e => { if (wantPlay) e.target.playVideo(); armGuard(); },
           onStateChange: e => { const st = e.data;
@@ -208,7 +208,8 @@
     return s;
   }
 
-  function open(card){
+  // start: seconds to play from (a frame of the case study, or ?t= in a link)
+  function open(card, start){
     stop();
     current = card;
     const id = card.dataset.id, src = card.dataset.src, vert = card.dataset.vertical === '1';
@@ -226,12 +227,12 @@
       return;
     }
     if (src !== 'gd') ui(poster);
-    if (src === 'yt') { player = ytVideo(id); frame.classList.toggle('can-fs', fsApi()); return; }
+    if (src === 'yt') { player = ytVideo(id, start); frame.classList.toggle('can-fs', fsApi()); return; }
     // Google Drive does not let other sites stream its files directly, so its own player is used here
     // (on phones only a shared link gets here, the grid opens Drive in a new tab)
     if (src === 'gd') { driveFallback(id, poster); return; }
     // 'cdn': our copy on media.nestudio.by, the Drive original (data-id) is the fallback
-    player = htmlVideo(fileFor(card), src === 'cdn' ? () => { if (current === card) driveFallback(id, poster); } : null);
+    player = htmlVideo(fileFor(card) + (start ? '#t=' + start : ''), src === 'cdn' ? () => { if (current === card) driveFallback(id, poster); } : null);
     frame.classList.add('can-fs');
     player.play();   // called inside the click, so the browser allows sound
   }
@@ -289,7 +290,10 @@
   const linkedCard = linked && [...works.querySelectorAll('.card')].find(c => c.dataset.slug === linked);
   if (linkedCard) { linkedCard.scrollIntoView({ block: 'center' }); open(linkedCard); }
   else if (linked) history.replaceState(null, '', location.pathname);
-  else if (caseCard) open(caseCard);
+  else if (caseCard && (body.dataset.page !== 'case' || /[?&]t=\d/.test(location.search)))
+    open(caseCard, +new URLSearchParams(location.search).get('t') || 0);   // a case study is read first, its video opens on a click
+  // frames of a case study: a click plays the video from that moment
+  document.querySelectorAll('.case-frame-play').forEach(b => b.parentElement.addEventListener('click', () => caseCard && open(caseCard, +b.dataset.t)));
   // bottom bar «Работы» on the portfolio itself: back to the top instead of reloading
   document.querySelectorAll('[data-nav="works"]').forEach(a => a.addEventListener('click', e => { if (HOME) { e.preventDefault(); scrollTo({ top: 0, behavior: 'smooth' }); } }));
   document.querySelectorAll('[data-play]').forEach(b => b.addEventListener('click', () => caseCard && open(caseCard)));
