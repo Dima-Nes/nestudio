@@ -210,6 +210,8 @@ def video_ld(card, slug, title, desc, case=None):
     graph = []
     if case:
         meta, frames = case["meta"], case["frames"]
+        if meta.get("published"):   # exact first publication date, e.g. a demo whose date matters
+            v["uploadDate"] = meta["published"]
         total = seconds(meta.get("duration", ""))
         if total:
             v["duration"] = f"PT{total // 60}M{total % 60}S"

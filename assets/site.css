@@ -3213,3 +3213,5 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 html:has(.vmodal.open) #site-bottom-nav{display:none}
 @media (min-width:761px){#site-bottom-nav{display:none}body{padding-bottom:0}}
 
+
+.case-body li,.case-body p{overflow-wrap:anywhere}
