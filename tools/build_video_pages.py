@@ -367,7 +367,8 @@ def page(card, slug, related, parts, cats):
 
 
 def not_found(parts):
-    return head("Страница не найдена · nestudio", "Такой страницы нет. Все работы nestudio – в видео-портфолио.", "", "", "website") + f"""<body class="is-loading" data-page="video">
+    return head("Страница не найдена · nestudio", "Такой страницы нет. Все работы nestudio – в видео-портфолио.", "", "", "website",
+                '<meta http-equiv="refresh" content="0;url=/">\n<script>location.replace("/")</script>\n') + f"""<body class="is-loading" data-page="video">
 {parts['header']}
 
 <main class="page">

@@ -3061,7 +3061,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .play{position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;
  background:rgba(255,255,255,.9);display:grid;place-items:center;z-index:3;box-shadow:0 10px 30px rgba(0,0,0,.25);
  transform:scale(.85);opacity:.0;transition:opacity .25s ease,transform .35s cubic-bezier(.22,1,.36,1)}
-.play svg{width:24px;height:24px;fill:#111;margin-left:3px}
+.play svg{width:24px;height:24px;fill:#111}
 .card:hover .play,.cardlink:focus-visible .play{opacity:1;transform:scale(1)}
 @media (hover:none){.play{opacity:.9;transform:scale(.8)}}
 .badge{position:absolute;left:10px;top:10px;z-index:3;font-size:11px;line-height:1;padding:6px 9px;border-radius:999px;
@@ -3095,7 +3095,7 @@ body.dark .cardimage .ph{background:radial-gradient(circle at 80% 15%,rgba(212,1
 .pl-play{position:absolute;left:50%;top:50%;z-index:3;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;border:0;padding:0;
  background:rgba(255,255,255,.92);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.35);
  transition:opacity .3s ease,transform .3s ease;opacity:0;transform:scale(.8);pointer-events:none}
-.pl-play svg{width:28px;height:28px;fill:#111;margin-left:4px}
+.pl-play svg{width:28px;height:28px;fill:#111}
 .vframe[data-state="paused"] .pl-play{opacity:1;transform:none;pointer-events:auto}
 .vframe.passthru .pl-tap,.vframe.passthru .pl-play{pointer-events:none}
 .pl-bar{position:absolute;left:0;right:0;bottom:0;z-index:4;height:24px;display:flex;align-items:flex-end;cursor:pointer;touch-action:none}
@@ -3215,3 +3215,13 @@ html:has(.vmodal.open) #site-bottom-nav{display:none}
 
 
 .case-body li,.case-body p{overflow-wrap:anywhere}
+/* phones: fullscreen over the whole page, without the browser's own "full screen" banner */
+.vframe.pfs{position:fixed;left:0;top:0;width:var(--pfs-w,100vw)!important;height:var(--pfs-h,100vh)!important;border-radius:0;box-shadow:none;z-index:200002}
+@media (orientation:portrait){.vframe.pfs.pfs-land{left:50%;top:50%;width:var(--pfs-h,100vh)!important;height:var(--pfs-w,100vw)!important;transform:translate(-50%,-50%) rotate(90deg)}}
+.vframe.pfs .pl-fs .fs-on{display:none}
+.vframe.pfs .pl-fs .fs-off{display:block}
+.pl-msg{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;text-align:center;color:#fff;background:rgba(0,0,0,.72)}
+.pl-msg p{margin:0;font-size:16px;font-weight:600}
+.pl-msg button{border:0;border-radius:999px;padding:10px 20px;background:#fff;color:#111;font:inherit;font-size:14px;cursor:pointer}
+.pl-msg small{font-size:12px;opacity:.65}
+.vframe.failed .pl-play{display:none}

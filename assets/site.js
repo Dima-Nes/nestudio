@@ -77,6 +77,7 @@
     }
     frame.style.width = Math.round(w) + 'px'; frame.style.height = Math.round(w / ratio) + 'px';
     info.style.width = Math.round(Math.max(w, Math.min(W, 520))) + 'px';
+    frame.style.setProperty('--pfs-w', innerWidth + 'px'); frame.style.setProperty('--pfs-h', innerHeight + 'px');
   }
   addEventListener('resize', () => { if (current) fit(); });
 
@@ -94,7 +95,7 @@
     const bar = frame.querySelector('.pl-bar'), fill = frame.querySelector('.pl-fill');
     frame.querySelector('.pl-tap').onclick = () => { if (!player) return; const s = frame.dataset.state; if (s === 'playing') player.pause(); else if (s === 'paused') player.play(); };
     frame.querySelector('.pl-play').onclick = () => player && player.play();
-    const seek = e => { if (!player) return; const r = bar.getBoundingClientRect(); const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); const d = player.dur(); if (d) { player.seek(x * d); fill.style.width = (x * 100) + '%'; } };
+    const seek = e => { if (!player) return; const r = bar.getBoundingClientRect(); const turned = frame.classList.contains('pfs-land') && innerHeight > innerWidth; const x = Math.min(1, Math.max(0, turned ? (e.clientY - r.top) / r.height : (e.clientX - r.left) / r.width)); const d = player.dur(); if (d) { player.seek(x * d); fill.style.width = (x * 100) + '%'; } };
     bar.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); bar.classList.add('drag'); try { bar.setPointerCapture(e.pointerId); } catch(_){} seek(e); });
     bar.addEventListener('pointermove', e => { if (bar.classList.contains('drag')) seek(e); });
     const up = () => bar.classList.remove('drag');
@@ -103,12 +104,26 @@
     tick = setInterval(() => { if (!player || bar.classList.contains('drag')) return; const d = player.dur(); fill.style.width = d ? Math.min(100, player.time() / d * 100) + '%' : '0'; }, 250);
     setState('loading');
   }
-  function setRatio(w, h){ if (w && h && Math.abs(w / h - ratio) > 0.02) { ratio = w / h; fit(); } }
+  function setRatio(w, h){ if (w && h && Math.abs(w / h - ratio) > 0.02) { ratio = w / h; fit(); } frame.classList.toggle('pfs-land', frame.classList.contains('pfs') && ratio > 1); }
 
   // ---- fullscreen: the whole frame with our controls where the browser allows it, iPhone's own player for our <video> ----
   const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
   const fsApi = () => !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+  // Android browsers cover the screen with a "full screen" banner for the real Fullscreen API, and a page cannot turn it off.
+  // So phones get the frame stretched over the whole page instead; a horizontal video lies sideways while the phone is held upright.
+  let pfs = false;
+  function phoneFs(on, fromHistory){
+    if (on === pfs) return;
+    pfs = on;
+    frame.classList.toggle('pfs', on); frame.classList.toggle('pfs-land', on && ratio > 1); fit();
+    const b = frame.querySelector('.pl-fs'); if (b) b.setAttribute('aria-label', on ? 'Свернуть' : 'Во весь экран');
+    if (fromHistory) return;
+    // the phone's back button leaves fullscreen instead of the page
+    if (on) history.pushState({ pfs: 1 }, ''); else if (history.state && history.state.pfs) history.back();
+  }
+  addEventListener('popstate', () => { if (pfs) phoneFs(false, true); });
   function toggleFs(){
+    if (isPhone() && fsApi()) { phoneFs(!pfs); return; }
     if (fsEl()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
     const req = frame.requestFullscreen || frame.webkitRequestFullscreen;
     if (req && fsApi()) {
@@ -142,9 +157,13 @@
     v.addEventListener('waiting', () => { if (wantPlay) setState('loading'); });
     v.addEventListener('pause', () => { if (!v.ended && !wantPlay) setState('paused'); });
     v.addEventListener('ended', () => { wantPlay = false; setState('paused'); });
-    v.addEventListener('error', () => { if (failed) return; failed = true; onFail ? onFail() : setState('paused'); });
-    // a host that answers but never delivers (throttled networks) gets the same fallback after 8 s
-    const stall = onFail ? setTimeout(() => { if (!failed && v.readyState < 2) { failed = true; onFail(); } }, 8000) : null;
+    v.addEventListener('error', () => { if (failed) return; failed = true; clearTimeout(stall); onFail('error', v.error ? v.error.code : 0); });
+    // a host that answers but never delivers (throttled networks) gets the same fallback; a slow one that keeps sending data is left alone
+    let stall = null;
+    const watch = () => { clearTimeout(stall); stall = setTimeout(() => { if (!failed && v.readyState < 2) { failed = true; onFail('stall', 0); } }, isPhone() ? 15000 : 10000); };
+    watch();
+    v.addEventListener('progress', () => { if (v.readyState < 2) watch(); });
+    v.addEventListener('loadedmetadata', () => { if (v.readyState < 2) watch(); });
     v.addEventListener('loadeddata', () => clearTimeout(stall));
     v.src = src;
     frame.prepend(v);
@@ -198,7 +217,7 @@
     return p;
   }
 
-  function stop(){ if (player) { player.destroy(); player = null; } clearInterval(tick); frame.innerHTML = ''; frame.className = 'vframe'; delete frame.dataset.state; }
+  function stop(){ if (pfs) phoneFs(false); if (player) { player.destroy(); player = null; } clearInterval(tick); frame.innerHTML = ''; frame.className = 'vframe'; delete frame.dataset.state; }
 
   function coverOf(card, big){
     const img = card.querySelector('img');
@@ -232,9 +251,26 @@
     // (on phones only a shared link gets here, the grid opens Drive in a new tab)
     if (src === 'gd') { driveFallback(id, poster); return; }
     // 'cdn': our copy on media.nestudio.by, the Drive original (data-id) is the fallback
-    player = htmlVideo(fileFor(card) + (start ? '#t=' + start : ''), src === 'cdn' ? () => { if (current === card) driveFallback(id, poster); } : null);
-    frame.classList.add('can-fs');
-    player.play();   // called inside the click, so the browser allows sound
+    // a file the phone cannot play: the other quality first, then Google Drive, then a message with the error code
+    const first = fileFor(card), other = first === card.dataset.file ? card.dataset.fileM : card.dataset.file;
+    const load = (file, retry) => {
+      player = htmlVideo(file + (start ? '#t=' + start : ''), (kind, code) => {
+        if (current !== card) return;
+        if (kind === 'error' && retry) { player.destroy(); frame.querySelector('video').remove(); load(retry); return; }
+        if (src === 'cdn') { driveFallback(id, poster); return; }
+        fail(card, kind === 'stall' ? 'сеть' : code);
+      });
+      frame.classList.add('can-fs');
+      player.play();   // called inside the click, so the browser allows sound
+    };
+    load(first, other && other !== first ? other : null);
+  }
+  function fail(card, code){
+    setState('paused'); frame.classList.add('failed');
+    const m = document.createElement('div'); m.className = 'pl-msg';
+    m.innerHTML = '<p>Видео не загрузилось</p><button type="button">Повторить</button><small>код: ' + code + '</small>';
+    m.querySelector('button').onclick = () => open(card);
+    frame.appendChild(m);
   }
   function driveFallback(id, poster){
     stop();

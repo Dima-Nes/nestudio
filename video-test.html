@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Проверка видео · nestudio</title>
+<style>body{font:15px/1.45 system-ui,sans-serif;margin:0;padding:16px;background:#111;color:#eee}button{font:inherit;padding:10px 18px;border:0;border-radius:99px;background:#fff;color:#111}#sum{font-weight:600;margin:14px 0}#log div{padding:5px 0;border-bottom:1px solid #333;word-break:break-word}.bad{color:#ff8a80}.ok{color:#9ccc65}video{width:120px;height:68px;background:#000;display:block;margin:10px 0}small{opacity:.65}</style></head>
+<body><h1 style="font-size:20px;margin:0 0 8px">Проверка видео на этом устройстве</h1>
+<p>Страница по очереди запускает каждый ролик сайта без звука и показывает, какие не играют. Расход трафика – несколько десятков МБ. Когда закончит, пришлите снимок экрана или текст.</p>
+<button id="go">Начать проверку</button><div id="sum"></div><small id="ua"></small><video id="v" muted playsinline></video><div id="log"></div>
+<script>
+const $=i=>document.getElementById(i),c=navigator.connection||{};
+$('ua').textContent=navigator.userAgent+' · сеть: '+(c.effectiveType||'?')+' · экран: '+innerWidth+'×'+innerHeight;
+const row=(t,cl)=>{const d=document.createElement('div');d.className=cl||'';d.textContent=t;$('log').prepend(d)};
+function test(url){return new Promise(res=>{const v=$('v'),t0=Date.now();let done=false;
+  const end=r=>{if(done)return;done=true;clearTimeout(to);v.onerror=v.ontimeupdate=null;v.pause();v.removeAttribute('src');try{v.load()}catch(_){}res(r)};
+  const to=setTimeout(()=>end('нет данных 30 с, готовность '+v.readyState+', сеть '+v.networkState),30000);
+  v.onerror=()=>end('ошибка '+(v.error?v.error.code+' '+(v.error.message||''):'?'));
+  v.ontimeupdate=()=>{if(v.currentTime>0.2)end('ok '+((Date.now()-t0)/1000).toFixed(1)+' с')};
+  v.src=url;const p=v.play();if(p&&p.catch)p.catch(e=>{if(e.name!=='AbortError')end('запуск: '+e.name)})})}
+$('go').onclick=async()=>{$('go').disabled=true;
+  const doc=new DOMParser().parseFromString(await (await fetch('/')).text(),'text/html');
+  const cards=[...doc.querySelectorAll('.card[data-src="cdn"],.card[data-src="local"]')];let bad=[],n=0;
+  for(const k of cards){n++;const f=k.dataset.fileM||k.dataset.file,u=f.startsWith('http')?f:'/'+f;
+    $('sum').textContent='Проверено '+n+' из '+cards.length+', не играет: '+bad.length;
+    const r=await test(u);if(!r.startsWith('ok'))bad.push(k.dataset.slug);row(k.dataset.slug+': '+r,r.startsWith('ok')?'ok':'bad')}
+  $('sum').textContent='Готово: '+cards.length+' роликов, не играет '+bad.length+(bad.length?': '+bad.join(', '):'')};
+</script></body></html>
