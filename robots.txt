@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
 
+# AI assistants and AI search may read and quote the site
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://nestudio.by/sitemap.xml

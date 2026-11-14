@@ -403,10 +403,11 @@ def lastmod(card):
     return iso_date(attr(card, "data-date"))[:10]
 
 
-def sitemap(cards):
+def sitemap(cards, extra=()):
     """Pages plus a video entry each (Google and Yandex video search): cover, title, description, file or player."""
     x = lambda s: html.escape(s, quote=False)
     rows = [f"  <url><loc>{SITE}/</loc><lastmod>{max(lastmod(c) for c in cards)}</lastmod></url>\n"]
+    rows += [f"  <url><loc>{SITE}/{p}</loc><lastmod>{d}</lastmod></url>\n" for p, d in extra]
     for c in cards:
         if attr(c, "data-of"):
             continue
@@ -477,11 +478,14 @@ def main():
         if name not in slugs and os.path.isdir(os.path.join(OUT, name)):
             shutil.rmtree(os.path.join(OUT, name))
 
+    import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import build_site_pages   # services, clients, about, llms.txt
+    site_pages = build_site_pages.build(parts, all_cards)
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(versioned(not_found(parts)))
     urls = [f"{SITE}/"] + [f"{SITE}/v/{attr(c, 'data-slug')}/" for c in all_cards if not attr(c, "data-of")]
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
-        f.write(sitemap(all_cards))
+        f.write(sitemap(all_cards, [(p, build_site_pages.TODAY) for p, _, _ in site_pages]))
     with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(with_item_list(text, all_cards))
     print(f"pages: {len(slugs)}, sitemap: {len(urls)} urls")
