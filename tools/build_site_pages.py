@@ -239,6 +239,70 @@ CLIENTS = [
 ]
 
 
+# ---------------------------------------------------------------- websites (/sayty/): only launched sites that credit nestudio
+# Screenshots: node tools/site_shots.mjs <slug> <url> -> media/sites/<slug>-d.webp, -m.webp, -d.jpg
+# slug: (name, url, kind, year, client, lead, what we did, tags)
+SITES = {
+"kobrinhim": ("«Кобринхимсервис»", "https://kobrinhim.by/", "Официальный сайт госпредприятия", "2026",
+  "Государственное предприятие «Кобринхимсервис», Кобрин",
+  "Сайт предприятия, которое выполняет механизированные работы, перевозки и вносит удобрения для сельхозпредприятий Кобринского района.",
+  ["Структура по требованиям к сайтам государственных организаций (Положение № 645): административные процедуры, обращения, приём граждан.",
+   "Русская и белорусская версии, версия для слабовидящих.",
+   "Своя система управления nestudio CMS: предприятие само публикует новости и меняет тексты.",
+   "Мобильная версия с нижней панелью: позвонить, заявка, обращение, меню.",
+   "До подачи цены показали заказчику работающее демо – по итогам выбрали нас."],
+  ["Госпредприятие", "RU / BY", "CMS", "Версия для слабовидящих"]),
+"electroport": ("«Электропорт»", "https://electroport.by/", "Сайт строительной компании", "2026",
+  "ООО «Электропорт», Минский район",
+  "Представительский сайт генподрядчика, который строит и обслуживает зарядные станции для электромобилей по всей Беларуси.",
+  ["Светлый дизайн в стиле европейских энергетических компаний, цвета – из логотипа.",
+   "Калькулятор предварительной сметы строительно-монтажных работ.",
+   "Аттестаты МАиС, реализованные объекты, партнёры, этапы работ и ответы на вопросы.",
+   "Звонок и Telegram инженера в один клик с любого экрана."],
+  ["B2B", "Калькулятор сметы", "Адаптивный дизайн"]),
+}
+SITES_BODY = """## Какие сайты мы делаем
+- **Лендинги** для товара, услуги или акции: одна страница, которая ведёт к заявке.
+- **Сайты компаний**: услуги, объекты, документы и понятная связь с отделом продаж.
+- **Сайты государственных организаций** по Положению № 645: белорусская версия, версия для слабовидящих, обращения и административные процедуры.
+- **Сайт вместе с видео**: ролики, фото и визуалы делаем в той же студии, поэтому сайт сразу выглядит живым.
+
+## Как мы работаем
+1. **Задача.** Разбираемся, кто будет заходить на сайт и что он должен сделать.
+2. **Демо.** Показываем работающий прототип с вашей структурой ещё до договора.
+3. **Дизайн и тексты.** Фирменные цвета, реальные фото и проверенные факты вместо шаблонных фраз.
+4. **Запуск.** Домен, хостинг, версия для телефонов, базовая настройка для поиска.
+5. **Поддержка.** Учим публиковать новости самостоятельно и вносим правки."""
+SITES_FAQ = [("Можно ли увидеть сайт до оплаты?", "Да. Обычно мы собираем работающее демо с вашей структурой и показываем его до договора – так было с сайтом «Кобринхимсервиса»."),
+  ("Сможем ли мы сами менять сайт?", "Да. Подключаем простую систему управления: новости, тексты и фото меняются без программиста."),
+  ("Делаете сайты для государственных организаций?", "Да, с учётом Положения № 645: обязательные разделы, белорусская версия, версия для слабовидящих, обращения граждан.")]
+
+
+def sites_html():
+    out = []
+    for slug, (name, url, kind, year, client, lead, did, tags) in SITES.items():
+        host = re.sub(r"^https?://|/$", "", url)
+        out.append(f"""  <article class="site-case" id="{slug}">
+    <a class="site-shots" href="{e(url)}" target="_blank" rel="noopener" aria-label="Открыть сайт {e(host)}">
+      <div class="site-browser"><div class="site-bar" aria-hidden="true"><i></i><i></i><i></i><span>{e(host)}</span></div><img src="/media/sites/{slug}-d.webp" alt="Сайт {e(name)} на компьютере" width="1280" height="800" loading="lazy" decoding="async"></div>
+      <div class="site-phone"><img src="/media/sites/{slug}-m.webp" alt="Сайт {e(name)} на телефоне" width="500" height="1082" loading="lazy" decoding="async"></div>
+    </a>
+    <div class="site-info">
+      <div class="section-title">{e(kind)} · {year}</div>
+      <h2>{e(name)}</h2>
+      <p class="site-client">{e(client)}</p>
+      <p>{inline(lead)}</p>
+      <ul>{''.join(f'<li>{inline(d)}</li>' for d in did)}</ul>
+      <div class="site-tags">{''.join(f'<span>{e(t)}</span>' for t in tags)}</div>
+      <div class="case-actions">
+        <a class="header-cta" href="{e(url)}" target="_blank" rel="noopener">Открыть {e(host)} ↗</a>
+        <a class="header-cta ghost" href="{CONTACT['telegram']}" target="_blank" rel="noopener">Хочу похожий сайт</a>
+      </div>
+    </div>
+  </article>""")
+    return '\n  <section class="sites" id="sayty" aria-label="Сайты">\n' + "\n".join(out) + "\n  </section>\n"
+
+
 def md(text):
     """The small markdown of the pages: ## headings, - lists, 1. steps, paragraphs, **bold**, [links](url)."""
     out = []
@@ -270,9 +334,9 @@ def ld(url, name, crumbs, extra):
     return '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("</", "<\\/") + "</script>\n"
 
 
-def page(parts, path, title, desc, h1, lead, crumb, body, aside, grid, cta, ldx, label):
+def page(parts, path, title, desc, h1, lead, crumb, body, aside, grid, cta, ldx, label, showcase="", image="", second=("Смотреть работы", "#works")):
     url = f"{SITE}/{path}"
-    image = B.cover(grid[1][0]) if grid and grid[1] else f"{SITE}/media/foresto.jpg"
+    image = image or (B.cover(grid[1][0]) if grid and grid[1] else f"{SITE}/media/foresto.jpg")
     grid_html = (f'\n  <h2 class="section-title related-title">{e(grid[0])}</h2>\n  <section class="works" id="works" aria-label="{e(grid[0])}">\n'
                  + "\n".join(B.rooted(c) for c in grid[1]) + "\n  </section>") if grid and grid[1] else ""
     return B.versioned(B.head(title, desc, url, image, "website", ld(url, h1, crumb, ldx)) + f"""<body class="is-loading" data-page="service">
@@ -286,11 +350,11 @@ def page(parts, path, title, desc, h1, lead, crumb, body, aside, grid, cta, ldx,
       <p class="case-desc">{inline(lead)}</p>
       <div class="case-actions">
         <a class="header-cta" href="{CONTACT['telegram']}" target="_blank" rel="noopener">Обсудить проект</a>
-        <a class="header-cta ghost" href="#works">Смотреть работы</a>
+        <a class="header-cta ghost" href="{second[1]}">{e(second[0])}</a>
       </div>
     </div>
   </section>
-
+{showcase}
   <div class="case-layout">
     <article class="case-body">
 {body}
@@ -339,7 +403,7 @@ def build(parts, cards):
     has_case = lambda c: os.path.exists(os.path.join(B.CASES, attr(c, "data-slug") + ".md"))
     links = lambda slugs: ", ".join(f'<a href="/v/{s}/">{e(attr(by[s], "data-title"))}</a>' for s in slugs if s in by)
     pages = []
-    svc_links = "".join(f'<li><a href="/uslugi/{k}/">{e(v[0])}</a></li>' for k, v in SERVICES.items())
+    svc_links = "".join(f'<li><a href="/uslugi/{k}/">{e(v[0])}</a></li>' for k, v in SERVICES.items()) + '<li><a href="/sayty/">Сайты</a></li>'
 
     for slug, (name, title, desc, h1, lead, cats, featured, body, faq) in SERVICES.items():
         path = f"uslugi/{slug}/"
@@ -362,6 +426,7 @@ def build(parts, cards):
 
     # services hub
     hub = "\n".join(f'<h2 id="{k}"><a href="/uslugi/{k}/">{e(v[0])}</a></h2>\n<p>{inline(v[4])}</p>' for k, v in SERVICES.items())
+    hub += '\n<h2 id="sayty"><a href="/sayty/">Сайты</a></h2>\n<p>Лендинги, сайты компаний и государственных организаций – с демо до договора и видео из той же студии.</p>'
     write("uslugi/", page(parts, "uslugi/", "Услуги видеопродакшна nestudio: реклама, клипы, анимация",
                           "Рекламные ролики, музыкальные клипы и песни, корпоративное видео, анимация, поздравления, видеосъёмка, AI-аватары. Студия nestudio, Минск.",
                           "Услуги студии nestudio", "Видеопродакшн полного цикла: от идеи и сценария до готового ролика с музыкой и версиями под все площадки. Снимаем, создаём видео с помощью искусственного интеллекта и пишем свою музыку.",
@@ -415,6 +480,25 @@ def build(parts, cards):
                             ("Обсудим ваш проект?", "Напишите – ответим и предложим идею."), [], "О студии"))
     pages.append(("o-studii/", "О студии", ""))
 
+    # websites
+    names = ", ".join(f"«{v[0].strip('«»')}»" for v in SITES.values())
+    sites_ld = [{"@type": "Service", "name": "Разработка сайтов", "serviceType": "Разработка сайтов", "provider": {"@id": f"{SITE}/#org"},
+                 "areaServed": [{"@type": "Country", "name": "Беларусь"}, {"@type": "Country", "name": "Россия"}], "url": f"{SITE}/sayty/"},
+                {"@type": "ItemList", "name": "Сайты nestudio", "itemListElement": [
+                    {"@type": "ListItem", "position": i + 1, "item": {"@type": "WebSite", "name": v[0].strip("«»"), "url": v[1], "description": v[5], "creator": {"@id": f"{SITE}/#org"}}}
+                    for i, v in enumerate(SITES.values())]},
+                {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in SITES_FAQ]}]
+    first = next(iter(SITES))
+    write("sayty/", page(parts, "sayty/", "Разработка сайтов – портфолио nestudio: лендинги и сайты компаний",
+                         f"Сайты, которые сделала студия nestudio: {names}. Лендинги, сайты компаний и государственных организаций, Минск и вся Беларусь.",
+                         "Сайты, которые мы сделали", "Кроме видео, nestudio делает сайты: лендинги, сайты компаний и государственных организаций. Здесь – запущенные проекты, каждый можно открыть и посмотреть вживую.",
+                         [("Сайты", f"{SITE}/sayty/")], md(SITES_BODY) + faq_html(SITES_FAQ),
+                         ("Коротко", [("Услуга", "Разработка сайтов"), ("Форматы", "лендинги, сайты компаний и госорганизаций"),
+                                      ("Плюс", "видео, фото и визуалы в одной студии"), ("Другие услуги", f'<ul class="svc-list">{svc_links}</ul>')]),
+                         None, ("Нужен сайт?", "Расскажите о задаче – покажем демо с вашей структурой до договора."), sites_ld, "Сайты",
+                         showcase=sites_html(), image=f"{SITE}/media/sites/{first}-d.jpg", second=("Смотреть сайты", "#sayty")))
+    pages.append(("sayty/", "Сайты", ""))
+
     # llms.txt: a plain summary for AI assistants
     best = [s for s in ["foresto-biznes-tsentr-palatstso-reklamnyy-rolik", "tehneks-promyshlennyy-rolik", "farmatsevt-alisa-obuchenie-personala", "marsel-hug-sportivnyy-klip-s-anime-vstavkami",
                         "srdouble-lift", "znay-ih-v-litso-sotsialnyy-eko-rolik", "yasik-u-kraine-vershau-pilotnaya-seriya", "geely-ex5-samokat-dlya-goroda", "gimn-kompanii-nobel", "korol-peschery-personazh"] if s in by]
@@ -422,6 +506,8 @@ def build(parts, cards):
            "> Студия видеопродакшна из Минска (Беларусь): рекламные и имиджевые ролики, музыкальные клипы и песни на заказ, корпоративное видео, анимация, AI-аватары, поздравления, видеосъёмка и видео для недвижимости. Совмещаем съёмку и генеративный ИИ, пишем свою музыку. Работаем с заказчиками из Беларуси, России, Европы и США.",
            "", f"Контакты: Telegram {CONTACT['telegram']}, телефон {CONTACT['phone']}, почта {CONTACT['email']}. Сайт: {SITE}/", "", "## Услуги"]
     txt += [f"- [{v[0]}]({SITE}/uslugi/{k}/): {v[2]}" for k, v in SERVICES.items()]
+    txt += [f"- [Разработка сайтов]({SITE}/sayty/): лендинги, сайты компаний и госорганизаций"]
+    txt += ["", "## Сайты"] + [f"- {v[0]} ({v[4]}): {v[1]} – {v[5]}" for v in SITES.values()]
     txt += ["", "## Клиенты"] + [f"- {n} ({l}): {w}" + (f" Кейс: {SITE}/v/{ws[0]}/" if ws else "") for n, l, w, ws, _ in CLIENTS]
     txt += ["", "## Избранные кейсы"] + [f"- [{attr(by[s], 'data-title')}]({SITE}/v/{s}/)" for s in best]
     txt += ["", "## Ещё", f"- [Все работы]({SITE}/): {len(main_cards)} работ с кейсами", f"- [О студии]({SITE}/o-studii/)", f"- [Клиенты и отзывы]({SITE}/klienty/)", f"- [Карта сайта]({SITE}/sitemap.xml)", ""]

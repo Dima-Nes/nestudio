@@ -24,7 +24,7 @@
   });
 
   // masonry
-  const works = document.getElementById('works');
+  const works = document.getElementById('works') || document.createElement('section');   // pages without a grid (/uslugi/, /sayty/)
   const cards = Array.from(works.querySelectorAll('.card'));
   let filter = 'all', lastCols = 0;
   const colsFor = () => innerWidth <= 330 ? 1 : innerWidth <= 760 ? 2 : innerWidth <= 1100 ? 3 : 4;
@@ -48,8 +48,8 @@
   }
   const fbox = document.getElementById('filters');
   if (fbox) fbox.addEventListener('click', e => {
-    const b = e.target.closest('.filter-btn'); if (!b) return;
-    fbox.querySelectorAll('.filter-btn').forEach(x => { x.classList.toggle('active', x === b); x.setAttribute('aria-pressed', x === b); });
+    const b = e.target.closest('.filter-btn'); if (!b || b.tagName === 'A') return;
+    fbox.querySelectorAll('button.filter-btn').forEach(x => { x.classList.toggle('active', x === b); x.setAttribute('aria-pressed', x === b); });
     filter = b.dataset.filter; render(true);
     const top = works.getBoundingClientRect().top + scrollY - 140;
     if (scrollY > top) scrollTo({ top, behavior: 'smooth' });
