@@ -453,6 +453,9 @@ def main():
 
     text = re.sub(r'<article class="card[^>]*>', add_slug, text)
     text = re.sub(r'<article class="card.*?</article>', lambda m: as_link(m.group(0)), text, flags=re.S)
+    import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import build_site_pages   # lines of work in the header, tiles, phone bar and questions on the portfolio
+    text = build_site_pages.home(text, re.findall(r'<article class="card.*?</article>', text, flags=re.S))
     text = versioned(text)
     open(PAGE, "w", encoding="utf-8", newline="\n").write(text)
 
@@ -478,8 +481,7 @@ def main():
         if name not in slugs and os.path.isdir(os.path.join(OUT, name)):
             shutil.rmtree(os.path.join(OUT, name))
 
-    import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-    import build_site_pages   # services, clients, about, llms.txt
+    # services, clients, about, websites, llms.txt
     site_pages = build_site_pages.build(parts, all_cards)
     with open(os.path.join(ROOT, "404.html"), "w", encoding="utf-8", newline="\n") as f:
         f.write(versioned(not_found(parts)))
@@ -487,7 +489,7 @@ def main():
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
         f.write(sitemap(all_cards, [(p, build_site_pages.TODAY) for p, _, _ in site_pages]))
     with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8", newline="\n") as f:
-        f.write(with_item_list(build_site_pages.with_dirs(text, all_cards), all_cards))
+        f.write(with_item_list(text, all_cards))
     print(f"pages: {len(slugs)}, sitemap: {len(urls)} urls")
 
 

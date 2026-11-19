@@ -17,7 +17,7 @@
 <meta name="twitter:image" content="https://nestudio.by/media/p/yt-bo00teQkFqM.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/assets/logo.png">
-<link rel="stylesheet" href="/assets/site.css?v=fb7972ad">
+<link rel="stylesheet" href="/assets/site.css?v=3bfcbc73">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "VideoObject", "name": "Гимн nestudio", "description": "Песня-манифест студии в жанре электро-поп и вертикальный клип с двумя постоянными героями nestudio.", "url": "https://nestudio.by/v/gimn-nestudio/", "thumbnailUrl": ["https://nestudio.by/media/p/yt-bo00teQkFqM.jpg", "https://nestudio.by/media/cases/gimn-nestudio/01.webp", "https://nestudio.by/media/cases/gimn-nestudio/02.webp"], "uploadDate": "2026-01-01T12:00:00+03:00", "publisher": {"@id": "https://nestudio.by/#org"}, "@id": "https://nestudio.by/v/gimn-nestudio/#video", "embedUrl": "https://www.youtube.com/embed/bo00teQkFqM"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Видео-портфолио", "item": "https://nestudio.by/"}, {"@type": "ListItem", "position": 2, "name": "Гимн nestudio", "item": "https://nestudio.by/v/gimn-nestudio/"}]}, {"@type": "Organization", "@id": "https://nestudio.by/#org", "name": "nestudio", "url": "https://nestudio.by/"}, {"@type": "Article", "headline": "Гимн nestudio – песня-манифест студии", "description": "Гимн nestudio: электро-поп манифест студии о создании контента с ИИ и вертикальный клип с двумя постоянными героями.", "image": ["https://nestudio.by/media/cases/gimn-nestudio/01.webp", "https://nestudio.by/media/cases/gimn-nestudio/02.webp"], "mainEntityOfPage": "https://nestudio.by/v/gimn-nestudio/", "datePublished": "2026-11-05", "author": {"@id": "https://nestudio.by/#org"}, "publisher": {"@id": "https://nestudio.by/#org"}, "video": {"@id": "https://nestudio.by/v/gimn-nestudio/#video"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Может ли небольшая компания заказать свой гимн?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Песня подходит компании любого размера: для корпоратива, соцсетей или приветствия клиентов."}}]}]}</script>
 </head>
 <body class="is-loading" data-page="case">
@@ -27,7 +27,7 @@
       <img src="/assets/logo.png" alt="nestudio" class="brand-logo">
       <span class="brand-text">nestudio</span>
     </a>
-    <nav class="dir-nav" aria-label="Направления"><a href="/" data-dir="video">Видео</a><a href="/sayty/" data-dir="sites">Сайты</a></nav>
+    <!-- DIRNAV --><nav class="dir-nav" aria-label="Направления"><a href="/" data-match="^/($|v/|uslugi/)">Видео</a><a href="/sayty/" data-match="^/sayty">Сайты</a></nav><!-- /DIRNAV -->
     <div class="header-actions">
       <div class="header-contact">
         <a href="https://t.me/nestudiopro" target="_blank" rel="noopener noreferrer">@nestudiopro</a>
@@ -252,8 +252,10 @@
 
 <div id="site-bottom-nav">
   <nav class="bottom-nav" aria-label="Быстрая связь">
-    <a href="/" data-nav="works">Видео</a>
-    <a href="/sayty/" data-nav="sites">Сайты</a>
+    <!-- BOTNAV -->
+    <a href="/" data-match="^/($|v/|uslugi/)" data-nav="works">Видео</a>
+    <a href="/sayty/" data-match="^/sayty">Сайты</a>
+    <!-- /BOTNAV -->
     <a href="https://t.me/nestudiopro" class="primary" target="_blank" rel="noopener">Написать</a>
     <a href="tel:+375447138869">Позвонить</a>
   </nav>
@@ -310,6 +312,6 @@
   </div>
 </div>
 
-<script src="/assets/site.js?v=5bdf079e"></script>
+<script src="/assets/site.js?v=d99f7470"></script>
 </body>
 </html>

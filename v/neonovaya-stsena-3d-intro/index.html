@@ -19,7 +19,7 @@
 <meta property="og:video:type" content="video/mp4">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/assets/logo.png">
-<link rel="stylesheet" href="/assets/site.css?v=fb7972ad">
+<link rel="stylesheet" href="/assets/site.css?v=3bfcbc73">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "VideoObject", "name": "Amadeus, неоновая 3D-сцена", "description": "Промо блокчейн-проекта Amadeus: кнопка, сфера над тёмной водой и сеть из узлов. Сложная идея за 25 секунд.", "url": "https://nestudio.by/v/neonovaya-stsena-3d-intro/", "thumbnailUrl": ["https://nestudio.by/media/p/1-OkH52ZU1x7CDKLC6CDonCcegqhCgr56.jpg", "https://nestudio.by/media/cases/neonovaya-stsena-3d-intro/01.webp", "https://nestudio.by/media/cases/neonovaya-stsena-3d-intro/02.webp", "https://nestudio.by/media/cases/neonovaya-stsena-3d-intro/03.webp"], "uploadDate": "2026-01-01T12:00:00+03:00", "publisher": {"@id": "https://nestudio.by/#org"}, "duration": "PT0M26S", "hasPart": [{"@type": "Clip", "name": "Нажатие кнопки запускает сцену", "startOffset": 2, "endOffset": 10, "url": "https://nestudio.by/v/neonovaya-stsena-3d-intro/?t=2"}, {"@type": "Clip", "name": "Светящаяся сфера над водой", "startOffset": 10, "endOffset": 23, "url": "https://nestudio.by/v/neonovaya-stsena-3d-intro/?t=10"}, {"@type": "Clip", "name": "Сеть из узлов в финале", "startOffset": 23, "endOffset": 26, "url": "https://nestudio.by/v/neonovaya-stsena-3d-intro/?t=23"}], "@id": "https://nestudio.by/v/neonovaya-stsena-3d-intro/#video", "contentUrl": "https://media.nestudio.by/neonovaya-stsena-3d-intro.mp4"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Видео-портфолио", "item": "https://nestudio.by/"}, {"@type": "ListItem", "position": 2, "name": "Amadeus, неоновая 3D-сцена", "item": "https://nestudio.by/v/neonovaya-stsena-3d-intro/"}]}, {"@type": "Organization", "@id": "https://nestudio.by/#org", "name": "nestudio", "url": "https://nestudio.by/"}, {"@type": "Article", "headline": "Amadeus – неоновая 3D-сцена для промо блокчейн-проекта", "description": "Промо блокчейн-проекта Amadeus: неоновая 3D-сцена, сфера и узлы сети, короткие слова в кадре. Сложная технология за 25 секунд.", "image": ["https://nestudio.by/media/cases/neonovaya-stsena-3d-intro/01.webp", "https://nestudio.by/media/cases/neonovaya-stsena-3d-intro/02.webp", "https://nestudio.by/media/cases/neonovaya-stsena-3d-intro/03.webp"], "mainEntityOfPage": "https://nestudio.by/v/neonovaya-stsena-3d-intro/", "datePublished": "2026-11-05", "author": {"@id": "https://nestudio.by/#org"}, "publisher": {"@id": "https://nestudio.by/#org"}, "video": {"@id": "https://nestudio.by/v/neonovaya-stsena-3d-intro/#video"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Можно ли сделать интро для презентации или события?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Создаём короткий 3D-ролик с вашими цветами и логотипом, в разрешении вашего экрана."}}]}]}</script>
 </head>
 <body class="is-loading" data-page="case">
@@ -29,7 +29,7 @@
       <img src="/assets/logo.png" alt="nestudio" class="brand-logo">
       <span class="brand-text">nestudio</span>
     </a>
-    <nav class="dir-nav" aria-label="Направления"><a href="/" data-dir="video">Видео</a><a href="/sayty/" data-dir="sites">Сайты</a></nav>
+    <!-- DIRNAV --><nav class="dir-nav" aria-label="Направления"><a href="/" data-match="^/($|v/|uslugi/)">Видео</a><a href="/sayty/" data-match="^/sayty">Сайты</a></nav><!-- /DIRNAV -->
     <div class="header-actions">
       <div class="header-contact">
         <a href="https://t.me/nestudiopro" target="_blank" rel="noopener noreferrer">@nestudiopro</a>
@@ -255,8 +255,10 @@
 
 <div id="site-bottom-nav">
   <nav class="bottom-nav" aria-label="Быстрая связь">
-    <a href="/" data-nav="works">Видео</a>
-    <a href="/sayty/" data-nav="sites">Сайты</a>
+    <!-- BOTNAV -->
+    <a href="/" data-match="^/($|v/|uslugi/)" data-nav="works">Видео</a>
+    <a href="/sayty/" data-match="^/sayty">Сайты</a>
+    <!-- /BOTNAV -->
     <a href="https://t.me/nestudiopro" class="primary" target="_blank" rel="noopener">Написать</a>
     <a href="tel:+375447138869">Позвонить</a>
   </nav>
@@ -313,6 +315,6 @@
   </div>
 </div>
 
-<script src="/assets/site.js?v=5bdf079e"></script>
+<script src="/assets/site.js?v=d99f7470"></script>
 </body>
 </html>

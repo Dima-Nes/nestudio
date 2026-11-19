@@ -18,7 +18,9 @@ def changed():
     for p in out.split():
         if p == "index.html":
             urls.add(f"{SITE}/")
-        m = re.match(r"v/([^/]+)/index\.html$", p) or re.match(r"cases/([^/]+)\.md$", p)
+        elif p.endswith("/index.html") and not p.startswith(("tools/", "media/")):   # /sayty/x/, /uslugi/x/, /v/x/ ...
+            urls.add(f"{SITE}/{p[:-len('index.html')]}")
+        m = re.match(r"cases/([^/]+)\.md$", p)
         if m and m.group(1) != "README":
             urls.add(f"{SITE}/v/{m.group(1)}/")
     return sorted(urls)

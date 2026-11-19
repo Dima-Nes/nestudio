@@ -9,10 +9,26 @@
   function applyTheme(t){ body.classList.toggle('dark', t==='dark'); ti.textContent = t==='dark' ? '☀' : '◐'; store.set('theme', t); }
   applyTheme(store.get('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
   tt.addEventListener('click', () => applyTheme(body.classList.contains('dark') ? 'light' : 'dark'));
-  // header: which line of work this page belongs to (video or websites)
-  const dir = location.pathname.startsWith('/sayty') ? 'sites' : /^\/($|v\/|uslugi\/)/.test(location.pathname) ? 'video' : '';
-  document.querySelectorAll('.dir-nav a').forEach(a => { if (a.dataset.dir === dir) a.setAttribute('aria-current', 'page'); });
-  document.querySelectorAll('.bottom-nav [data-nav="sites"]').forEach(a => a.classList.toggle('current', dir === 'sites'));
+  // header and phone bar: highlight the line of work this page belongs to (links carry data-match, a regexp of addresses)
+  document.querySelectorAll('.dir-nav a[data-match], .bottom-nav a[data-match]').forEach(a => {
+    if (new RegExp(a.dataset.match).test(location.pathname)) { a.setAttribute('aria-current', 'page'); a.classList.add('current'); }
+  });
+  // expandable answers open and close smoothly instead of jumping
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll('details').forEach(d => {
+    const s = d.querySelector('summary'); if (!s) return;
+    s.addEventListener('click', ev => {
+      if (still.matches || !d.animate) return;
+      ev.preventDefault();
+      if (d._anim) return;
+      const closing = d.open, from = d.offsetHeight;
+      d.open = false; const shut = d.offsetHeight; d.open = true; const full = d.offsetHeight;
+      d.style.overflow = 'hidden';
+      d.classList.toggle('is-opening', !closing);
+      d._anim = d.animate({ height: [from + 'px', (closing ? shut : full) + 'px'] }, { duration: closing ? 260 : 340, easing: 'cubic-bezier(.2,.7,.2,1)' });
+      d._anim.onfinish = d._anim.oncancel = () => { d.open = !closing; d.style.overflow = ''; d.classList.remove('is-opening'); d._anim = null; };
+    });
+  });
   document.querySelectorAll('[data-current-year]').forEach(e => e.textContent = new Date().getFullYear());
 
   // image fallbacks (YouTube maxres/oar -> hq; failed -> gradient placeholder)
