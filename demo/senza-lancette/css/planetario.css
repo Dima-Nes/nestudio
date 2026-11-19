@@ -1,0 +1,282 @@
+/* ==========================================================
+   planetario.css – часы-планетарий на главной странице.
+   Солнце в центре, вокруг по орбитам ходят планеты.
+   Земля показывает час (оборот = 12 часов), Луна вокруг Земли
+   показывает минуты. Стрелок нет.
+
+   РЕАКЦИЯ НА МЫШЬ БЕЗ JAVASCRIPT
+   На весь первый экран (секция .hero) положена невидимая сетка 5×5:
+   5 строк (.pl__row), в каждой 5 ячеек (.pl__cell). Сетка лежит ПОД
+   текстом, а у текста стоит pointer-events: none, поэтому курсор
+   «проходит» сквозь текст к сетке. Кнопки и ссылки остаются кликабельными.
+   Когда курсор над ячейкой, она получает :hover, и её строка тоже
+   (родитель наводится вместе с ребёнком). Поэтому хватает 10 правил:
+   – строка под курсором задаёт наклон вверх-вниз (--rx),
+   – колонка под курсором задаёт наклон влево-вправо (--ry).
+   Селектор .hero:has(.r1:hover) .pl значит «если в секции наведена
+   первая строка, измени переменные у часов».
+   ========================================================== */
+
+.pl {
+  --s: min(30vw, 380px);          /* размер часов */
+  --rx: 0deg;                     /* наклон вверх-вниз */
+  --ry: 0deg;                     /* наклон влево-вправо */
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  perspective: 1100px;            /* глубина 3D */
+}
+
+/* ---------- Невидимая сетка зон на весь первый экран ---------- */
+.hero { position: relative; }
+.pl__zones {
+  position: absolute;
+  inset: 0;
+  z-index: 0;                     /* под текстом и часами */
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+}
+.pl__row { display: grid; grid-template-columns: repeat(5, 1fr); }
+
+/* Содержимое первого экрана над сеткой, но «прозрачно» для мыши */
+.hero > .wrap { position: relative; z-index: 1; pointer-events: none; }
+/* Кнопки и ссылки при этом должны нажиматься */
+.hero a, .hero .btn { pointer-events: auto; }
+
+/* Строки: наклон вверх-вниз */
+.hero:has(.r1:hover) .pl { --rx:  16deg; }
+.hero:has(.r2:hover) .pl { --rx:   8deg; }
+.hero:has(.r3:hover) .pl { --rx:   0deg; }
+.hero:has(.r4:hover) .pl { --rx:  -8deg; }
+.hero:has(.r5:hover) .pl { --rx: -16deg; }
+/* Колонки: наклон влево-вправо */
+.hero:has(.c1:hover) .pl { --ry: -18deg; }
+.hero:has(.c2:hover) .pl { --ry:  -9deg; }
+.hero:has(.c3:hover) .pl { --ry:   0deg; }
+.hero:has(.c4:hover) .pl { --ry:   9deg; }
+.hero:has(.c5:hover) .pl { --ry:  18deg; }
+
+/* ---------- Сцена: всё, что наклоняется ---------- */
+.pl__float { animation: pl-float 8s ease-in-out infinite; transform-style: preserve-3d; }   /* лёгкое парение, пока мышь не трогает */
+@keyframes pl-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+
+.pl__scene {
+  position: relative;
+  width: var(--s);
+  height: var(--s);
+  transform-style: preserve-3d;   /* дети остаются в 3D */
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.pl__scene > * { position: absolute; }
+
+/* Ремешок: тёмно-синяя кожа с золотой строчкой */
+.pl__strap {
+  left: 50%;
+  translate: -50% 0;
+  width: 44%;
+  height: 62%;
+  background: linear-gradient(90deg, #0a1230, #22306a 50%, #0a1230);
+  transform: translateZ(-20px);
+}
+.pl__strap::before { content: ""; position: absolute; inset: 6% 13%; border-left: 2px dashed rgba(240, 205, 130, 0.7); border-right: 2px dashed rgba(240, 205, 130, 0.7); }
+.pl__strap--t { top: -46%; clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%); border-radius: 18px 18px 0 0; }
+.pl__strap--b { top: 84%;  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%); border-radius: 0 0 18px 18px; }
+
+/* Ушки корпуса */
+.pl__lug { width: 9%; height: 20%; border-radius: 8px; background: var(--gold-metal); transform: translateZ(-10px); }
+.pl__lug--tl { left: 19%; top: 1%; }  .pl__lug--tr { right: 19%; top: 1%; }
+.pl__lug--bl { left: 19%; bottom: 1%; } .pl__lug--br { right: 19%; bottom: 1%; }
+
+/* Корпус: золото */
+.pl { --gold-metal: conic-gradient(from 30deg, #fff0bd, #b8892f, #fff0bd, #8c6420, #fff0bd); }
+.pl__case {
+  inset: 0;
+  border-radius: 50%;
+  background: var(--gold-metal);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+}
+.pl__crown {
+  right: -5%;
+  top: 44%;
+  width: 7%;
+  height: 12%;
+  border-radius: 3px 7px 7px 3px;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0 2px, transparent 2px 5px), var(--gold-metal);
+  transform: translateZ(-4px);
+}
+
+/* Циферблат: синий авантюрин со звёздами */
+.pl__dial {
+  inset: 4.5%;
+  border-radius: 50%;
+  background:
+    radial-gradient(1.5px 1.5px at 12% 40%, #fff, transparent),
+    radial-gradient(1px 1px at 20% 70%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 30% 15%, #fff, transparent),
+    radial-gradient(1px 1px at 44% 88%, #fff, transparent),
+    radial-gradient(1px 1px at 58% 8%, #cfe, transparent),
+    radial-gradient(1.5px 1.5px at 72% 82%, #fff, transparent),
+    radial-gradient(1px 1px at 84% 28%, #fff, transparent),
+    radial-gradient(1px 1px at 90% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 66% 48%, #fff, transparent),
+    radial-gradient(1px 1px at 36% 58%, #fff, transparent),
+    radial-gradient(circle at 50% 45%, #1d2a6e, #070b26 75%);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.5), inset 0 10px 30px rgba(0, 0, 0, 0.6);
+  transform: translateZ(4px);
+}
+/* 12 золотых точек-меток по краю (это метки, не стрелки) */
+.pl__dial::after {
+  content: "";
+  position: absolute;
+  inset: 3%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from -1.2deg, #e9c46a 0 2.4deg, transparent 2.4deg 30deg);
+  -webkit-mask: radial-gradient(circle closest-side, transparent 94%, #000 95%);
+          mask: radial-gradient(circle closest-side, transparent 94%, #000 95%);
+}
+.pl__brand {
+  left: 0; right: 0;
+  top: 72%;
+  text-align: center;
+  font: 600 calc(var(--s) * 0.026) "Manrope", sans-serif;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #e9c46a;
+  transform: translateZ(6px);
+}
+
+/* Орбиты: тонкие круги */
+.pl__track {
+  left: 50%;
+  top: 50%;
+  width: calc(var(--s) * var(--r) * 2);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  border: 1px solid rgba(233, 196, 106, 0.22);
+  transform: translateZ(8px);
+}
+
+/* Солнце в центре */
+.pl__sun {
+  left: 50%;
+  top: 50%;
+  width: calc(var(--s) * 0.17);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff7c2, #ffc23a 45%, #ff7a12 80%);
+  box-shadow: 0 0 calc(var(--s) * 0.06) rgba(255, 170, 40, 0.8), 0 0 calc(var(--s) * 0.15) rgba(255, 120, 20, 0.35);
+  transform: translateZ(18px);
+  animation: sun-glow 4s ease-in-out infinite alternate;
+}
+@keyframes sun-glow { to { box-shadow: 0 0 calc(var(--s) * 0.09) rgba(255, 190, 60, 0.95), 0 0 calc(var(--s) * 0.2) rgba(255, 120, 20, 0.45); } }
+
+/* Орбита планеты: нулевой элемент в центре, вращается.
+   Планета сидит на расстоянии --r от центра. */
+.pl__orbit {
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(var(--z));                  /* у каждой планеты своя «высота» */
+  animation: pl-orbit var(--t) linear infinite;
+  animation-delay: var(--d, 0s);                    /* отрицательная задержка = другая стартовая точка */
+}
+@keyframes pl-orbit { to { rotate: 360deg; } }       /* свойство rotate не мешает transform */
+
+.pl__planet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--s) * var(--ps));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% -50%;
+  transform: translateY(calc(var(--s) * var(--r) * -1));
+  background: var(--pc);
+  box-shadow: inset calc(var(--s) * -0.008) calc(var(--s) * -0.006) calc(var(--s) * 0.012) rgba(0, 0, 0, 0.6);
+}
+
+/* Планеты: радиус орбиты, размер, цвет, скорость, высота */
+.pl__orbit--mercury { --r: 0.15; --ps: 0.026; --t: 9s;   --z: 16px; --d: -2s;
+  --pc: radial-gradient(circle at 35% 30%, #e2ddd5, #8e8780); }
+.pl__orbit--venus   { --r: 0.21; --ps: 0.04;  --t: 16s;  --z: 20px; --d: -11s;
+  --pc: radial-gradient(circle at 35% 30%, #fff1c9, #d9a95b); }
+.pl__orbit--earth   { --r: 0.29; --ps: 0.05;  --t: 60s;  --z: 26px; --d: -20s;
+  --pc: radial-gradient(circle at 35% 30%, #9be0ff, #2f7fd6 55%, #1f8a4f 56%, #1c5ea8); }
+.pl__orbit--mars    { --r: 0.36; --ps: 0.034; --t: 90s;  --z: 22px; --d: -50s;
+  --pc: radial-gradient(circle at 35% 30%, #ffb08a, #c4471f); }
+.pl__orbit--saturn  { --r: 0.425; --ps: 0.046; --t: 140s; --z: 30px; --d: -95s;
+  --pc: radial-gradient(circle at 35% 30%, #fff0c9, #c79a52); }
+
+/* Кольцо Сатурна */
+.pl__orbit--saturn .pl__planet::after {
+  content: "";
+  position: absolute;
+  inset: 30% -45%;
+  border-radius: 50%;
+  border: 2px solid rgba(240, 215, 160, 0.85);
+  rotate: -20deg;
+}
+
+/* Луна: своя маленькая орбита вокруг Земли. Земля – родитель, поэтому Луна ходит вместе с ней */
+.pl__moon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  animation: pl-orbit 10s linear infinite;            /* минуты: быстрый круг */
+}
+.pl__moon::before {
+  content: "";
+  position: absolute;
+  width: calc(var(--s) * 0.018);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  translate: -50% -50%;
+  transform: translateY(calc(var(--s) * -0.045));
+  background: radial-gradient(circle at 35% 30%, #fff, #b9b9c4);
+}
+
+/* Стекло: лёгкий постоянный отсвет */
+.pl__glass {
+  inset: 4.5%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent 40%);
+  transform: translateZ(34px);
+  pointer-events: none;
+}
+
+/* Подсказка под часами */
+.pl__hint {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 6;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #e9e3d4;
+  font: 700 0.68rem var(--text);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* Тёмный космический фон рамки на главной */
+.hero__media--space {
+  background:
+    radial-gradient(circle at 70% 20%, rgba(70, 90, 200, 0.35), transparent 50%),
+    radial-gradient(circle at 20% 90%, rgba(255, 120, 30, 0.25), transparent 45%),
+    #070914;
+}
+.hero__media--space .hero__badge { background: rgba(255, 255, 255, 0.9); }
+
+@media (max-width: 980px) { .pl { --s: min(62vw, 340px); } }

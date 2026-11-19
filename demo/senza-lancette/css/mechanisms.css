@@ -1,0 +1,285 @@
+/* ==========================================================
+   mechanisms.css – часы, где время показывают без стрелок.
+   Пять концептов, все на CSS-анимациях, без JavaScript.
+
+   Главные приёмы:
+   – steps(N): анимация идёт резкими «щелчками», как механизм;
+   – окно с overflow: hidden: видна только часть движущегося барабана;
+   – «невидимая ось»: нулевой элемент вращается, а цифры на нём
+     расставлены по кругу через rotate() + translateY().
+   ========================================================== */
+
+/* ---------- Окно: прорезь в циферблате ---------- */
+.mech-win {
+  position: absolute;
+  overflow: hidden;                /* всё за границей окна скрыто */
+  background: linear-gradient(#050505, #1b1b1b 50%, #050505);
+  border-radius: calc(var(--size) * 0.015);
+  box-shadow:
+    0 0 0 calc(var(--size) * 0.008) #d9dde3,                       /* стальная рамка */
+    inset 0 calc(var(--size) * 0.01) calc(var(--size) * 0.03) rgba(0, 0, 0, 0.9);
+}
+.mech-win::after {                 /* блик стекла */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.2), transparent 45%);
+  pointer-events: none;
+}
+.mech-cap {
+  position: absolute;
+  text-align: center;
+  font: 600 calc(var(--size) * 0.028) "Manrope", sans-serif;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.7;
+}
+
+/* ==========================================================
+   Концепт 1. «Punti» – точки
+   Три точки обращаются вокруг центра: большая показывает часы,
+   средняя минуты, малая секунды. Оси и стрелок нет.
+   ========================================================== */
+.orb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  animation: orbit var(--t) linear infinite;    /* время оборота у каждой точки своё */
+}
+.orb i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--size) * var(--d));          /* --d: диаметр точки в долях циферблата */
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 calc(var(--size) * 0.03) rgba(255, 255, 255, 0.5);
+  /* отодвигаем точку от центра на радиус --r */
+  transform: translate(-50%, -50%) translateY(calc(var(--size) * var(--r) * -1));
+}
+/* Отрицательная задержка сдвигает старт: точки не стоят друг на друге */
+.orb--hour   { --t: 120s; --d: 0.085; --r: 0.30; animation-delay: -34s; }
+.orb--hour i { background: var(--orange); box-shadow: 0 0 calc(var(--size) * 0.04) rgba(255, 74, 13, 0.7); }
+.orb--min    { --t: 20s;  --d: 0.055; --r: 0.36; animation-delay: -13s; }
+.orb--sec    { --t: 4s;   --d: 0.03;  --r: 0.22; animation-delay: -2.4s; }
+@keyframes orbit { to { transform: rotate(360deg); } }
+
+/* Тонкие круги-дорожки, по которым ходят точки */
+.track {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--size) * var(--r) * 2);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================
+   Концепт 2. «Salto» – прыгающий час и диск минут
+   В духе цифровых часов 70-х: час в квадратном окне,
+   минуты на диске, который виден через дугу окна.
+   ========================================================== */
+.tv-hour {
+  --hh: calc(var(--size) * 0.19);
+  left: 12%;
+  top: 13%;
+  width: 22%;
+  height: var(--hh);
+}
+/* Барабан часов: цифры 1–12 друг под другом, шаг раз в 5 с (в демо) */
+.hdrum { margin: 0; padding: 0; list-style: none; animation: hdrum-step 60s steps(12) infinite; }
+.hdrum li {
+  height: var(--hh);
+  line-height: var(--hh);
+  text-align: center;
+  font: 600 calc(var(--hh) * 0.62) "Unbounded", sans-serif;
+  color: #fff;
+}
+@keyframes hdrum-step { to { transform: translateY(calc(var(--hh) * -12)); } }
+
+/* Стрелка-указатель между окнами. Это рисунок на циферблате, не стрелка часов. */
+.tv-arrow {
+  position: absolute;
+  left: 22.5%;
+  top: 36%;
+  width: 2px;
+  height: 9%;
+  background: var(--ink);
+}
+.tv-arrow::after {
+  content: "";
+  position: absolute;
+  left: -5px;
+  bottom: -6px;
+  border: 6px solid transparent;
+  border-top: 8px solid var(--ink);
+  border-bottom: 0;
+}
+
+/* Окно минут (широкое) с диском 00–55 */
+.tv-min {
+  --r: calc(var(--size) * 0.46);    /* большой радиус: числа стоят реже, в окне их видно 2-3 */
+  left: 22%;
+  top: 46%;
+  width: 56%;
+  height: calc(var(--size) * 0.2);
+}
+/* Неподвижная чёрная линия-индекс: что под ней, то и «сейчас» */
+.tv-index {
+  position: absolute;
+  left: calc(50% - 1.5px);
+  top: 46%;
+  width: 3px;
+  height: 40%;
+  background: #111;
+  border-radius: 2px;
+}
+.tv-text {
+  position: absolute;
+  left: 14%;
+  bottom: 9%;
+  font: 700 calc(var(--size) * 0.055)/1 "Unbounded", sans-serif;
+  font-style: italic;
+  letter-spacing: -0.04em;
+  color: #1b1b1b;
+}
+
+/* ==========================================================
+   Концепт 3. «Finestra» – окно секунд
+   Справа окошко, в нём вертикальный барабан 00–59.
+   ========================================================== */
+.mech-sec {
+  --h: calc(var(--size) * 0.09);               /* высота одной цифры = высоте окна */
+  left: 58%;
+  top: calc(50% - var(--h) / 2);
+  width: 28%;
+  height: var(--h);
+}
+.drum { margin: 0; padding: 0; list-style: none; animation: drum-scroll 60s steps(60) infinite; }   /* 60 щелчков за 60 секунд */
+.drum li {
+  height: var(--h);
+  line-height: var(--h);
+  text-align: center;
+  font: 600 calc(var(--h) * 0.7) "Manrope", sans-serif;
+  font-variant-numeric: tabular-nums;          /* цифры одной ширины */
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+@keyframes drum-scroll { to { transform: translateY(calc(var(--h) * -60)); } }
+.mech-sec-cap { left: 58%; width: 28%; top: calc(50% + var(--size) * 0.06); }
+
+/* ==========================================================
+   Концепт 4. «Ora vagante» – блуждающий час
+   Диск с цифрами 1–12 за верхним окошком. Виден один час.
+   ========================================================== */
+.mech-hour {
+  --r: calc(var(--size) * 0.5);                /* радиус, на котором стоят цифры */
+  left: 50%;
+  top: 14%;
+  width: calc(var(--size) * 0.2);
+  height: calc(var(--size) * 0.2);
+  margin-left: calc(var(--size) * -0.1);
+}
+/* Диск: нулевой элемент на расстоянии --r под окном, цифры вращаются вокруг него */
+.disc {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--r));
+  width: 0;
+  height: 0;
+  animation: disc-steps 60s steps(12) infinite;     /* 12 шагов по 5 секунд */
+}
+.disc b {
+  position: absolute;
+  /* поворот на свой угол --a, затем отодвигаем от центра;
+     translate(-50%, -50%) ставит центр цифры в нужную точку */
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(var(--r) * -1));
+  font: 600 calc(var(--size) * var(--fs, 0.12)) "Unbounded", sans-serif;
+  color: #fff;
+  line-height: 1;
+}
+@keyframes disc-steps { to { transform: rotate(-360deg); } }     /* минус: следующая цифра приходит справа */
+.mech-hour-cap { left: 0; right: 0; top: 38%; }
+
+/* ==========================================================
+   Концепт 5. «Anello» – кольцо цифр
+   Цифры на вращающемся кольце, неподвижная метка сверху.
+   ========================================================== */
+.ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  animation: ring-turn 120s linear infinite;
+}
+.ring b {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(var(--size) * -0.34));
+  font: 600 calc(var(--size) * 0.075) "Unbounded", sans-serif;
+  color: #fff;
+}
+@keyframes ring-turn { to { transform: rotate(-360deg); } }
+.mech-core {
+  position: absolute;
+  inset: 25%;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 5px),
+    radial-gradient(circle at 40% 30%, #1a2bb8, #050a50);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4), inset 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+/* Неподвижная метка-треугольник у верхнего края */
+.mech-notch {
+  position: absolute;
+  left: 50%;
+  top: 2%;
+  margin-left: calc(var(--size) * -0.02);
+  border: calc(var(--size) * 0.02) solid transparent;
+  border-top: calc(var(--size) * 0.035) solid var(--orange);
+  border-bottom: 0;
+}
+
+/* ---------- Раскладка страницы ---------- */
+.mech { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 100px 0 0; }
+.mech--rev > :first-child { order: 2; }
+.mech .stage {
+  display: grid;
+  place-items: center;
+  padding: 70px 20px;
+  border-radius: var(--r);
+  background: var(--stone);
+}
+.mech .stage--dark { background: #151517; }
+.mech h2 { font-size: clamp(1.8rem, 3.6vw, 3rem); }
+.mech .idx { font: 600 0.8rem var(--text); letter-spacing: 0.22em; color: var(--orange); text-transform: uppercase; }
+
+.code {
+  margin: 26px 0 0;
+  padding: 20px 24px;
+  overflow-x: auto;
+  background: var(--black);
+  color: #ffd2bf;
+  border-radius: 16px;
+  font: 0.84rem/1.7 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.note {
+  margin-top: 100px;
+  padding: 34px 40px;
+  border-radius: var(--r);
+  background: var(--paper);
+  color: var(--mute);
+}
+.note b { color: var(--ink); }
+
+@media (max-width: 980px) {
+  .mech { grid-template-columns: 1fr; gap: 40px; }
+  .mech--rev > :first-child { order: 0; }
+  .mech .dial { --size: 290px; }
+}

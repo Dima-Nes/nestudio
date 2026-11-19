@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Senza Lancette – часы без стрелок, Милан</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="Итальянская мануфактура часов без стрелок: коллекция, механизмы, конструктор Atelier.">
+
+  <!-- Шрифты Google (есть кириллица). Без интернета сработают запасные из style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/watch.css">
+  <link rel="stylesheet" href="css/parts.css">
+  <link rel="stylesheet" href="css/assembly.css">
+  <link rel="stylesheet" href="css/dials.css">
+  <link rel="stylesheet" href="css/mechanisms.css">
+  <link rel="stylesheet" href="css/cw.css">
+  <link rel="stylesheet" href="css/planetario.css">
+  <link rel="stylesheet" href="css/gallery.css">
+  <link rel="stylesheet" href="css/reviews.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html" title="На главную"><span class="logo__mark"></span><span>Senza Lancette<small>Milano</small></span></a>
+
+    <!-- Бургер для телефона: скрытый чекбокс + label (css/style.css, раздел 10) -->
+    <input class="burger-toggle" type="checkbox" id="burger">
+    <label class="burger" for="burger" aria-label="Меню"><span></span></label>
+
+    <nav class="nav" aria-label="Главное меню">
+      <a class="is-active" href="index.html"><b>Главная</b></a>
+      <a href="catalog.html"><b>Коллекция</b></a>
+      <a href="gallery.html"><b>Галерея</b></a>
+      <a href="mechanisms.html"><b>Механизмы</b></a>
+      <div class="nav__more">
+        <span tabindex="0">Читать</span>
+        <div class="nav__sub">
+          <a href="inside.html"><b>Время внутри вас</b></a>
+          <a href="how.html"><b>Как узнать время</b></a>
+        </div>
+      </div>
+      <a href="reviews.html"><b>Отзывы</b></a>
+      <a href="contacts.html"><b>Контакты</b></a>
+      <a class="nav__atelier" href="atelier.html"><b>Atelier</b></a>
+    </nav>
+
+    <a class="btn btn--o header__cta" href="atelier.html">Atelier</a>
+  </header>
+
+  <main>
+
+    <!-- Главный экран -->
+    <section class="hero">
+      <!-- Невидимая сетка 5×5 на весь первый экран: по ней CSS понимает,
+           где курсор, и наклоняет часы-планетарий (css/planetario.css). -->
+      <div class="pl__zones" aria-hidden="true">
+      <div class="pl__row r1"><i class="pl__cell c1"></i><i class="pl__cell c2"></i><i class="pl__cell c3"></i><i class="pl__cell c4"></i><i class="pl__cell c5"></i></div>
+      <div class="pl__row r2"><i class="pl__cell c1"></i><i class="pl__cell c2"></i><i class="pl__cell c3"></i><i class="pl__cell c4"></i><i class="pl__cell c5"></i></div>
+      <div class="pl__row r3"><i class="pl__cell c1"></i><i class="pl__cell c2"></i><i class="pl__cell c3"></i><i class="pl__cell c4"></i><i class="pl__cell c5"></i></div>
+      <div class="pl__row r4"><i class="pl__cell c1"></i><i class="pl__cell c2"></i><i class="pl__cell c3"></i><i class="pl__cell c4"></i><i class="pl__cell c5"></i></div>
+      <div class="pl__row r5"><i class="pl__cell c1"></i><i class="pl__cell c2"></i><i class="pl__cell c3"></i><i class="pl__cell c4"></i><i class="pl__cell c5"></i></div>
+      </div>
+      <div class="wrap">
+        <div class="hero__top">
+          <span class="kicker">Милан · мануфактура</span>
+          <h1 class="display">Время<br><em>без</em><br>стрелок</h1>
+        </div>
+
+        <div class="hero__row">
+          <div>
+            <p>Мы делаем итальянские часы, где час показывает цифра в окошке, точка на орбите или цвет эмали, а не стрелка, которая вас торопит.</p>
+            <a class="btn btn--o" href="catalog.html">Коллекция</a>
+            <a class="btn btn--ghost" href="atelier.html">Создать свои</a>
+          </div>
+          <!-- Часы-планетарий (css/planetario.css).
+               Реагируют на мышь без JavaScript: сетка зон лежит на всём первом экране (см. начало секции). -->
+          <div class="hero__media hero__media--space">
+            <div class="pl">
+
+              <div class="pl__float">
+                <div class="pl__scene" aria-hidden="true">
+                  <i class="pl__strap pl__strap--t"></i><i class="pl__strap pl__strap--b"></i>
+                  <i class="pl__lug pl__lug--tl"></i><i class="pl__lug pl__lug--tr"></i><i class="pl__lug pl__lug--bl"></i><i class="pl__lug pl__lug--br"></i>
+                  <i class="pl__crown"></i>
+                  <div class="pl__case"></div>
+                  <div class="pl__dial"></div>
+                  <span class="pl__brand">Planetario</span>
+                  <i class="pl__track" style="--r:0.15"></i>
+                  <i class="pl__track" style="--r:0.21"></i>
+                  <i class="pl__track" style="--r:0.29"></i>
+                  <i class="pl__track" style="--r:0.36"></i>
+                  <i class="pl__track" style="--r:0.425"></i>
+                  <div class="pl__sun"></div>
+                  <div class="pl__orbit pl__orbit--mercury"><i class="pl__planet"></i></div>
+                  <div class="pl__orbit pl__orbit--venus"><i class="pl__planet"></i></div>
+                  <div class="pl__orbit pl__orbit--earth"><i class="pl__planet"><span class="pl__moon"></span></i></div>
+                  <div class="pl__orbit pl__orbit--mars"><i class="pl__planet"></i></div>
+                  <div class="pl__orbit pl__orbit--saturn"><i class="pl__planet"></i></div>
+                  <div class="pl__glass"></div>
+                </div>
+              </div>
+            </div>
+            <span class="hero__badge">Planetario · Земля – час, Луна – минуты</span>
+            <span class="pl__hint">Подвигайте мышью</span>
+          </div>
+        </div>
+
+        <div class="stats reveal">
+          <div class="stat"><big>0</big><span>стрелок на циферблате</span></div>
+          <div class="stat"><big>5</big><span>механизмов показа времени</span></div>
+          <div class="stat"><big>8</big><span>разных моделей в коллекции</span></div>
+          <div class="stat"><big>∞</big><span>вариантов в конструкторе</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track"><span>Senza Lancette</span><span>Время без спешки</span><span>Сделано в Милане</span><span>Часы без стрелок</span><span>Только цвет и ритм</span><span>Senza Lancette</span><span>Время без спешки</span><span>Сделано в Милане</span><span>Часы без стрелок</span><span>Только цвет и ритм</span></div>
+    </div>
+
+    <!-- Манифест -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="reveal">
+          <span class="kicker">Манифест</span>
+          <p class="manifest">Мы убрали из часов всё, что <em>торопит</em>. Осталось то, что красиво: металл, цвет и спокойный ритм. Время не обязано бегать по кругу, чтобы быть точным.</p>
+        </div>
+
+        <div class="cards3 reveal" style="margin-top:60px">
+          <article class="card"><span class="mk"></span><h3>Никаких стрелок</h3><p>Часы показывают время иначе: цифрой в окне, диском, точками. Привыкаете за неделю и уже не хотите назад.</p></article>
+          <article class="card"><span class="mk"></span><h3>Ручная работа</h3><p>Корпус, безель и коронка вытачиваются из цельной стали 316L. Циферблат покрывают эмалью в несколько слоёв и сушат между ними.</p></article>
+          <article class="card"><span class="mk"></span><h3>Ваше время</h3><p>Вы выбираете цвет, рисунок, метки, металл и ремешок. Каждые часы собираются под заказ в нашей мастерской в Милане.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Как собираются часы -->
+    <section class="sec">
+      <div class="wrap head reveal">
+        <h2>Как собираются<br>часы</h2>
+        <p>Пролистайте вниз: детали разнесены в пространстве, и по мере прокрутки каждая встаёт на место. Шестерёнки, баланс и ротор двигаются, как в настоящем механизме.</p>
+      </div>
+    </section>
+
+    <!-- Сборка по прокрутке. Подробности в css/assembly.css и css/parts.css -->
+    <section class="assembly" aria-label="Сборка часов из деталей">
+      <div class="assembly__stage">
+        <div class="wt wt--arancio" aria-hidden="true">
+    <div class="wt__p wt__strap wt__strap--top"></div>
+    <div class="wt__p wt__strap wt__strap--bottom"></div>
+    <div class="wt__p wt__movement wt__movement--plate"></div>
+    <div class="wt__p wt__mech wt__barrel"></div>
+    <div class="wt__p wt__mech wt__g wt__g1" style="--n:0"></div>
+    <div class="wt__p wt__mech wt__g wt__g2" style="--n:1"></div>
+    <div class="wt__p wt__mech wt__g wt__g3" style="--n:2"></div>
+    <div class="wt__p wt__mech wt__g wt__g4" style="--n:3"></div>
+    <div class="wt__p wt__mech wt__g wt__g5" style="--n:4"></div>
+    <div class="wt__p wt__mech wt__g wt__g6" style="--n:5"></div>
+    <div class="wt__p wt__mech wt__g wt__g7" style="--n:6"></div>
+    <div class="wt__p wt__mech wt__g wt__g8" style="--n:7"></div>
+    <div class="wt__p wt__mech wt__g wt__g9" style="--n:8"></div>
+    <div class="wt__p wt__mech wt__balance"></div>
+    <div class="wt__p wt__mech wt__rotor"></div>
+    <div class="wt__p wt__dial"></div>
+    <div class="wt__p wt__pattern"></div>
+    <div class="wt__p wt__plug"></div>
+    <div class="wt__p wt__markers"></div>
+    <div class="wt__p wt__dots">
+      <i style="--a:0deg"></i>
+      <i style="--a:30deg"></i>
+      <i style="--a:60deg"></i>
+      <i style="--a:90deg"></i>
+      <i style="--a:120deg"></i>
+      <i style="--a:150deg"></i>
+      <i style="--a:180deg"></i>
+      <i style="--a:210deg"></i>
+      <i style="--a:240deg"></i>
+      <i style="--a:270deg"></i>
+      <i style="--a:300deg"></i>
+      <i style="--a:330deg"></i>
+    </div>
+    <div class="wt__p wt__case"></div>
+    <div class="wt__p wt__crown"></div>
+    <div class="wt__p wt__bezel"></div>
+    <div class="wt__p wt__label"><b>Senza Lancette</b><span>Milano</span></div>
+    <div class="wt__p wt__glass"></div>
+  </div>
+
+        <ol class="steps">
+          <li class="step"><b>Ремешок</b><span>Телячья кожа с контрастной строчкой. Ремешок ровно по ширине между ушками корпуса и сужается к пряжке.</span></li>
+          <li class="step"><b>Платина и барабан</b><span>Основа механизма и заводной барабан со стальной пружиной внутри. Барабан медленно вращается.</span></li>
+          <li class="step"><b>Шестерёнки</b><span>Девять колёс передают энергию. Каждое вращается со своей скоростью, соседние в разные стороны.</span></li>
+          <li class="step"><b>Баланс и ротор</b><span>Баланс качается туда и обратно и задаёт ритм. Золотой ротор подзаводит пружину от движения вашей руки.</span></li>
+          <li class="step"><b>Циферблат и метки</b><span>Латунная пластина с радиальной шлифовкой и двенадцать стальных брусков. Каждый приклеивается вручную.</span></li>
+          <li class="step"><b>Корпус и безель</b><span>Сталь 316L, шлифовка и полировка. Безель рифлёный, коронка с оранжевым кольцом.</span></li>
+          <li class="step"><b>Готово</b><span>Сапфировое стекло закрывает механизм. Ни одной стрелки, только время.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Коллекция -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="head reveal">
+          <h2>Коллекция</h2>
+          <p>Восемь моделей с разным характером: золото и сталь, круглые, квадратные и овальные, кожа, резина и браслеты. Здесь четыре из них.</p>
+        </div>
+        <div class="models reveal">
+        <article class="model">
+          <div class="model__stage"><div class="cw cw--solare cw--leather" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <span class="cw__ticks" style="--tk:#5a3a0a"></span>
+              <span class="cw__brand" style="top:30%;--ink:#4a3208">Senza Lancette</span>
+              <div class="mech-win mech-hour"><div class="disc">
+                <b style="--a:0deg">12</b>
+                <b style="--a:30deg">1</b>
+                <b style="--a:60deg">2</b>
+                <b style="--a:90deg">3</b>
+                <b style="--a:120deg">4</b>
+                <b style="--a:150deg">5</b>
+                <b style="--a:180deg">6</b>
+                <b style="--a:210deg">7</b>
+                <b style="--a:240deg">8</b>
+                <b style="--a:270deg">9</b>
+                <b style="--a:300deg">10</b>
+                <b style="--a:330deg">11</b>
+              </div></div>
+              <span class="cw__brand" style="top:70%;--ink:#4a3208">Solare</span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Solare <small>3 300 €</small></h3>
+            <p>Круглый корпус из жёлтого золота, солнечные лучи на циферблате и окно «блуждающего» часа. Ремешок из рыжей кожи.</p>
+            <span class="chip">Классика</span>
+          </div>
+        </article>
+        <article class="model">
+          <div class="model__stage"><div class="cw cw--cubo cw--leather" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <span class="cw__blk cw__blk--r"></span>
+              <span class="cw__blk cw__blk--y"></span>
+              <span class="cw__blk cw__blk--b"></span>
+              <span class="cw__blk cw__blk--k"></span>
+              <div class="cw-win" style="--hh:calc(var(--s) * 0.15); right:11.5%; bottom:11.5%; width:32%; height:var(--hh)"><ol class="hdrum">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>1</li>
+              </ol></div>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Cubo <small>2 750 €</small></h3>
+            <p>Квадратный корпус и белый циферблат в духе Баухауса: красный, жёлтый, синий и чёрный блоки, окно прыгающего часа.</p>
+            <span class="chip">Необычные</span>
+          </div>
+        </article>
+        <article class="model">
+          <div class="model__stage"><div class="cw cw--scheletro cw--leather" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <span class="cw__skel"></span>
+              <span class="cw__bal"></span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Scheletro <small>4 200 €</small></h3>
+            <p>Вместо циферблата виден механизм, а баланс качается прямо у вас на глазах. Корпус из розового золота.</p>
+            <span class="chip">Необычные</span>
+          </div>
+        </article>
+        <article class="model">
+          <div class="model__stage"><div class="cw cw--rosso cw--rubber" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <div class="cw-win" style="--hh:calc(var(--s) * 0.17); left:14%; top:12%; width:22%; height:var(--hh)"><ol class="hdrum">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>1</li>
+              </ol></div>
+              <div class="cw-win" style="--r:calc(var(--s) * 0.62); left:12%; top:46%; width:76%; height:calc(var(--s) * 0.2)"><div class="disc" style="--fs:0.075">
+                <b style="--a:0deg">00</b>
+                <b style="--a:30deg">05</b>
+                <b style="--a:60deg">10</b>
+                <b style="--a:90deg">15</b>
+                <b style="--a:120deg">20</b>
+                <b style="--a:150deg">25</b>
+                <b style="--a:180deg">30</b>
+                <b style="--a:210deg">35</b>
+                <b style="--a:240deg">40</b>
+                <b style="--a:270deg">45</b>
+                <b style="--a:300deg">50</b>
+                <b style="--a:330deg">55</b>
+              </div></div>
+              <span class="cw__idx"></span>
+              <span class="cw__brand" style="top:84%">Rosso</span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Rosso <small>2 850 €</small></h3>
+            <p>Бочкообразный корпус, красный лак и окна часа и минут в духе цифровых часов 70-х. Чёрная резина.</p>
+            <span class="chip">Спорт</span>
+          </div>
+        </article>
+        </div>
+        <p class="center" style="margin-top:50px"><a class="btn" href="catalog.html">Вся коллекция</a></p>
+      </div>
+    </section>
+
+    <!-- Механизмы -->
+    <section class="sec--dark sec">
+      <div class="wrap">
+        <div class="head reveal">
+          <h2>Пять способов<br>показать время</h2>
+          <p>Без стрелок время можно показывать по-разному. На странице «Механизмы» каждая система показана в движении.</p>
+        </div>
+        <div class="tiles reveal">
+          <a class="tile" href="mechanisms.html"><div><span class="chip">Точки</span><h3 style="margin-top:20px">Три орбиты</h3><p>Три точки обращаются по орбитам: большая час, средняя минуты, малая секунды.</p></div><span class="arrow">→</span></a>
+          <a class="tile" href="mechanisms.html"><div><span class="chip">Прыгающий час</span><h3 style="margin-top:20px">Ретро-цифра</h3><p>Час в квадратном окне, минуты на диске. Цифровые часы 70-х, но с механикой.</p></div><span class="arrow">→</span></a>
+          <a class="tile" href="mechanisms.html"><div><span class="chip">Окно секунд</span><h3 style="margin-top:20px">Щелчок</h3><p>Барабан с числами 00–59 щёлкает раз в секунду за маленьким окошком.</p></div><span class="arrow">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Конструктор -->
+    <section class="sec--orange sec">
+      <div class="wrap">
+        <div class="head reveal">
+          <h2>Создайте<br>свои часы</h2>
+          <p>В конструкторе Atelier вы собираете часы сами: цвет и рисунок циферблата, метки, металл корпуса, ремешок и надпись. Цена пересчитывается сразу.</p>
+        </div>
+        <div style="display:flex;gap:30px;justify-content:center;flex-wrap:wrap;overflow:hidden;height:340px" class="reveal">
+          <div style="--w:150px" class="wt wt--arancio" aria-hidden="true">
+    <div class="wt__p wt__strap wt__strap--top"></div>
+    <div class="wt__p wt__strap wt__strap--bottom"></div>
+    <div class="wt__p wt__movement"></div>
+    <div class="wt__p wt__dial"></div>
+    <div class="wt__p wt__pattern"></div>
+    <div class="wt__p wt__plug"></div>
+    <div class="wt__p wt__markers"></div>
+    <div class="wt__p wt__dots">
+      <i style="--a:0deg"></i>
+      <i style="--a:30deg"></i>
+      <i style="--a:60deg"></i>
+      <i style="--a:90deg"></i>
+      <i style="--a:120deg"></i>
+      <i style="--a:150deg"></i>
+      <i style="--a:180deg"></i>
+      <i style="--a:210deg"></i>
+      <i style="--a:240deg"></i>
+      <i style="--a:270deg"></i>
+      <i style="--a:300deg"></i>
+      <i style="--a:330deg"></i>
+    </div>
+    <div class="wt__p wt__case"></div>
+    <div class="wt__p wt__crown"></div>
+    <div class="wt__p wt__bezel"></div>
+    <div class="wt__p wt__label"><b>Senza Lancette</b><span>Arancio</span></div>
+    <div class="wt__p wt__glass"></div>
+  </div>
+          <div style="--w:150px" class="wt wt--cobalto wt--s-cobalto" aria-hidden="true">
+    <div class="wt__p wt__strap wt__strap--top"></div>
+    <div class="wt__p wt__strap wt__strap--bottom"></div>
+    <div class="wt__p wt__movement"></div>
+    <div class="wt__p wt__dial"></div>
+    <div class="wt__p wt__pattern"></div>
+    <div class="wt__p wt__plug"></div>
+    <div class="wt__p wt__markers"></div>
+    <div class="wt__p wt__dots">
+      <i style="--a:0deg"></i>
+      <i style="--a:30deg"></i>
+      <i style="--a:60deg"></i>
+      <i style="--a:90deg"></i>
+      <i style="--a:120deg"></i>
+      <i style="--a:150deg"></i>
+      <i style="--a:180deg"></i>
+      <i style="--a:210deg"></i>
+      <i style="--a:240deg"></i>
+      <i style="--a:270deg"></i>
+      <i style="--a:300deg"></i>
+      <i style="--a:330deg"></i>
+    </div>
+    <div class="wt__p wt__case"></div>
+    <div class="wt__p wt__crown"></div>
+    <div class="wt__p wt__bezel"></div>
+    <div class="wt__p wt__label"><b>Senza Lancette</b><span>Cobalto</span></div>
+    <div class="wt__p wt__glass"></div>
+  </div>
+          <div style="--w:150px" class="wt wt--neve wt--s-neve" aria-hidden="true">
+    <div class="wt__p wt__strap wt__strap--top"></div>
+    <div class="wt__p wt__strap wt__strap--bottom"></div>
+    <div class="wt__p wt__movement"></div>
+    <div class="wt__p wt__dial"></div>
+    <div class="wt__p wt__pattern"></div>
+    <div class="wt__p wt__plug"></div>
+    <div class="wt__p wt__markers"></div>
+    <div class="wt__p wt__dots">
+      <i style="--a:0deg"></i>
+      <i style="--a:30deg"></i>
+      <i style="--a:60deg"></i>
+      <i style="--a:90deg"></i>
+      <i style="--a:120deg"></i>
+      <i style="--a:150deg"></i>
+      <i style="--a:180deg"></i>
+      <i style="--a:210deg"></i>
+      <i style="--a:240deg"></i>
+      <i style="--a:270deg"></i>
+      <i style="--a:300deg"></i>
+      <i style="--a:330deg"></i>
+    </div>
+    <div class="wt__p wt__case"></div>
+    <div class="wt__p wt__crown"></div>
+    <div class="wt__p wt__bezel"></div>
+    <div class="wt__p wt__label"><b>Senza Lancette</b><span>Neve</span></div>
+    <div class="wt__p wt__glass"></div>
+  </div>
+          <div style="--w:150px" class="wt wt--bordeaux wt--rosegold wt--s-bordeaux" aria-hidden="true">
+    <div class="wt__p wt__strap wt__strap--top"></div>
+    <div class="wt__p wt__strap wt__strap--bottom"></div>
+    <div class="wt__p wt__movement"></div>
+    <div class="wt__p wt__dial"></div>
+    <div class="wt__p wt__pattern"></div>
+    <div class="wt__p wt__plug"></div>
+    <div class="wt__p wt__markers"></div>
+    <div class="wt__p wt__dots">
+      <i style="--a:0deg"></i>
+      <i style="--a:30deg"></i>
+      <i style="--a:60deg"></i>
+      <i style="--a:90deg"></i>
+      <i style="--a:120deg"></i>
+      <i style="--a:150deg"></i>
+      <i style="--a:180deg"></i>
+      <i style="--a:210deg"></i>
+      <i style="--a:240deg"></i>
+      <i style="--a:270deg"></i>
+      <i style="--a:300deg"></i>
+      <i style="--a:330deg"></i>
+    </div>
+    <div class="wt__p wt__case"></div>
+    <div class="wt__p wt__crown"></div>
+    <div class="wt__p wt__bezel"></div>
+    <div class="wt__p wt__label"><b>Senza Lancette</b><span>Bordeaux</span></div>
+    <div class="wt__p wt__glass"></div>
+  </div>
+        </div>
+        <p class="center" style="margin-top:20px"><a class="btn btn--w" href="atelier.html">Открыть Atelier</a></p>
+      </div>
+    </section>
+
+    <!-- Мастерская -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="head reveal">
+          <h2>Как работает<br>мастерская</h2>
+          <p>От эскиза до коробки проходит около шести недель. Мы не спешим: каждый этап заканчивается проверкой мастера.</p>
+        </div>
+        <ol class="steps4 reveal">
+          <li><h3>Эскиз</h3><p>Вы выбираете цвета и рисунок. Дизайнер проверяет сочетание и присылает визуализацию.</p></li>
+          <li><h3>Металл</h3><p>Корпус вытачивают из заготовки стали и полируют вручную. Это занимает почти неделю.</p></li>
+          <li><h3>Эмаль</h3><p>На латунную пластину наносят слои эмали. Каждый сушится сутки, поэтому цвет получается глубоким.</p></li>
+          <li><h3>Сборка</h3><p>Мастер собирает часы под лупой, проверяет ход механизма и подбирает ремешок по запястью.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Галерея (превью). Полная галерея с фильтром и лайтбоксом – gallery.html -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="head reveal"><h2>Галерея<br>деталей</h2><p>Каждую деталь мы сфотографировали отдельно. Нажмите на фото, чтобы открыть галерею.</p></div>
+        <ul class="gallery reveal">
+          <li class="g-item"><a href="gallery.html#photo-movement"><img src="media/img/gallery/small/movement.jpg" alt="Механизм часов в сборе" width="560" height="560" loading="lazy"><span class="g-item__cap"><b>Механизм</b><small>Калибр SL-01</small></span></a></li>
+          <li class="g-item"><a href="gallery.html#photo-dial"><img src="media/img/gallery/small/dial.jpg" alt="Оранжевый циферблат с радиальной шлифовкой" width="560" height="560" loading="lazy"><span class="g-item__cap"><b>Циферблат</b><small>Arancio</small></span></a></li>
+          <li class="g-item"><a href="gallery.html#photo-crown"><img src="media/img/gallery/small/crown.jpg" alt="Заводная коронка с оранжевым кольцом" width="560" height="560" loading="lazy"><span class="g-item__cap"><b>Коронка</b><small>Завод</small></span></a></li>
+          <li class="g-item"><a href="gallery.html#photo-balance"><img src="media/img/gallery/small/balance.jpg" alt="Баланс с волоском" width="560" height="560" loading="lazy"><span class="g-item__cap"><b>Баланс</b><small>Ритм</small></span></a></li>
+        </ul>
+        <p class="center" style="margin-top:50px"><a class="btn" href="gallery.html">Вся галерея</a></p>
+      </div>
+    </section>
+
+    <!-- Отзывы (три последних). Все отзывы – reviews.html -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="head reveal"><h2>Говорят<br>владельцы</h2><p>Средняя оценка 4,6 из 5 по 9 отзывам. Вот три последних.</p></div>
+        <div class="reviews reviews--3 reveal">
+          <article class="review review--accent" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#0f0f10" aria-hidden="true">МР</span>
+              <div><b class="review__name">Марко Росси</b><span class="review__meta">@marco.arch · архитектор, Турин</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Первые три дня я смотрел на запястье по привычке и ничего не находил. На четвёртый просто перестал спешить.</p>
+            <footer class="review__foot"><span class="chip">Solare</span><time datetime="2026-11-02">2 ноября 2026</time></footer>
+          </article>
+          <article class="review" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#ff4a0d" aria-hidden="true">ЭБ</span>
+              <div><b class="review__name">Элена Бруно</b><span class="review__meta">@elena_b · редактор, Милан</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Окно секунд щёлкает так тихо, что я слышу его только в тишине. Это лучший звук в моём офисе.</p>
+            <footer class="review__foot"><span class="chip">Luna</span><time datetime="2026-10-24">24 октября 2026</time></footer>
+          </article>
+          <article class="review" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#2f5bd3" aria-hidden="true">АК</span>
+              <div><b class="review__name">Анна Коломбо</b><span class="review__meta">@anna.designs · дизайнер, Болонья</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Собрала в Atelier синий циферблат с рисунком из точек. Коллеги спрашивают, где это можно купить.</p>
+            <footer class="review__foot"><span class="chip">Atelier</span><time datetime="2026-10-11">11 октября 2026</time></footer>
+          </article>
+        </div>
+        <p class="center" style="margin-top:50px"><a class="btn" href="reviews.html">Все отзывы</a></p>
+      </div>
+    </section>
+
+    <!-- Вопросы -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="head reveal"><h2>Частые<br>вопросы</h2><p>Ответы на вопросы, которые нам задают чаще всего.</p></div>
+        <div class="faq reveal"><details><summary>Как узнать время, если нет стрелок?</summary><p>Зависит от модели. В окне секунд время читается цифрами, в «Точках» по размеру и положению точек. Подробные инструкции для каждого механизма есть на странице «Как узнать время».</p></details><details><summary>Сколько идёт доставка?</summary><p>По Италии 2–3 дня, по Европе 5–7 дней. Часы приходят в деревянной коробке с сертификатом мастерской и запасным ремешком.</p></details><details><summary>Можно ли вернуть часы?</summary><p>Да, в течение 30 дней после получения, если на них нет следов носки. Часы с индивидуальной гравировкой обмену не подлежат.</p></details><details><summary>Можно ли изменить цвет ремешка?</summary><p>Да. В конструкторе Atelier шесть цветов ремешка: оранжевый, чёрный, синий, зелёный, бордовый и белый.</p></details><details><summary>Из чего сделан корпус?</summary><p>Нержавеющая сталь 316L. Для заказов в Atelier доступны варианты из жёлтого и розового золота и в чёрном покрытии.</p></details><details><summary>Какой размер у часов?</summary><p>Все модели имеют размер 38 мм. Это универсальный размер: подходит и на тонкое, и на широкое запястье.</p></details></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer__big">Senza<br>Lancette</p>
+      <div class="footer__cols">
+        <div>
+          <h4>Senza Lancette</h4>
+          <p>Итальянская мануфактура часов без стрелок. Время здесь показывают цифры, точки и цвет, а не стрелки.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3.5 2.5 11l6.5 2.5L11.5 20l3.5-4.5 5 3.5z"/><path d="m9 13.5 12.5-10"/></svg></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener" aria-label="ВКонтакте"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="16.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="currentColor">VK</text></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Сайт</h4>
+          <a href="index.html">Главная</a>
+          <a href="catalog.html">Коллекция</a>
+          <a href="gallery.html">Галерея</a>
+          <a href="mechanisms.html">Механизмы</a>
+          <a href="atelier.html">Atelier</a>
+        </div>
+        <div>
+          <h4>Читать</h4>
+          <a href="inside.html">Время внутри вас</a>
+          <a href="how.html">Как узнать время</a>
+          <a href="reviews.html">Отзывы</a>
+        </div>
+        <div>
+          <h4>Контакты</h4>
+          <address>Via della Spiga, 12<br>20121 Milano, Italia</address>
+          <a href="tel:+390212345678">+39 02 1234 5678</a>
+          <a href="mailto:ciao@senzalancette.it">ciao@senzalancette.it</a>
+          <a href="contacts.html">Все контакты →</a>
+        </div>
+      </div>
+      <p class="footer__end">© 2026 Senza Lancette. Мануфактура часов без стрелок, Милан.</p>
+    </div>
+  </footer>
+
+<a href="https://nestudio.by/sayty/senza-lancette/" style="position:fixed;left:12px;bottom:12px;z-index:2147483000;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:#111;color:#fff;font:500 13px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.25)">Концепт nestudio · вымышленный бренд →</a>
+</body>
+</html>

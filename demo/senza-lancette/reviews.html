@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Отзывы – Senza Lancette</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="Отзывы владельцев часов без стрелок Senza Lancette.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/reviews.css">
+  <link rel="stylesheet" href="css/forms.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html" title="На главную"><span class="logo__mark"></span><span>Senza Lancette<small>Milano</small></span></a>
+
+    <!-- Бургер для телефона: скрытый чекбокс + label (css/style.css, раздел 10) -->
+    <input class="burger-toggle" type="checkbox" id="burger">
+    <label class="burger" for="burger" aria-label="Меню"><span></span></label>
+
+    <nav class="nav" aria-label="Главное меню">
+      <a href="index.html"><b>Главная</b></a>
+      <a href="catalog.html"><b>Коллекция</b></a>
+      <a href="gallery.html"><b>Галерея</b></a>
+      <a href="mechanisms.html"><b>Механизмы</b></a>
+      <div class="nav__more">
+        <span tabindex="0">Читать</span>
+        <div class="nav__sub">
+          <a href="inside.html"><b>Время внутри вас</b></a>
+          <a href="how.html"><b>Как узнать время</b></a>
+        </div>
+      </div>
+      <a class="is-active" href="reviews.html"><b>Отзывы</b></a>
+      <a href="contacts.html"><b>Контакты</b></a>
+      <a class="nav__atelier" href="atelier.html"><b>Atelier</b></a>
+    </nav>
+
+    <a class="btn btn--o header__cta" href="atelier.html">Atelier</a>
+  </header>
+
+  <main>
+
+    <section class="page-head">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Вы здесь"><a href="index.html">Главная</a><span>Отзывы</span></nav>
+        <span class="kicker">Отзывы</span>
+        <h1 class="display">Говорят<br><em>владельцы</em></h1>
+        <p class="lead">Мы публикуем все отзывы, в том числе критические. Каждый автор купил часы в нашей мастерской или в Atelier.</p>
+      </div>
+    </section>
+
+    <!-- Сводный рейтинг: средняя оценка и полоски по звёздам -->
+    <section class="wrap" aria-label="Средняя оценка">
+      <div class="rating reveal">
+        <div class="rating__score">
+          <big>4,6</big>
+          <p class="stars" aria-label="Средняя оценка 4,6 из 5">★★★★<i>★</i></p>
+          <span>на основе 9 отзывов</span>
+        </div>
+        <ul class="bars">
+          <li><span>5 звёзд</span><i style="--p:67%"></i><b>6</b></li>
+          <li><span>4 звезды</span><i style="--p:22%"></i><b>2</b></li>
+          <li><span>3 звезды</span><i style="--p:11%"></i><b>1</b></li>
+          <li><span>2 звезды</span><i style="--p:0%"></i><b>0</b></li>
+          <li><span>1 звезда</span><i style="--p:0%"></i><b>0</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Список отзывов -->
+    <section class="sec" id="list">
+      <div class="wrap">
+        <div class="head reveal">
+          <h2>Все<br>отзывы</h2>
+          <p>Сначала новые. Отфильтруйте по оценке, чтобы увидеть только восторженные или только сдержанные.</p>
+        </div>
+
+        <!-- Фильтр по оценке без JavaScript, тот же приём, что в «Коллекции» -->
+        <input class="filter-input" type="radio" name="stars" id="r-all" checked>
+        <input class="filter-input" type="radio" name="stars" id="r-5">
+        <input class="filter-input" type="radio" name="stars" id="r-4">
+        <input class="filter-input" type="radio" name="stars" id="r-3">
+
+        <div class="filters">
+          <label for="r-all">Все<small>9</small></label>
+          <label for="r-5">★ 5<small>6</small></label>
+          <label for="r-4">★ 4<small>2</small></label>
+          <label for="r-3">★ 3<small>1</small></label>
+        </div>
+
+        <div class="reviews">
+
+          <article class="review" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#ff4a0d" aria-hidden="true">МР</span>
+              <div><b class="review__name">Марко Росси</b><span class="review__meta">@marco.arch · архитектор, Турин</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Первые три дня я смотрел на запястье по привычке и ничего не находил. На четвёртый просто перестал спешить. Золото Solare на солнце выглядит даже лучше, чем на фото.</p>
+            <footer class="review__foot"><span class="chip">Solare</span><time datetime="2026-11-02">2 ноября 2026</time></footer>
+          </article>
+
+          <article class="review" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#0f0f10" aria-hidden="true">ЭБ</span>
+              <div><b class="review__name">Элена Бруно</b><span class="review__meta">@elena_b · редактор, Милан</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Окно секунд щёлкает так тихо, что я слышу его только в тишине. Это лучший звук в моём офисе. Коллеги сначала не верили, что это механика.</p>
+            <footer class="review__foot"><span class="chip">Luna</span><time datetime="2026-10-24">24 октября 2026</time></footer>
+          </article>
+
+          <article class="review" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#2f5bd3" aria-hidden="true">АК</span>
+              <div><b class="review__name">Анна Коломбо</b><span class="review__meta">@anna.designs · дизайнер, Болонья</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Собрала в Atelier синий циферблат с рисунком из точек и белый ремешок. Получила ровно то, что видела в конструкторе. Коллеги спрашивают, где такое купить.</p>
+            <footer class="review__foot"><span class="chip">Atelier</span><time datetime="2026-10-11">11 октября 2026</time></footer>
+          </article>
+
+          <article class="review" data-stars="4">
+            <header class="review__head">
+              <span class="avatar" style="--c:#6b8f71" aria-hidden="true">ЛФ</span>
+              <div><b class="review__name">Лука Ферри</b><span class="review__meta">@luca_ferri · инженер, Генуя</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 4 из 5">★★★★<i>★</i></p>
+            <p class="review__text">Механизм Scheletro – как маленький театр на руке, баланс можно разглядывать бесконечно. Минус звезда за срок: ждал семь недель вместо шести.</p>
+            <footer class="review__foot"><span class="chip">Scheletro</span><time datetime="2026-09-29">29 сентября 2026</time></footer>
+          </article>
+
+          <article class="review" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#8a1c2b" aria-hidden="true">КМ</span>
+              <div><b class="review__name">Кьяра Моретти</b><span class="review__meta">@chiara.m · фотограф, Рим</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Rosso ношу на съёмках, резиновый ремешок не боится ни дождя, ни песка. Красный лак за полгода не поцарапался. Прохожие думают, что это электронные часы из 70-х.</p>
+            <footer class="review__foot"><span class="chip">Rosso</span><time datetime="2026-09-14">14 сентября 2026</time></footer>
+          </article>
+
+          <article class="review" data-stars="3">
+            <header class="review__head">
+              <span class="avatar" style="--c:#6c6962" aria-hidden="true">ДР</span>
+              <div><b class="review__name">Джулио Риччи</b><span class="review__meta">@giulio.r · преподаватель, Флоренция</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 3 из 5">★★★<i>★★</i></p>
+            <p class="review__text">Часы красивые, но к «Трём орбитам» я привыкал почти месяц, а не неделю, как обещают. Инструкция на сайте помогла. Сейчас нравятся, но первое время было непросто.</p>
+            <footer class="review__foot"><span class="chip">Stellata</span><time datetime="2026-08-30">30 августа 2026</time></footer>
+          </article>
+
+          <article class="review" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#d93a05" aria-hidden="true">СГ</span>
+              <div><b class="review__name">София Галли</b><span class="review__meta">@sofia_g · архитектор, Верона</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Купила Cubo из-за цветных блоков в духе Баухауса. Прыгающий час переключается с приятным мягким щелчком ровно в начале часа. Подарок самой себе на защиту диплома.</p>
+            <footer class="review__foot"><span class="chip">Cubo</span><time datetime="2026-08-12">12 августа 2026</time></footer>
+          </article>
+
+          <article class="review" data-stars="4">
+            <header class="review__head">
+              <span class="avatar" style="--c:#b8862b" aria-hidden="true">ПК</span>
+              <div><b class="review__name">Паоло Конти</b><span class="review__meta">@paolo.conti · врач, Неаполь</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 4 из 5">★★★★<i>★</i></p>
+            <p class="review__text">Ottagono сидит на руке отлично, браслет подогнали прямо в шоуруме. Хотелось бы подсветку меток для тёмных помещений, но это уже придирка.</p>
+            <footer class="review__foot"><span class="chip">Ottagono</span><time datetime="2026-07-25">25 июля 2026</time></footer>
+          </article>
+
+          <article class="review" data-stars="5">
+            <header class="review__head">
+              <span class="avatar" style="--c:#3a3a3d" aria-hidden="true">ВЛ</span>
+              <div><b class="review__name">Валентина Лонго</b><span class="review__meta">@vale.longo · музыкант, Милан</span></div>
+            </header>
+            <p class="stars" aria-label="Оценка 5 из 5">★★★★★</p>
+            <p class="review__text">Onda с волнистым циферблатом – как будто время течёт, а не тикает. Зашла в мастерскую на Via della Spiga, и мастер полчаса показывал, как собирают механизм.</p>
+            <footer class="review__foot"><span class="chip">Onda</span><time datetime="2026-07-03">3 июля 2026</time></footer>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Форма отзыва -->
+    <section class="sec" id="write">
+      <div class="wrap">
+        <div class="form-card reveal">
+          <h2>Оставить<br>отзыв</h2>
+          <p>Расскажите, как вам живётся без стрелок. Мы публикуем отзыв после проверки, обычно в течение двух дней.</p>
+
+          <!-- method="get" + адрес с #thanks: после отправки страница откроется
+               с этим якорем, и CSS покажет блок «Спасибо» (:target) -->
+          <form class="form" action="reviews.html#thanks" method="get">
+            <label class="field">
+              <span>Имя или ник</span>
+              <input type="text" name="name" placeholder="Например, Марко" required minlength="2">
+            </label>
+            <label class="field">
+              <span>Модель</span>
+              <select name="model" required>
+                <option value="">Выберите модель</option>
+                <option>Solare</option>
+                <option>Stellata</option>
+                <option>Onda</option>
+                <option>Cubo</option>
+                <option>Ottagono</option>
+                <option>Scheletro</option>
+                <option>Rosso</option>
+                <option>Luna</option>
+                <option>Atelier</option>
+              </select>
+            </label>
+
+            <!-- Звёзды в обратном порядке: 5…1. Почему – см. css/forms.css, блок .pick -->
+            <fieldset class="pick full">
+              <legend>Оценка</legend>
+              <input type="radio" name="stars" id="p5" value="5" required><label for="p5" title="5 из 5">★</label>
+              <input type="radio" name="stars" id="p4" value="4"><label for="p4" title="4 из 5">★</label>
+              <input type="radio" name="stars" id="p3" value="3"><label for="p3" title="3 из 5">★</label>
+              <input type="radio" name="stars" id="p2" value="2"><label for="p2" title="2 из 5">★</label>
+              <input type="radio" name="stars" id="p1" value="1"><label for="p1" title="1 из 5">★</label>
+            </fieldset>
+
+            <label class="field full">
+              <span>Отзыв</span>
+              <textarea name="text" placeholder="Что понравилось, к чему пришлось привыкать" required minlength="20"></textarea>
+            </label>
+            <label class="check full">
+              <input type="checkbox" name="agree" required>
+              <span>Согласен на публикацию отзыва с моим именем на сайте</span>
+            </label>
+            <div class="full"><button class="btn btn--o" type="submit">Отправить отзыв</button></div>
+          </form>
+
+          <p class="sent" id="thanks">Спасибо! Отзыв отправлен и появится на сайте после проверки.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer__big">Senza<br>Lancette</p>
+      <div class="footer__cols">
+        <div>
+          <h4>Senza Lancette</h4>
+          <p>Итальянская мануфактура часов без стрелок. Время здесь показывают цифры, точки и цвет, а не стрелки.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3.5 2.5 11l6.5 2.5L11.5 20l3.5-4.5 5 3.5z"/><path d="m9 13.5 12.5-10"/></svg></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener" aria-label="ВКонтакте"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="16.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="currentColor">VK</text></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Сайт</h4>
+          <a href="index.html">Главная</a>
+          <a href="catalog.html">Коллекция</a>
+          <a href="gallery.html">Галерея</a>
+          <a href="mechanisms.html">Механизмы</a>
+          <a href="atelier.html">Atelier</a>
+        </div>
+        <div>
+          <h4>Читать</h4>
+          <a href="inside.html">Время внутри вас</a>
+          <a href="how.html">Как узнать время</a>
+          <a href="reviews.html">Отзывы</a>
+        </div>
+        <div>
+          <h4>Контакты</h4>
+          <address>Via della Spiga, 12<br>20121 Milano, Italia</address>
+          <a href="tel:+390212345678">+39 02 1234 5678</a>
+          <a href="mailto:ciao@senzalancette.it">ciao@senzalancette.it</a>
+          <a href="contacts.html">Все контакты →</a>
+        </div>
+      </div>
+      <p class="footer__end">© 2026 Senza Lancette. Мануфактура часов без стрелок, Милан.</p>
+    </div>
+  </footer>
+
+<a href="https://nestudio.by/sayty/senza-lancette/" style="position:fixed;left:12px;bottom:12px;z-index:2147483000;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:#111;color:#fff;font:500 13px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.25)">Концепт nestudio · вымышленный бренд →</a>
+</body>
+</html>

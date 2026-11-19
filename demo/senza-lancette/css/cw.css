@@ -1,0 +1,337 @@
+/* ==========================================================
+   cw.css – коллекция: восемь часов с разным дизайном.
+   «cw» = collection watch. Каждые часы нарисованы CSS:
+   своя форма корпуса, свой циферблат, свой ремешок или браслет,
+   своё движение. Общее здесь только устройство:
+
+   <div class="cw cw--solare">
+     <i class="cw__strap cw__strap--t"></i>     ремешок сверху
+     <i class="cw__strap cw__strap--b"></i>     ремешок снизу
+     <i class="cw__lug …"></i> ×4               ушки корпуса
+     <div class="cw__case">                     корпус (форма и металл)
+       <div class="cw__face"> … </div>          циферблат
+     </div>
+     <i class="cw__crown"></i>                  заводная коронка
+   </div>
+
+   Ремешок «сидит» правильно, потому что его ширина (--sw) всегда
+   чуть меньше корпуса, верхний конец заходит под корпус, а по бокам
+   стоят ушки (cw__lug). Ремешок сужается к концу через clip-path.
+   ========================================================== */
+
+.cw {
+  --s: 170px;                      /* размер часов (высота корпуса) */
+  --size: var(--s);                /* имя, которое понимают окна из mechanisms.css */
+  --cwf: 1;                        /* ширина корпуса в долях --s */
+  --br: 50%;                       /* скругление корпуса: форма часов */
+  --clip: none;                    /* вырез (для восьмиугольника) */
+  --sw: 0.56;                      /* ширина ремешка в долях --s */
+  --metal: conic-gradient(from 30deg, #f4f6f9, #9aa1ad, #f4f6f9, #6a7180, #f4f6f9);   /* сталь */
+  --face: #333;
+  --strap-bg: #333;
+  --strap-pat: none;
+  --stitch: rgba(255, 255, 255, 0.45);
+
+  position: relative;
+  width: var(--s);
+  height: var(--s);
+  filter: drop-shadow(0 18px 16px rgba(0, 0, 0, 0.28));
+}
+
+/* ---------- Корпус ---------- */
+.cw__case {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  translate: -50% 0;
+  width: calc(var(--s) * var(--cwf));
+  height: var(--s);
+  padding: calc(var(--s) * 0.045);          /* толщина ободка */
+  border-radius: var(--br);
+  clip-path: var(--clip);
+  background: var(--metal);
+}
+.cw__face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;                         /* окна и детали не вылезают за циферблат */
+  border-radius: var(--br);
+  clip-path: var(--clip);
+  background: var(--face);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45), inset 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.cw__face::after {                          /* блик на стекле */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), transparent 38%);
+  pointer-events: none;
+}
+
+/* ---------- Ремешок ---------- */
+.cw__strap {
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  width: calc(var(--s) * var(--sw));
+  height: calc(var(--s) * 0.6);
+  background: var(--strap-pat), var(--strap-bg);
+}
+/* Верхний ремешок: нижний край (у корпуса) шире, к пряжке сужается.
+   Его низ на 0.16 высоты заходит под корпус. */
+.cw__strap--t { top: calc(var(--s) * -0.46); clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%); border-radius: 12px 12px 0 0; }
+.cw__strap--b { top: calc(var(--s) * 0.86);  clip-path: polygon(0 0, 100% 0, 86% 100%, 14% 100%); border-radius: 0 0 12px 12px; }
+/* Строчка по краям (у кожаных ремешков) */
+.cw--leather .cw__strap::before {
+  content: "";
+  position: absolute;
+  inset: 6% 14%;
+  border-left: 2px dashed var(--stitch);
+  border-right: 2px dashed var(--stitch);
+}
+
+/* Ушки корпуса: металлические бруски по бокам ремешка */
+.cw__lug {
+  position: absolute;
+  width: calc(var(--s) * 0.09);
+  height: calc(var(--s) * 0.21);
+  background: var(--metal);
+  border-radius: calc(var(--s) * 0.035);
+}
+.cw__lug--tl, .cw__lug--tr { top: calc(var(--s) * 0.015); }
+.cw__lug--bl, .cw__lug--br { top: calc(var(--s) * 0.775); }
+.cw__lug--tl, .cw__lug--bl { left: calc(50% - var(--s) * (var(--sw) / 2 + 0.07)); }
+.cw__lug--tr, .cw__lug--br { left: calc(50% + var(--s) * (var(--sw) / 2 - 0.02)); }
+
+/* Заводная коронка */
+.cw__crown {
+  position: absolute;
+  top: calc(50% - var(--s) * 0.06);
+  left: calc(50% + var(--s) * var(--cwf) / 2 - var(--s) * 0.015);
+  width: calc(var(--s) * 0.07);
+  height: calc(var(--s) * 0.12);
+  border-radius: 3px 6px 6px 3px;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0 2px, transparent 2px 5px),
+    var(--metal);
+}
+
+/* ---------- Типы ремешков ---------- */
+/* Кожа: цвет задаёт сама модель через --strap-bg */
+/* Сетка (миланский браслет) */
+.cw--mesh .cw__strap {
+  --strap-pat:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.35) 0 1px, transparent 1px 3px);
+  --strap-bg: linear-gradient(90deg, #8a919c, #e9edf3 30%, #aab1bc 55%, #e9edf3 80%, #8a919c);
+}
+/* Звенья (браслет) */
+.cw--links .cw__strap {
+  --strap-pat: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0 2px, transparent 2px calc(var(--s) * 0.1));
+  --strap-bg: linear-gradient(90deg, #6a7180, #f1f4f8 22%, #9aa1ad 50%, #f1f4f8 78%, #6a7180);
+}
+/* Резина с рёбрами */
+.cw--rubber .cw__strap {
+  --strap-pat: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0 3px, transparent 3px 10px);
+}
+
+/* ==========================================================
+   Модели. Каждая меняет форму, металл, ремешок и циферблат.
+   ========================================================== */
+
+/* 1. SOLARE: круглые, золото, солнечные лучи, кожаный ремешок, окно «блуждающий час» */
+.cw--solare {
+  --metal: conic-gradient(from 30deg, #fff0bd, #b8892f, #fff0bd, #8c6420, #fff0bd);
+  --strap-bg: linear-gradient(90deg, #7a4a28, #c18150 45%, #7a4a28);
+  --stitch: rgba(255, 236, 200, 0.7);
+  --face:
+    radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent 65%),
+    repeating-conic-gradient(#ffd45e 0 5deg, #f0a91c 5deg 10deg);
+}
+
+/* 2. STELLATA: круглые, сталь, тёмно-синий с звёздами, три точки на орбитах */
+.cw--stellata {
+  --strap-bg: linear-gradient(90deg, #0b1a3a, #25427a 45%, #0b1a3a);
+  --stitch: rgba(255, 255, 255, 0.5);
+  --face:
+    radial-gradient(1.5px 1.5px at 22% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 22%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 82% 62%, #fff, transparent),
+    radial-gradient(1px 1px at 33% 78%, #fff, transparent),
+    radial-gradient(1px 1px at 60% 85%, #cfe, transparent),
+    radial-gradient(circle at 50% 28%, #2b3d85, #060a24);
+}
+
+/* 3. ONDA: подушка, чёрный корпус, волны, окно секунд, оранжевая резина */
+.cw--onda {
+  --br: 26%;
+  --metal: conic-gradient(from 30deg, #55585f, #131417, #55585f, #0a0a0b, #55585f);
+  --strap-bg: linear-gradient(90deg, #c93a05, #ff6a2a 50%, #c93a05);
+  --face:
+    repeating-radial-gradient(circle at 30% 115%, #0d6a82 0 6px, #1b95b0 6px 12px);
+}
+
+/* 4. CUBO: квадрат, сталь, белый циферблат в стиле Баухауса, окно прыгающего часа */
+.cw--cubo {
+  --br: 9%;
+  --sw: 0.62;
+  --strap-bg: linear-gradient(90deg, #d9d6cf, #fbfaf7 50%, #d9d6cf);
+  --stitch: rgba(60, 60, 60, 0.35);
+  --face: #f6f3ec;
+}
+
+/* 5. OTTAGONO: восьмиугольник, сталь, зелёное гильоше, кольцо цифр, браслет-сетка */
+.cw--ottagono {
+  --br: 0;                         /* без скругления: углы восьмиугольника чёткие */
+  --clip: polygon(29% 0, 71% 0, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0 71%, 0 29%);
+  --face:
+    repeating-radial-gradient(circle, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 5px),
+    radial-gradient(circle at 40% 30%, #2f7a56, #0b2c1d);
+}
+
+/* 6. SCHELETRO: круглые, розовое золото, механизм вместо циферблата */
+.cw--scheletro {
+  --metal: conic-gradient(from 30deg, #ffe2d2, #b8745a, #ffe2d2, #8a523c, #ffe2d2);
+  --strap-bg: linear-gradient(90deg, #070707, #2a2a2a 50%, #070707);
+  --stitch: rgba(255, 138, 66, 0.9);
+  --face: #070707;
+}
+
+/* 7. ROSSO: бочка, сталь, красный лак, окна часа и минут */
+.cw--rosso {
+  --cwf: 0.9;
+  --br: 34% / 30%;
+  --sw: 0.5;
+  --strap-bg: linear-gradient(90deg, #050505, #2c2c2f 50%, #050505);
+  --face: radial-gradient(circle at 30% 22%, #ff4a3d, #a50f10 75%);
+}
+
+/* 8. LUNA: овал, розовое золото, перламутр, фаза луны */
+.cw--luna {
+  --cwf: 0.8;
+  --br: 50%;
+  --sw: 0.5;
+  --metal: conic-gradient(from 30deg, #ffe2d2, #b8745a, #ffe2d2, #8a523c, #ffe2d2);
+  --strap-bg: linear-gradient(90deg, #d79a9a, #f6cfcb 50%, #d79a9a);
+  --stitch: rgba(255, 255, 255, 0.8);
+  --face: conic-gradient(from 20deg, #ffffff, #f4e5ee, #e3edf8, #f7f1e1, #ffffff);
+}
+
+/* ---------- Детали циферблатов ---------- */
+
+/* Тонкие метки по краю (60 штук) */
+.cw__ticks {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from -0.4deg, var(--tk, #2a2a2a) 0 0.8deg, transparent 0.8deg 6deg);
+  -webkit-mask: radial-gradient(circle closest-side, transparent 92%, #000 93%);
+          mask: radial-gradient(circle closest-side, transparent 92%, #000 93%);
+}
+.cw__brand {
+  position: absolute;
+  left: 0; right: 0;
+  text-align: center;
+  font: 600 calc(var(--s) * 0.028) "Manrope", sans-serif;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink, #fff);
+  opacity: 0.8;
+}
+
+/* Окно: прорезь с барабаном (общая для разных моделей).
+   Положение и размер задаются прямо в разметке. */
+.cw-win {
+  position: absolute;
+  overflow: hidden;
+  background: linear-gradient(#050505, #1b1b1b 50%, #050505);
+  border-radius: calc(var(--s) * 0.015);
+  box-shadow: 0 0 0 calc(var(--s) * 0.007) #d9dde3, inset 0 3px 8px rgba(0, 0, 0, 0.9);
+}
+.cw-win::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(255, 255, 255, 0.22), transparent 45%); }
+
+/* Полумесяц у STELLATA */
+.cw__moon {
+  position: absolute;
+  left: 50%;
+  top: 66%;
+  width: calc(var(--s) * 0.11);
+  aspect-ratio: 1;
+  translate: -50% 0;
+  border-radius: 50%;
+  box-shadow: inset calc(var(--s) * -0.032) 0 0 0 #f4d27a;
+}
+
+/* Цветные блоки CUBO */
+.cw__blk { position: absolute; }
+.cw__blk--r { left: 8%; top: 8%; width: 38%; height: 38%; background: #e0321c; }
+.cw__blk--y { right: 8%; top: 8%; width: 38%; height: 38%; background: #ffc21a; border-radius: 50%; }
+.cw__blk--b { left: 8%; bottom: 8%; width: 38%; height: 38%; background: #1c3fe0; }
+.cw__blk--k { right: 8%; bottom: 8%; width: 38%; height: 38%; background: #111; }
+
+/* Фазы луны у LUNA: тёмное окно, по которому ходит светлый круг */
+.cw__phase {
+  left: 30%;
+  top: 58%;
+  width: 40%;
+  height: 22%;
+  border-radius: 999px 999px calc(var(--s) * 0.02) calc(var(--s) * 0.02);
+  background: linear-gradient(#0e1a3d, #2a3f85);
+}
+.cw__phase::before {
+  content: "";
+  position: absolute;
+  top: 18%;
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fffbe8, #e9d7a0);
+  animation: moon-move 9s ease-in-out infinite alternate;
+}
+@keyframes moon-move { from { left: -6%; } to { left: 60%; } }
+
+/* Механизм SCHELETRO: фото механизма вместо циферблата, баланс «тикает» */
+.cw__skel {
+  position: absolute;
+  inset: 3%;
+  border-radius: 50%;
+  background: url("../media/img/parts/movement.png") center / 124% no-repeat;
+}
+.cw__bal {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: calc(var(--s) * 0.3);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: url("../media/img/parts/balance.png") center / 126% no-repeat;
+  animation: bal-tick 0.7s ease-in-out infinite alternate;
+}
+@keyframes bal-tick { from { rotate: -35deg; } to { rotate: 35deg; } }
+
+/* Положения окон для разных моделей */
+.cw .mech-hour { top: 11%; }                       /* SOLARE */
+.cw .mech-sec  { left: 52%; top: calc(50% - var(--h) / 2); width: 30%; }   /* ONDA */
+.cw--onda .mech-cap, .cw--solare .mech-cap { display: none; }
+
+/* Неподвижная линия-индекс у ROSSO */
+.cw__idx { position: absolute; left: calc(50% - 1.5px); top: 46%; width: 3px; height: 34%; background: #111; border-radius: 2px; }
+
+/* Точки STELLATA и LUNA: свои цвета и орбиты */
+.cw--stellata .orb i { background: #fff; }
+.cw--stellata .orb--hour i { background: #ffd86b; box-shadow: 0 0 10px rgba(255, 216, 107, 0.8); }
+.cw--luna .orb--hour { --r: 0.24; }
+.cw--luna .orb--hour i { background: #c9827a; box-shadow: none; }
+/* Центр OTTAGONO зелёный */
+.cw--ottagono .mech-core { background: repeating-radial-gradient(circle, rgba(255,255,255,.07) 0 1px, transparent 1px 5px), radial-gradient(circle at 40% 30%, #1d6a45, #04170c); }
+.cw--ottagono .ring b { font-size: calc(var(--size) * 0.07); }
+
+/* ---------- Раскладка карточек ---------- */
+.cw-stage {
+  display: grid;
+  place-items: center;
+  height: 340px;
+  overflow: hidden;
+  background: var(--stone);
+}

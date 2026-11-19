@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Как узнать время – Senza Lancette</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="Инструкция по чтению часов без стрелок: точки, прыгающий час, окно секунд, блуждающий час, кольцо цифр.">
+
+  <!-- Шрифты Google (есть кириллица). Без интернета сработают запасные из style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dials.css">
+  <link rel="stylesheet" href="css/mechanisms.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html" title="На главную"><span class="logo__mark"></span><span>Senza Lancette<small>Milano</small></span></a>
+
+    <!-- Бургер для телефона: скрытый чекбокс + label (css/style.css, раздел 10) -->
+    <input class="burger-toggle" type="checkbox" id="burger">
+    <label class="burger" for="burger" aria-label="Меню"><span></span></label>
+
+    <nav class="nav" aria-label="Главное меню">
+      <a href="index.html"><b>Главная</b></a>
+      <a href="catalog.html"><b>Коллекция</b></a>
+      <a href="gallery.html"><b>Галерея</b></a>
+      <a href="mechanisms.html"><b>Механизмы</b></a>
+      <div class="nav__more is-active">
+        <span tabindex="0">Читать</span>
+        <div class="nav__sub">
+          <a href="inside.html"><b>Время внутри вас</b></a>
+          <a class="is-active" href="how.html"><b>Как узнать время</b></a>
+        </div>
+      </div>
+      <a href="reviews.html"><b>Отзывы</b></a>
+      <a href="contacts.html"><b>Контакты</b></a>
+      <a class="nav__atelier" href="atelier.html"><b>Atelier</b></a>
+    </nav>
+
+    <a class="btn btn--o header__cta" href="atelier.html">Atelier</a>
+  </header>
+
+  <main>
+
+    <style>
+      /* Шаги инструкции: номер рисует CSS-счётчик */
+      .howto { counter-reset: s; list-style: none; margin: 18px 0 22px; padding: 0; }
+      .howto li { counter-increment: s; position: relative; padding: 12px 0 12px 46px; border-bottom: 1px solid var(--line); color: var(--mute); }
+      .howto li::before { content: counter(s); position: absolute; left: 0; top: 12px; display: grid; place-items: center; width: 30px; aspect-ratio: 1; border-radius: 50%; background: var(--orange); color: #fff; font: 700 .8rem var(--text); }
+      .howto strong { color: var(--ink); }
+      .example { padding: 16px 20px; border-radius: 16px; background: var(--paper); font-size: .95rem; color: var(--mute); }
+      .example b { color: var(--orange); }
+    </style>
+
+    <section class="page-head">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Вы здесь"><a href="index.html">Главная</a><span>Как узнать время</span></nav>
+        <span class="kicker">Инструкция</span>
+        <h1 class="display">Как<br>узнать<br><em>время</em></h1>
+        <p class="lead">Пять систем показа времени, и у каждой свой способ чтения. Ничего сложного: нужно один раз понять принцип. Ниже инструкции с живыми циферблатами, на которых можно потренироваться.</p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="head reveal">
+          <h2>Три общих<br>правила</h2>
+          <p>Они работают для любых часов без стрелок. Запомните их, и дальше всё пойдёт само.</p>
+        </div>
+        <div class="cards3 reveal">
+          <article class="card"><span class="mk"></span><h3>Сначала час</h3><p>Час всегда показан крупнее или заметнее. Это большая точка, цифра в отдельном окне или цифра под неподвижной меткой. Найдите её первой.</p></article>
+          <article class="card"><span class="mk"></span><h3>Потом минуты</h3><p>Минуты показаны мельче или в отдельном окне. Не пытайтесь читать их до секунды: достаточно понять, в какой пятиминутке вы находитесь.</p></article>
+          <article class="card"><span class="mk"></span><h3>Дайте неделю</h3><p>Первые дни придётся думать. Потом глаз привыкнет и время будет «считываться» мгновенно, так же как вы читаете знакомое слово.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech">
+        <div class="stage stage--dark reveal">
+          <div class="dial dial--lg dial--nero">
+            <div class="dial__face">
+              <span class="track" style="--r:0.30"></span>
+              <span class="track" style="--r:0.36"></span>
+              <span class="track" style="--r:0.22"></span>
+              <div class="orb orb--hour"><i></i></div>
+              <div class="orb orb--min"><i></i></div>
+              <div class="orb orb--sec"><i></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <h2>Как читать точки</h2>
+          <ol class="howto">
+            <li>Найдите <strong>самую большую оранжевую точку</strong>. Она ходит по своей орбите и показывает час. Один оборот – двенадцать часов.</li>
+            <li>Представьте обычный циферблат: верх – 12, право – 3, низ – 6, лево – 9. Определите, в какой «четверти» находится большая точка.</li>
+            <li><strong>Средняя белая точка</strong> показывает минуты. Верх – ровно час, право – 15 минут, низ – 30, лево – 45.</li>
+            <li>Самая маленькая точка бегает по внутренней орбите и показывает секунды. Читать её необязательно.</li>
+          </ol>
+          <p class="example"><b>Пример.</b> Большая точка стоит справа, чуть ниже горизонтали, средняя внизу: значит, около четырёх часов и тридцати минут.</p>
+          <span class="chip">Точность: ± 5 минут</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech mech--rev">
+        <div class="stage reveal">
+          <div class="dial dial--lg dial--tv">
+            <div class="dial__face">
+              <div class="mech-win tv-hour">
+                <ol class="hdrum">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>1</li>
+                </ol>
+              </div>
+              <span class="tv-arrow"></span>
+              <div class="mech-win tv-min">
+                <div class="disc" style="--fs:0.085">
+                <b style="--a:0deg">00</b>
+                <b style="--a:30deg">05</b>
+                <b style="--a:60deg">10</b>
+                <b style="--a:90deg">15</b>
+                <b style="--a:120deg">20</b>
+                <b style="--a:150deg">25</b>
+                <b style="--a:180deg">30</b>
+                <b style="--a:210deg">35</b>
+                <b style="--a:240deg">40</b>
+                <b style="--a:270deg">45</b>
+                <b style="--a:300deg">50</b>
+                <b style="--a:330deg">55</b>
+                </div>
+              </div>
+              <span class="tv-index"></span>
+              <span class="tv-text">senza<br>lancette</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <h2>Как читать прыгающий час</h2>
+          <ol class="howto">
+            <li>Посмотрите на <strong>квадратное окно слева вверху</strong>. Цифра в нём – текущий час.</li>
+            <li>Следуйте за стрелкой-рисунком вниз, к широкому окну. Это окно минут.</li>
+            <li>Найдите <strong>чёрную неподвижную линию</strong>. Число прямо над ней – минуты. Диск показывает числа 00, 05, 10 и так далее до 55.</li>
+            <li>Если линия между двумя числами, берите меньшее и прибавляйте пару минут на глаз.</li>
+          </ol>
+          <p class="example"><b>Пример.</b> В окне часа стоит «7», а под чёрной линией число «25»: значит, сейчас примерно 7:25.</p>
+          <span class="chip">Точность: ± 2 минуты</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech">
+        <div class="stage stage--dark reveal">
+          <div class="dial dial--lg dial--grafite">
+            <div class="dial__face">
+              <span class="dial__brand">Senza Lancette</span>
+              <div class="mech-win mech-sec">
+                <ol class="drum">
+                <li>00</li>
+                <li>01</li>
+                <li>02</li>
+                <li>03</li>
+                <li>04</li>
+                <li>05</li>
+                <li>06</li>
+                <li>07</li>
+                <li>08</li>
+                <li>09</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>13</li>
+                <li>14</li>
+                <li>15</li>
+                <li>16</li>
+                <li>17</li>
+                <li>18</li>
+                <li>19</li>
+                <li>20</li>
+                <li>21</li>
+                <li>22</li>
+                <li>23</li>
+                <li>24</li>
+                <li>25</li>
+                <li>26</li>
+                <li>27</li>
+                <li>28</li>
+                <li>29</li>
+                <li>30</li>
+                <li>31</li>
+                <li>32</li>
+                <li>33</li>
+                <li>34</li>
+                <li>35</li>
+                <li>36</li>
+                <li>37</li>
+                <li>38</li>
+                <li>39</li>
+                <li>40</li>
+                <li>41</li>
+                <li>42</li>
+                <li>43</li>
+                <li>44</li>
+                <li>45</li>
+                <li>46</li>
+                <li>47</li>
+                <li>48</li>
+                <li>49</li>
+                <li>50</li>
+                <li>51</li>
+                <li>52</li>
+                <li>53</li>
+                <li>54</li>
+                <li>55</li>
+                <li>56</li>
+                <li>57</li>
+                <li>58</li>
+                <li>59</li>
+                <li>00</li>
+                </ol>
+              </div>
+              <span class="mech-cap mech-sec-cap">секунды</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <h2>Как читать окно секунд</h2>
+          <ol class="howto">
+            <li>Окно справа показывает <strong>секунды</strong>, и читать его проще всего: просто число от 00 до 59.</li>
+            <li>Каждая смена цифры – одна секунда. Если нужно отсчитать минуту, дождитесь, пока в окне снова появится «00».</li>
+            <li>Часы и минуты в этой модели обычно показываются отдельным цифровым окном или кольцом по краю циферблата.</li>
+          </ol>
+          <p class="example"><b>Пример.</b> В окне «42»: до полной минуты осталось 18 секунд.</p>
+          <span class="chip">Точность: до секунды</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech mech--rev">
+        <div class="stage reveal">
+          <div class="dial dial--lg dial--crema">
+            <div class="dial__face">
+              <div class="mech-win mech-hour">
+                <div class="disc">
+                <b style="--a:0deg">12</b>
+                <b style="--a:30deg">1</b>
+                <b style="--a:60deg">2</b>
+                <b style="--a:90deg">3</b>
+                <b style="--a:120deg">4</b>
+                <b style="--a:150deg">5</b>
+                <b style="--a:180deg">6</b>
+                <b style="--a:210deg">7</b>
+                <b style="--a:240deg">8</b>
+                <b style="--a:270deg">9</b>
+                <b style="--a:300deg">10</b>
+                <b style="--a:330deg">11</b>
+                </div>
+              </div>
+              <span class="mech-cap mech-hour-cap">час</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <h2>Как читать блуждающий час</h2>
+          <ol class="howto">
+            <li>Цифра в <strong>верхнем окошке</strong> – это час. Остальные числа диска закрыты, поэтому ошибиться невозможно.</li>
+            <li>Диск шагает один раз в час, в настоящих часах это происходит примерно на 59-й минуте. Если цифра только что сменилась, значит, сейчас начало часа.</li>
+            <li>Минуты в такой модели показаны дополнительной шкалой по краю циферблата: читайте её по неподвижной метке.</li>
+          </ol>
+          <p class="example"><b>Пример.</b> В окне «3»: значит, между тремя и четырьмя часами.</p>
+          <span class="chip">Точность: до часа</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech">
+        <div class="stage stage--dark reveal">
+          <div class="dial dial--lg dial--cobalto">
+            <div class="dial__face">
+              <div class="mech-core"></div>
+              <div class="ring">
+              <b style="--a:0deg">12</b>
+              <b style="--a:30deg">1</b>
+              <b style="--a:60deg">2</b>
+              <b style="--a:90deg">3</b>
+              <b style="--a:120deg">4</b>
+              <b style="--a:150deg">5</b>
+              <b style="--a:180deg">6</b>
+              <b style="--a:210deg">7</b>
+              <b style="--a:240deg">8</b>
+              <b style="--a:270deg">9</b>
+              <b style="--a:300deg">10</b>
+              <b style="--a:330deg">11</b>
+              </div>
+              <span class="mech-notch"></span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <h2>Как читать кольцо цифр</h2>
+          <ol class="howto">
+            <li>Найдите <strong>оранжевую метку</strong> у верхнего края. Она не движется.</li>
+            <li>Кольцо с числами вращается, и под меткой оказывается текущий час. Читайте число прямо под ней.</li>
+            <li>Если метка между двумя числами, прибавляйте половину часа: прошло около 30 минут.</li>
+          </ol>
+          <p class="example"><b>Пример.</b> Под меткой стоит «9», следующее число «10» ещё далеко: значит, около девяти часов.</p>
+          <span class="chip">Точность: ± 15 минут</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="reveal"><span class="kicker">Сравнение</span><h2>Какая система<br>вам подойдёт</h2></div>
+        <table class="specs reveal">
+          <thead><tr><th>Система</th><th>Что показывает</th><th>Точность</th><th>Для кого</th></tr></thead>
+          <tbody>
+            <tr><td>Точки</td><td>Час и минуты точками</td><td>± 5 минут</td><td>Любителям минимализма</td></tr>
+            <tr><td>Прыгающий час</td><td>Час цифрой, минуты диском</td><td>± 2 минуты</td><td>Тем, кому нужна точность</td></tr>
+            <tr><td>Окно секунд</td><td>Секунды цифрой</td><td>до секунды</td><td>Любителям механики</td></tr>
+            <tr><td>Блуждающий час</td><td>Только час</td><td>до часа</td><td>Тем, кто не спешит</td></tr>
+            <tr><td>Кольцо цифр</td><td>Час на вращающемся кольце</td><td>± 15 минут</td><td>Любителям необычного</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="head reveal"><h2>Вопросы<br>и ответы</h2><p>Всё, что обычно спрашивают в первую неделю после покупки.</p></div>
+        <div class="faq reveal"><details><summary>Я опоздаю на встречу, потому что не пойму время?</summary><p>Нет. Если нужна точность до минуты, выбирайте модель с прыгающим часом: в ней минуты показаны числом. Для остальных систем оставляйте запас в 5–10 минут.</p></details><details><summary>Можно ли привыкнуть быстро?</summary><p>Большинство владельцев привыкают за 3–5 дней. Самое сложное – отучиться искать взглядом стрелку.</p></details><details><summary>Что делать в темноте?</summary><p>В нашем механизме есть люминесцентное покрытие на метках и цифрах. Оно накапливает свет и мягко светится несколько часов.</p></details><details><summary>А если нужен секундомер?</summary><p>Подойдёт модель с окном секунд: число меняется ровно раз в секунду, и запомнить его проще, чем положение стрелки.</p></details><details><summary>Как проверить, что часы идут точно?</summary><p>Сверьте их с эталонным временем раз в неделю. Механические часы могут уходить на 5–10 секунд в сутки, это нормально.</p></details></div>
+      </div>
+    </section>
+
+    <section class="sec--orange sec">
+      <div class="wrap center reveal">
+        <h2>Выберите<br>свою систему</h2>
+        <p class="lead">Теперь вы знаете, как читать каждую. Осталось собрать часы под свой вкус.</p>
+        <a class="btn btn--w" href="atelier.html">Открыть Atelier</a>
+        <a class="btn btn--w" href="catalog.html">Коллекция</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer__big">Senza<br>Lancette</p>
+      <div class="footer__cols">
+        <div>
+          <h4>Senza Lancette</h4>
+          <p>Итальянская мануфактура часов без стрелок. Время здесь показывают цифры, точки и цвет, а не стрелки.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3.5 2.5 11l6.5 2.5L11.5 20l3.5-4.5 5 3.5z"/><path d="m9 13.5 12.5-10"/></svg></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener" aria-label="ВКонтакте"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="16.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="currentColor">VK</text></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Сайт</h4>
+          <a href="index.html">Главная</a>
+          <a href="catalog.html">Коллекция</a>
+          <a href="gallery.html">Галерея</a>
+          <a href="mechanisms.html">Механизмы</a>
+          <a href="atelier.html">Atelier</a>
+        </div>
+        <div>
+          <h4>Читать</h4>
+          <a href="inside.html">Время внутри вас</a>
+          <a href="how.html">Как узнать время</a>
+          <a href="reviews.html">Отзывы</a>
+        </div>
+        <div>
+          <h4>Контакты</h4>
+          <address>Via della Spiga, 12<br>20121 Milano, Italia</address>
+          <a href="tel:+390212345678">+39 02 1234 5678</a>
+          <a href="mailto:ciao@senzalancette.it">ciao@senzalancette.it</a>
+          <a href="contacts.html">Все контакты →</a>
+        </div>
+      </div>
+      <p class="footer__end">© 2026 Senza Lancette. Мануфактура часов без стрелок, Милан.</p>
+    </div>
+  </footer>
+
+<a href="https://nestudio.by/sayty/senza-lancette/" style="position:fixed;left:12px;bottom:12px;z-index:2147483000;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:#111;color:#fff;font:500 13px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.25)">Концепт nestudio · вымышленный бренд →</a>
+</body>
+</html>

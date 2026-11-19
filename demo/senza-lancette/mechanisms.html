@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Механизмы – Senza Lancette</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="Пять способов показать время без стрелок: точки, прыгающий час, окно секунд, блуждающий час, кольцо цифр.">
+
+  <!-- Шрифты Google (есть кириллица). Без интернета сработают запасные из style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dials.css">
+  <link rel="stylesheet" href="css/mechanisms.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html" title="На главную"><span class="logo__mark"></span><span>Senza Lancette<small>Milano</small></span></a>
+
+    <!-- Бургер для телефона: скрытый чекбокс + label (css/style.css, раздел 10) -->
+    <input class="burger-toggle" type="checkbox" id="burger">
+    <label class="burger" for="burger" aria-label="Меню"><span></span></label>
+
+    <nav class="nav" aria-label="Главное меню">
+      <a href="index.html"><b>Главная</b></a>
+      <a href="catalog.html"><b>Коллекция</b></a>
+      <a href="gallery.html"><b>Галерея</b></a>
+      <a class="is-active" href="mechanisms.html"><b>Механизмы</b></a>
+      <div class="nav__more">
+        <span tabindex="0">Читать</span>
+        <div class="nav__sub">
+          <a href="inside.html"><b>Время внутри вас</b></a>
+          <a href="how.html"><b>Как узнать время</b></a>
+        </div>
+      </div>
+      <a href="reviews.html"><b>Отзывы</b></a>
+      <a href="contacts.html"><b>Контакты</b></a>
+      <a class="nav__atelier" href="atelier.html"><b>Atelier</b></a>
+    </nav>
+
+    <a class="btn btn--o header__cta" href="atelier.html">Atelier</a>
+  </header>
+
+  <main>
+
+    <section class="page-head">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Вы здесь"><a href="index.html">Главная</a><span>Механизмы</span></nav>
+        <span class="kicker">Механизмы</span>
+        <h1 class="display">Время<br><em>цифрами</em></h1>
+        <p class="lead">Стрелок нет, но время можно показывать иначе: точкой на орбите, цифрой в окошке, диском или кольцом. Так работают настоящие механические часы с «прыгающим» и «блуждающим» часом. Все пять систем ниже показаны в движении.</p>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech">
+        <div class="stage stage--dark reveal">
+          <div class="dial dial--lg dial--nero">
+            <div class="dial__face">
+              <span class="track" style="--r:0.30"></span>
+              <span class="track" style="--r:0.36"></span>
+              <span class="track" style="--r:0.22"></span>
+              <div class="orb orb--hour"><i></i></div>
+              <div class="orb orb--min"><i></i></div>
+              <div class="orb orb--sec"><i></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <span class="idx">Минимализм</span>
+          <h2>Точки</h2>
+          <p>На чёрном циферблате три точки идут по своим орбитам: <strong>большая оранжевая</strong> показывает часы, средняя минуты, малая секунды. Меток нет, а читать время нужно по положению точек.</p>
+          <p>Каждая точка вращается вокруг невидимой оси. Ни стрелок, ни самой оси на циферблате нет. На этой странице их ход ускорен, чтобы движение было заметно.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech mech--rev">
+        <div class="stage reveal">
+          <div class="dial dial--lg dial--tv">
+            <div class="dial__face">
+              <div class="mech-win tv-hour">
+                <ol class="hdrum">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>1</li>
+                </ol>
+              </div>
+              <span class="tv-arrow"></span>
+              <div class="mech-win tv-min">
+                <div class="disc" style="--fs:0.085">
+                <b style="--a:0deg">00</b>
+                <b style="--a:30deg">05</b>
+                <b style="--a:60deg">10</b>
+                <b style="--a:90deg">15</b>
+                <b style="--a:120deg">20</b>
+                <b style="--a:150deg">25</b>
+                <b style="--a:180deg">30</b>
+                <b style="--a:210deg">35</b>
+                <b style="--a:240deg">40</b>
+                <b style="--a:270deg">45</b>
+                <b style="--a:300deg">50</b>
+                <b style="--a:330deg">55</b>
+                </div>
+              </div>
+              <span class="tv-index"></span>
+              <span class="tv-text">senza<br>lancette</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <span class="idx">Ретро</span>
+          <h2>Прыгающий час</h2>
+          <p>Цифровые часы в духе 1970-х, но с механикой внутри. В <strong>квадратном окне слева вверху</strong> прыгает цифра часа. Стрелка-рисунок на циферблате показывает вниз, на окно минут.</p>
+          <p>В нижнем окне виден диск с числами 00, 05, 10... 55. Чёрная линия-индекс неподвижна: число под ней и есть минуты. Здесь диск шагает быстрее, чтобы смену минут было видно.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech">
+        <div class="stage stage--dark reveal">
+          <div class="dial dial--lg dial--grafite">
+            <div class="dial__face">
+              <span class="dial__brand">Senza Lancette</span>
+              <div class="mech-win mech-sec">
+                <ol class="drum">
+                <li>00</li>
+                <li>01</li>
+                <li>02</li>
+                <li>03</li>
+                <li>04</li>
+                <li>05</li>
+                <li>06</li>
+                <li>07</li>
+                <li>08</li>
+                <li>09</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>13</li>
+                <li>14</li>
+                <li>15</li>
+                <li>16</li>
+                <li>17</li>
+                <li>18</li>
+                <li>19</li>
+                <li>20</li>
+                <li>21</li>
+                <li>22</li>
+                <li>23</li>
+                <li>24</li>
+                <li>25</li>
+                <li>26</li>
+                <li>27</li>
+                <li>28</li>
+                <li>29</li>
+                <li>30</li>
+                <li>31</li>
+                <li>32</li>
+                <li>33</li>
+                <li>34</li>
+                <li>35</li>
+                <li>36</li>
+                <li>37</li>
+                <li>38</li>
+                <li>39</li>
+                <li>40</li>
+                <li>41</li>
+                <li>42</li>
+                <li>43</li>
+                <li>44</li>
+                <li>45</li>
+                <li>46</li>
+                <li>47</li>
+                <li>48</li>
+                <li>49</li>
+                <li>50</li>
+                <li>51</li>
+                <li>52</li>
+                <li>53</li>
+                <li>54</li>
+                <li>55</li>
+                <li>56</li>
+                <li>57</li>
+                <li>58</li>
+                <li>59</li>
+                <li>00</li>
+                </ol>
+              </div>
+              <span class="mech-cap mech-sec-cap">секунды</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <span class="idx">Щелчок</span>
+          <h2>Окно секунд</h2>
+          <p>Справа в циферблате вырезано окошко, за ним вертикальный барабан с числами от 00 до 59. Каждую секунду он делает один резкий щелчок вверх.</p>
+          <p>Эта анимация идёт в реальном темпе: барабан отсчитывает секунды с момента, когда вы открыли страницу.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech mech--rev">
+        <div class="stage reveal">
+          <div class="dial dial--lg dial--crema">
+            <div class="dial__face">
+              <div class="mech-win mech-hour">
+                <div class="disc">
+                <b style="--a:0deg">12</b>
+                <b style="--a:30deg">1</b>
+                <b style="--a:60deg">2</b>
+                <b style="--a:90deg">3</b>
+                <b style="--a:120deg">4</b>
+                <b style="--a:150deg">5</b>
+                <b style="--a:180deg">6</b>
+                <b style="--a:210deg">7</b>
+                <b style="--a:240deg">8</b>
+                <b style="--a:270deg">9</b>
+                <b style="--a:300deg">10</b>
+                <b style="--a:330deg">11</b>
+                </div>
+              </div>
+              <span class="mech-cap mech-hour-cap">час</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <span class="idx">Старая школа</span>
+          <h2>Блуждающий час</h2>
+          <p>За верхним окошком прячется диск с цифрами от 1 до 12. Окно видит только одну цифру, остальные скрыты. Диск шагает на 30°, и в окне появляется следующий час.</p>
+          <p>Название «блуждающий» пришло из старых часов: час не стоит на месте, а как бы бродит по циферблату. Здесь смена ускорена, чтобы её можно было увидеть.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="mech">
+        <div class="stage stage--dark reveal">
+          <div class="dial dial--lg dial--cobalto">
+            <div class="dial__face">
+              <div class="mech-core"></div>
+              <div class="ring">
+              <b style="--a:0deg">12</b>
+              <b style="--a:30deg">1</b>
+              <b style="--a:60deg">2</b>
+              <b style="--a:90deg">3</b>
+              <b style="--a:120deg">4</b>
+              <b style="--a:150deg">5</b>
+              <b style="--a:180deg">6</b>
+              <b style="--a:210deg">7</b>
+              <b style="--a:240deg">8</b>
+              <b style="--a:270deg">9</b>
+              <b style="--a:300deg">10</b>
+              <b style="--a:330deg">11</b>
+              </div>
+              <span class="mech-notch"></span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <span class="idx">Вращение</span>
+          <h2>Кольцо цифр</h2>
+          <p>Цифры стоят на вращающемся кольце вокруг неподвижного центра. Оранжевая метка сверху не двигается: час, оказавшийся под ней, и есть текущий.</p>
+          <p>Полный оборот кольца занимает 12 часов, здесь он ускорен.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="sec--orange sec">
+      <div class="wrap center reveal">
+        <h2>Как читать<br>эти часы</h2>
+        <p class="lead">Для каждой системы есть короткая инструкция с примерами.</p>
+        <a class="btn btn--w" href="how.html">Как узнать время</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer__big">Senza<br>Lancette</p>
+      <div class="footer__cols">
+        <div>
+          <h4>Senza Lancette</h4>
+          <p>Итальянская мануфактура часов без стрелок. Время здесь показывают цифры, точки и цвет, а не стрелки.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3.5 2.5 11l6.5 2.5L11.5 20l3.5-4.5 5 3.5z"/><path d="m9 13.5 12.5-10"/></svg></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener" aria-label="ВКонтакте"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="16.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="currentColor">VK</text></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Сайт</h4>
+          <a href="index.html">Главная</a>
+          <a href="catalog.html">Коллекция</a>
+          <a href="gallery.html">Галерея</a>
+          <a href="mechanisms.html">Механизмы</a>
+          <a href="atelier.html">Atelier</a>
+        </div>
+        <div>
+          <h4>Читать</h4>
+          <a href="inside.html">Время внутри вас</a>
+          <a href="how.html">Как узнать время</a>
+          <a href="reviews.html">Отзывы</a>
+        </div>
+        <div>
+          <h4>Контакты</h4>
+          <address>Via della Spiga, 12<br>20121 Milano, Italia</address>
+          <a href="tel:+390212345678">+39 02 1234 5678</a>
+          <a href="mailto:ciao@senzalancette.it">ciao@senzalancette.it</a>
+          <a href="contacts.html">Все контакты →</a>
+        </div>
+      </div>
+      <p class="footer__end">© 2026 Senza Lancette. Мануфактура часов без стрелок, Милан.</p>
+    </div>
+  </footer>
+
+<a href="https://nestudio.by/sayty/senza-lancette/" style="position:fixed;left:12px;bottom:12px;z-index:2147483000;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:#111;color:#fff;font:500 13px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.25)">Концепт nestudio · вымышленный бренд →</a>
+</body>
+</html>

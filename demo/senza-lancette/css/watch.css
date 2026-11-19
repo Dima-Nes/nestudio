@@ -1,0 +1,224 @@
+/* ==========================================================
+   watch.css – компонент «часы из фото-деталей».
+   Его используют три места сайта: сборка на главной,
+   карточки коллекции и конструктор Atelier.
+
+   Каждая деталь – прозрачный PNG (сгенерирован в Google Flow,
+   чёрный фон вырезан). Детали лежат слоями друг на друге.
+   Цвет меняется CSS-фильтрами (hue-rotate, grayscale...), поэтому
+   из одной оранжевой фотографии получаются любые цвета.
+
+   Все размеры считаются от одной переменной --w (ширина часов),
+   поэтому часы масштабируются целиком: достаточно изменить --w.
+   Числа в calc() подобраны по размерам деталей на картинках.
+   ========================================================== */
+
+.wt {
+  --w: 300px;                 /* ширина часов, меняется в разных местах сайта */
+
+  /* Переменные, которыми меняют внешний вид: */
+  --dial-f:  none;            /* фильтр циферблата (цвет) */
+  --case-f:  none;            /* фильтр корпуса и безеля (металл) */
+  --strap-f: none;            /* фильтр ремешка */
+  --pat:     none;            /* рисунок на циферблате (фон) */
+  --mk-o:    1;               /* прозрачность стальных меток */
+  --ink:     #fff;            /* цвет надписей на циферблате */
+
+  position: relative;
+  width: var(--w);
+  height: var(--w);
+  flex-shrink: 0;
+  transform-style: preserve-3d;   /* нужно для 3D-сборки */
+}
+
+/* Общее для всех деталей: центр детали = центр часов */
+.wt__p {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;           /* отдельное свойство translate, не мешает анимации transform */
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+/* ---------- Ремешок: верхняя и нижняя половины ---------- */
+/* Посадка ремешка подобрана по измерениям корпуса на картинке:
+   – промежуток между ушками корпуса = 392 из 1024 пикселей фото,
+     то есть 0.433 ширины часов, значит ремешок ровно такой ширины;
+   – у фото ремешка оба конца широкие, а середина уже. Берём нижнюю часть
+     (широкий конец), чтобы широкий край лежал у корпуса, а к пряжке
+     ремешок сужался;
+   – широкий край заходит под корпус (на 0.17 от верха часов), там его
+     закрывает кольцо корпуса. Видно только то, что снаружи ушек. */
+.wt__strap {
+  width: calc(var(--w) * 0.433);
+  height: calc(var(--w) * 0.501);
+  background-image: url("../media/img/parts/strap.png");
+  /* масштаб k = 0.433 * w / 204 пикселей: берём прямоугольник x 410..614, y 700..936 */
+  background-size: calc(var(--w) * 2.1735);
+  background-position: calc(var(--w) * -0.8702) calc(var(--w) * -1.4858);
+  filter: var(--strap-f);
+}
+.wt__strap--top    { top: calc(var(--w) * -0.0805); }
+.wt__strap--bottom { top: calc(var(--w) * 1.0805); rotate: 180deg; }
+
+/* ---------- Механизм: скрыт под циферблатом, виден только при сборке ---------- */
+.wt__movement {
+  width: calc(var(--w) * 0.73);
+  aspect-ratio: 1;
+  background-image: url("../media/img/parts/movement.png");
+}
+
+/* ---------- Циферблат ---------- */
+.wt__dial {
+  width: calc(var(--w) * 0.637);
+  aspect-ratio: 1;
+  background-image: url("../media/img/parts/dial.png");
+  filter: var(--dial-f);
+}
+
+/* Рисунок поверх циферблата (точки, кольца, полосы...) */
+.wt__pattern {
+  width: calc(var(--w) * 0.60);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--pat);
+}
+
+/* Заглушка на отверстие в центре фото-циферблата.
+   Красится тем же фильтром, что и циферблат. */
+.wt__plug {
+  width: calc(var(--w) * 0.05);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff9a52, #d9480a);
+  filter: var(--dial-f);
+}
+
+/* ---------- Метки: 12 стальных брусков (фото) ---------- */
+.wt__markers {
+  width: calc(var(--w) * 0.634);
+  aspect-ratio: 1;
+  background-image: url("../media/img/parts/markers.png");
+  opacity: var(--mk-o);
+}
+
+/* Метки-точки (вариант для конструктора): 12 кружков по кругу */
+.wt__dots { width: 0; height: 0; opacity: var(--dots-o, 0); }
+.wt__dots i {
+  position: absolute;
+  width: calc(var(--w) * 0.03);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transform: translate(-50%, -50%) rotate(var(--a)) translateY(calc(var(--w) * -0.255));
+}
+
+/* ---------- Корпус и безель: металл ---------- */
+.wt__case {
+  width: calc(var(--w) * 1.131);
+  aspect-ratio: 1;
+  background-image: url("../media/img/parts/case.png");
+  filter: var(--case-f);
+}
+.wt__bezel {
+  width: calc(var(--w) * 0.926);
+  aspect-ratio: 1;
+  background-image: url("../media/img/parts/bezel.png");
+  filter: var(--case-f);
+}
+
+/* ---------- Заводная коронка (кусок фотографии) ---------- */
+.wt__crown {
+  left: calc(var(--w) * 0.94);
+  width: calc(var(--w) * 0.14);
+  height: calc(var(--w) * 0.188);
+  background-image: url("../media/img/parts/crown.png");
+  background-size: calc(var(--w) * 0.5213) auto;
+  background-position: calc(var(--w) * -0.2113) calc(var(--w) * -0.168);
+  filter: var(--case-f);
+}
+
+/* ---------- Надписи на циферблате ---------- */
+.wt__label {
+  width: calc(var(--w) * 0.6);
+  aspect-ratio: 1;
+  color: var(--ink);
+  text-align: center;
+  font-family: "Unbounded", system-ui, sans-serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+.wt__label b,
+.wt__label span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.wt__label b {
+  top: 24%;
+  font-size: calc(var(--w) * 0.024);
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+}
+.wt__label span {
+  top: 68%;
+  font-size: calc(var(--w) * 0.03);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  opacity: 0.9;
+}
+
+/* ---------- Стекло: лёгкий блик ---------- */
+.wt__glass {
+  width: calc(var(--w) * 0.6);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 40%),
+    radial-gradient(circle at 70% 85%, rgba(255, 255, 255, 0.1), transparent 40%);
+}
+
+/* ---------- Порядок слоёв по высоте (Z), когда часы собраны ---------- */
+.wt__strap   { transform: translateZ(0); }
+.wt__movement{ transform: translateZ(2px); }
+.wt__dial    { transform: translateZ(4px); }
+.wt__pattern { transform: translateZ(6px); }
+.wt__plug    { transform: translateZ(8px); }
+.wt__markers,
+.wt__dots    { transform: translateZ(10px); }
+.wt__case    { transform: translateZ(12px); }
+.wt__crown   { transform: translateZ(12px); }
+.wt__bezel   { transform: translateZ(14px); }
+.wt__label   { transform: translateZ(16px); }
+.wt__glass   { transform: translateZ(18px); }
+
+/* ==========================================================
+   Готовые пресеты цвета. Их можно ставить любому .wt классом.
+   ========================================================== */
+/* Циферблаты (фильтры меняют оранжевый на другие цвета) */
+.wt--arancio  { --dial-f: none; }
+.wt--cobalto  { --dial-f: hue-rotate(185deg) saturate(1.3); }
+.wt--salvia   { --dial-f: hue-rotate(95deg) saturate(0.8) brightness(0.9); }
+.wt--bordeaux { --dial-f: hue-rotate(-28deg) saturate(1.2) brightness(0.55); }
+.wt--nero     { --dial-f: grayscale(1) brightness(0.28) contrast(1.3); }
+.wt--neve     { --dial-f: grayscale(1) brightness(1.45) contrast(0.9); --ink: #2a2a2a; }
+.wt--rosa     { --dial-f: hue-rotate(-45deg) saturate(0.8) brightness(1.25); }
+.wt--sole     { --dial-f: hue-rotate(28deg) saturate(1.2) brightness(1.2); --ink: #2a2a2a; }
+
+/* Металл корпуса */
+.wt--oro      { --case-f: sepia(1) saturate(2.6) hue-rotate(-12deg) brightness(0.95) contrast(1.05); }
+.wt--rosegold { --case-f: sepia(1) saturate(1.8) hue-rotate(-32deg); }
+.wt--black    { --case-f: grayscale(1) brightness(0.32) contrast(1.4); }
+
+/* Цвет ремешка */
+.wt--s-nero   { --strap-f: grayscale(1) brightness(0.3) contrast(1.2); }
+.wt--s-cobalto{ --strap-f: hue-rotate(185deg) saturate(1.3); }
+.wt--s-salvia { --strap-f: hue-rotate(95deg) saturate(0.8) brightness(0.9); }
+.wt--s-bordeaux{ --strap-f: hue-rotate(-28deg) saturate(1.2) brightness(0.55); }
+.wt--s-neve   { --strap-f: grayscale(1) brightness(1.5); }

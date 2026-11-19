@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Коллекция – Senza Lancette</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="Восемь совершенно разных часов без стрелок: золото, сталь, разные формы корпуса, браслеты и ремешки.">
+
+  <!-- Шрифты Google (есть кириллица). Без интернета сработают запасные из style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dials.css">
+  <link rel="stylesheet" href="css/mechanisms.css">
+  <link rel="stylesheet" href="css/cw.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html" title="На главную"><span class="logo__mark"></span><span>Senza Lancette<small>Milano</small></span></a>
+
+    <!-- Бургер для телефона: скрытый чекбокс + label (css/style.css, раздел 10) -->
+    <input class="burger-toggle" type="checkbox" id="burger">
+    <label class="burger" for="burger" aria-label="Меню"><span></span></label>
+
+    <nav class="nav" aria-label="Главное меню">
+      <a href="index.html"><b>Главная</b></a>
+      <a class="is-active" href="catalog.html"><b>Коллекция</b></a>
+      <a href="gallery.html"><b>Галерея</b></a>
+      <a href="mechanisms.html"><b>Механизмы</b></a>
+      <div class="nav__more">
+        <span tabindex="0">Читать</span>
+        <div class="nav__sub">
+          <a href="inside.html"><b>Время внутри вас</b></a>
+          <a href="how.html"><b>Как узнать время</b></a>
+        </div>
+      </div>
+      <a href="reviews.html"><b>Отзывы</b></a>
+      <a href="contacts.html"><b>Контакты</b></a>
+      <a class="nav__atelier" href="atelier.html"><b>Atelier</b></a>
+    </nav>
+
+    <a class="btn btn--o header__cta" href="atelier.html">Atelier</a>
+  </header>
+
+  <main>
+
+    <section class="page-head">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Вы здесь"><a href="index.html">Главная</a><span>Коллекция</span></nav>
+        <span class="kicker">Коллекция</span>
+        <h1 class="display">Восемь<br><em>разных</em><br>часов</h1>
+        <p class="lead">Круглые, квадратные, восьмиугольные и овальные, золото и сталь, кожа, резина и браслеты. Каждая модель показывает время по-своему и живёт своей жизнью. Не нашли своё? Соберите в Atelier.</p>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <!-- Скрытые переключатели фильтра. Должны стоять ПЕРЕД .filters и .models:
+           CSS умеет выбирать только следующих соседей (знак ~). -->
+      <input class="filter-input" type="radio" name="series" id="f-all" checked>
+      <input class="filter-input" type="radio" name="series" id="f-classic">
+      <input class="filter-input" type="radio" name="series" id="f-sport">
+      <input class="filter-input" type="radio" name="series" id="f-odd">
+
+      <!-- Кнопки фильтра – подписи (label), связанные с переключателями через for -->
+      <div class="filters">
+        <label for="f-all">Все</label>
+        <label for="f-classic">Классика</label>
+        <label for="f-sport">Спорт</label>
+        <label for="f-odd">Необычные</label>
+      </div>
+
+      <div class="models">
+        <article class="model" data-series="classic">
+          <div class="model__stage"><div class="cw cw--solare cw--leather" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <span class="cw__ticks" style="--tk:#5a3a0a"></span>
+              <span class="cw__brand" style="top:30%;--ink:#4a3208">Senza Lancette</span>
+              <div class="mech-win mech-hour"><div class="disc">
+                <b style="--a:0deg">12</b>
+                <b style="--a:30deg">1</b>
+                <b style="--a:60deg">2</b>
+                <b style="--a:90deg">3</b>
+                <b style="--a:120deg">4</b>
+                <b style="--a:150deg">5</b>
+                <b style="--a:180deg">6</b>
+                <b style="--a:210deg">7</b>
+                <b style="--a:240deg">8</b>
+                <b style="--a:270deg">9</b>
+                <b style="--a:300deg">10</b>
+                <b style="--a:330deg">11</b>
+              </div></div>
+              <span class="cw__brand" style="top:70%;--ink:#4a3208">Solare</span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Solare <small>3 300 €</small></h3>
+            <p>Круглый корпус из жёлтого золота, солнечные лучи на циферблате и окно «блуждающего» часа. Ремешок из рыжей кожи.</p>
+            <span class="chip">Классика</span>
+          </div>
+        </article>
+        <article class="model" data-series="odd">
+          <div class="model__stage"><div class="cw cw--stellata cw--leather" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <div class="orb orb--hour"><i></i></div>
+              <div class="orb orb--min"><i></i></div>
+              <div class="orb orb--sec"><i></i></div>
+              <span class="cw__moon"></span>
+              <span class="cw__brand" style="top:24%">Stellata</span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Stellata <small>2 900 €</small></h3>
+            <p>Звёздное небо на тёмно-синем циферблате. Время показывают три точки на орбитах, внизу золотой полумесяц.</p>
+            <span class="chip">Необычные</span>
+          </div>
+        </article>
+        <article class="model" data-series="sport">
+          <div class="model__stage"><div class="cw cw--onda cw--rubber" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <span class="cw__brand" style="top:24%">Onda</span>
+              <div class="mech-win mech-sec"><ol class="drum">
+                <li>00</li>
+                <li>01</li>
+                <li>02</li>
+                <li>03</li>
+                <li>04</li>
+                <li>05</li>
+                <li>06</li>
+                <li>07</li>
+                <li>08</li>
+                <li>09</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>13</li>
+                <li>14</li>
+                <li>15</li>
+                <li>16</li>
+                <li>17</li>
+                <li>18</li>
+                <li>19</li>
+                <li>20</li>
+                <li>21</li>
+                <li>22</li>
+                <li>23</li>
+                <li>24</li>
+                <li>25</li>
+                <li>26</li>
+                <li>27</li>
+                <li>28</li>
+                <li>29</li>
+                <li>30</li>
+                <li>31</li>
+                <li>32</li>
+                <li>33</li>
+                <li>34</li>
+                <li>35</li>
+                <li>36</li>
+                <li>37</li>
+                <li>38</li>
+                <li>39</li>
+                <li>40</li>
+                <li>41</li>
+                <li>42</li>
+                <li>43</li>
+                <li>44</li>
+                <li>45</li>
+                <li>46</li>
+                <li>47</li>
+                <li>48</li>
+                <li>49</li>
+                <li>50</li>
+                <li>51</li>
+                <li>52</li>
+                <li>53</li>
+                <li>54</li>
+                <li>55</li>
+                <li>56</li>
+                <li>57</li>
+                <li>58</li>
+                <li>59</li>
+                <li>00</li>
+              </ol></div>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Onda <small>2 600 €</small></h3>
+            <p>Корпус-подушка в чёрном покрытии, волны цвета морской воды и окно секунд. Оранжевый резиновый ремешок с рёбрами.</p>
+            <span class="chip">Спорт</span>
+          </div>
+        </article>
+        <article class="model" data-series="odd">
+          <div class="model__stage"><div class="cw cw--cubo cw--leather" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <span class="cw__blk cw__blk--r"></span>
+              <span class="cw__blk cw__blk--y"></span>
+              <span class="cw__blk cw__blk--b"></span>
+              <span class="cw__blk cw__blk--k"></span>
+              <div class="cw-win" style="--hh:calc(var(--s) * 0.15); right:11.5%; bottom:11.5%; width:32%; height:var(--hh)"><ol class="hdrum">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>1</li>
+              </ol></div>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Cubo <small>2 750 €</small></h3>
+            <p>Квадратный корпус и белый циферблат в духе Баухауса: красный, жёлтый, синий и чёрный блоки, окно прыгающего часа.</p>
+            <span class="chip">Необычные</span>
+          </div>
+        </article>
+        <article class="model" data-series="classic">
+          <div class="model__stage"><div class="cw cw--ottagono cw--mesh" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <div class="mech-core"></div>
+              <div class="ring">
+                <b style="--a:0deg">12</b>
+                <b style="--a:30deg">1</b>
+                <b style="--a:60deg">2</b>
+                <b style="--a:90deg">3</b>
+                <b style="--a:120deg">4</b>
+                <b style="--a:150deg">5</b>
+                <b style="--a:180deg">6</b>
+                <b style="--a:210deg">7</b>
+                <b style="--a:240deg">8</b>
+                <b style="--a:270deg">9</b>
+                <b style="--a:300deg">10</b>
+                <b style="--a:330deg">11</b>
+              </div>
+              <span class="mech-notch"></span>
+              <span class="cw__brand" style="top:46%">Ottagono</span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Ottagono <small>3 100 €</small></h3>
+            <p>Восьмиугольный корпус, зелёное гильоше и кольцо цифр. Стальной браслет миланского плетения.</p>
+            <span class="chip">Классика</span>
+          </div>
+        </article>
+        <article class="model" data-series="odd">
+          <div class="model__stage"><div class="cw cw--scheletro cw--leather" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <span class="cw__skel"></span>
+              <span class="cw__bal"></span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Scheletro <small>4 200 €</small></h3>
+            <p>Вместо циферблата виден механизм, а баланс качается прямо у вас на глазах. Корпус из розового золота.</p>
+            <span class="chip">Необычные</span>
+          </div>
+        </article>
+        <article class="model" data-series="sport">
+          <div class="model__stage"><div class="cw cw--rosso cw--rubber" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <div class="cw-win" style="--hh:calc(var(--s) * 0.17); left:14%; top:12%; width:22%; height:var(--hh)"><ol class="hdrum">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>1</li>
+              </ol></div>
+              <div class="cw-win" style="--r:calc(var(--s) * 0.62); left:12%; top:46%; width:76%; height:calc(var(--s) * 0.2)"><div class="disc" style="--fs:0.075">
+                <b style="--a:0deg">00</b>
+                <b style="--a:30deg">05</b>
+                <b style="--a:60deg">10</b>
+                <b style="--a:90deg">15</b>
+                <b style="--a:120deg">20</b>
+                <b style="--a:150deg">25</b>
+                <b style="--a:180deg">30</b>
+                <b style="--a:210deg">35</b>
+                <b style="--a:240deg">40</b>
+                <b style="--a:270deg">45</b>
+                <b style="--a:300deg">50</b>
+                <b style="--a:330deg">55</b>
+              </div></div>
+              <span class="cw__idx"></span>
+              <span class="cw__brand" style="top:84%">Rosso</span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Rosso <small>2 850 €</small></h3>
+            <p>Бочкообразный корпус, красный лак и окна часа и минут в духе цифровых часов 70-х. Чёрная резина.</p>
+            <span class="chip">Спорт</span>
+          </div>
+        </article>
+        <article class="model" data-series="classic">
+          <div class="model__stage"><div class="cw cw--luna cw--leather" aria-hidden="true">
+            <i class="cw__strap cw__strap--t"></i><i class="cw__strap cw__strap--b"></i>
+            <i class="cw__lug cw__lug--tl"></i><i class="cw__lug cw__lug--tr"></i><i class="cw__lug cw__lug--bl"></i><i class="cw__lug cw__lug--br"></i>
+            <div class="cw__case"><div class="cw__face">
+              <div class="orb orb--hour"><i></i></div>
+              <div class="cw-win cw__phase"></div>
+              <span class="cw__brand" style="top:20%;--ink:#6a5560">Luna</span>
+            </div></div>
+            <i class="cw__crown"></i>
+          </div></div>
+          <div class="model__body">
+            <h3>Luna <small>3 600 €</small></h3>
+            <p>Овальный корпус из розового золота, перламутровый циферблат и окно с фазами луны. Нежно-розовая кожа.</p>
+            <span class="chip">Классика</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track"><span>Senza Lancette</span><span>Время без спешки</span><span>Сделано в Милане</span><span>Часы без стрелок</span><span>Только цвет и ритм</span><span>Senza Lancette</span><span>Время без спешки</span><span>Сделано в Милане</span><span>Часы без стрелок</span><span>Только цвет и ритм</span></div>
+    </div>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="head reveal">
+          <h2>Материалы<br>и детали</h2>
+          <p>Всё, из чего состоят наши часы. Каждая деталь делается отдельно и проходит собственный контроль.</p>
+        </div>
+        <div class="cards3 reveal">
+          <article class="card"><span class="num">316L</span><h3>Сталь корпуса</h3><p>Хирургическая сталь, из которой делают самые надёжные часы. Не вызывает аллергии, не боится воды и царапается только при очень сильном желании.</p></article>
+          <article class="card"><span class="num">9×</span><h3>Слоёв эмали</h3><p>Циферблат покрывают эмалью девять раз и сушат после каждого слоя. Поэтому цвет выглядит глубоким, а не нарисованным.</p></article>
+          <article class="card"><span class="num">3 мм</span><h3>Сапфировое стекло</h3><p>Прозрачный кристалл с антибликовым покрытием. Поцарапать его можно только алмазом, а читать время можно под любым углом.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="reveal"><span class="kicker">Характеристики</span><h2>Что общего<br>у всех моделей</h2></div>
+        <table class="specs reveal">
+          <thead><tr><th>Параметр</th><th>Значение</th></tr></thead>
+          <tbody>
+            <tr><td>Стрелки</td><td>Нет</td></tr>
+            <tr><td>Размер корпуса</td><td>38 мм, толщина 9 мм</td></tr>
+            <tr><td>Материал корпуса</td><td>Сталь 316L, жёлтое или розовое золото, чёрное покрытие</td></tr>
+            <tr><td>Стекло</td><td>Сапфировое, 3 мм, антибликовое</td></tr>
+            <tr><td>Механизм</td><td>Механический калибр, 28 800 полуколебаний в час</td></tr>
+            <tr><td>Водозащита</td><td>50 метров</td></tr>
+            <tr><td>Ремешок</td><td>Кожа, резина или стальной браслет, ширина 20 мм</td></tr>
+            <tr><td>Гарантия</td><td>5 лет</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap cols2">
+        <div class="reveal"><span class="kicker">Уход</span><h2>Уход за часами</h2></div>
+        <div class="prose reveal">
+          <p>Часы без стрелок требуют такого же ухода, как любые другие. <strong>Протирайте корпус</strong> мягкой сухой тканью раз в неделю. Если часы побывали в солёной воде, промойте их пресной и вытрите.</p>
+          <p><strong>Кожаный ремешок</strong> не любит долгого контакта с водой. После душа или дождя дайте ему высохнуть естественным образом, не на батарее. Раз в полгода можно нанести немного крема для кожи.</p>
+          <p><strong>Раз в пять лет</strong> показывайте часы мастеру. Он проверит механизм, заменит масло и вернёт корпусу блеск. Мы делаем это бесплатно по гарантии первые пять лет.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec--orange sec">
+      <div class="wrap center reveal">
+        <h2>Не нашли свои?</h2>
+        <p class="lead">Соберите часы сами: цвет, рисунок, метки, металл, ремешок.</p>
+        <a class="btn btn--w" href="atelier.html">Открыть Atelier</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer__big">Senza<br>Lancette</p>
+      <div class="footer__cols">
+        <div>
+          <h4>Senza Lancette</h4>
+          <p>Итальянская мануфактура часов без стрелок. Время здесь показывают цифры, точки и цвет, а не стрелки.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3.5 2.5 11l6.5 2.5L11.5 20l3.5-4.5 5 3.5z"/><path d="m9 13.5 12.5-10"/></svg></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener" aria-label="ВКонтакте"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="16.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="currentColor">VK</text></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Сайт</h4>
+          <a href="index.html">Главная</a>
+          <a href="catalog.html">Коллекция</a>
+          <a href="gallery.html">Галерея</a>
+          <a href="mechanisms.html">Механизмы</a>
+          <a href="atelier.html">Atelier</a>
+        </div>
+        <div>
+          <h4>Читать</h4>
+          <a href="inside.html">Время внутри вас</a>
+          <a href="how.html">Как узнать время</a>
+          <a href="reviews.html">Отзывы</a>
+        </div>
+        <div>
+          <h4>Контакты</h4>
+          <address>Via della Spiga, 12<br>20121 Milano, Italia</address>
+          <a href="tel:+390212345678">+39 02 1234 5678</a>
+          <a href="mailto:ciao@senzalancette.it">ciao@senzalancette.it</a>
+          <a href="contacts.html">Все контакты →</a>
+        </div>
+      </div>
+      <p class="footer__end">© 2026 Senza Lancette. Мануфактура часов без стрелок, Милан.</p>
+    </div>
+  </footer>
+
+<a href="https://nestudio.by/sayty/senza-lancette/" style="position:fixed;left:12px;bottom:12px;z-index:2147483000;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:#111;color:#fff;font:500 13px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.25)">Концепт nestudio · вымышленный бренд →</a>
+</body>
+</html>

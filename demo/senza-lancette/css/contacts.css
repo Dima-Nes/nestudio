@@ -1,0 +1,85 @@
+/* ==========================================================
+   contacts.css – страница «Контакты»
+   1 карточки с контактами, 2 карта и форма, 3 соцсети.
+   Стили самой формы – в forms.css.
+   ========================================================== */
+
+/* ---------- 1. Карточки: адрес, телефоны, почта, часы работы ---------- */
+.ccards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.ccard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 30px;
+  border-radius: var(--r);
+  background: var(--paper);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+.ccard:hover { transform: translateY(-6px); box-shadow: 0 26px 50px rgba(0, 0, 0, 0.1); }
+.ccard h3 { margin: 0 0 12px; font-size: 1.05rem; text-transform: uppercase; }
+.ccard address { font-style: normal; font-weight: 600; }
+.ccard a { font-weight: 700; text-decoration: none; transition: color 0.3s; }
+.ccard a:hover { color: var(--orange); }
+.ccard small { color: var(--mute); font-size: 0.85rem; }
+/* Иконка-кружок в углу карточки */
+.ccard .ic {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: #fff;
+}
+.ccard .ic svg { width: 22px; height: 22px; }
+
+/* Таблица часов работы */
+.hours { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.hours th, .hours td { padding: 5px 0; text-align: left; font-weight: 500; }
+.hours td { text-align: right; font-weight: 700; }
+.hours .off td { color: var(--orange); }
+
+/* ---------- 2. Карта и форма рядом ---------- */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
+.map {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--r);
+  background: var(--paper);
+}
+.map iframe { display: block; width: 100%; flex: 1; min-height: 380px; border: 0; filter: grayscale(0.6) contrast(1.05); transition: filter 0.4s; }
+.map:hover iframe { filter: none; }      /* при наведении карта становится цветной */
+.map__text { padding: 26px 30px 30px; }
+.map__text h2 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); margin-bottom: 10px; }
+.map__text p { margin: 0; color: var(--mute); }
+
+/* ---------- 3. Соцсети ---------- */
+.soc-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.soc {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 26px;
+  border-radius: var(--r);
+  background: var(--paper);
+  text-decoration: none;
+  transition: transform 0.4s, background 0.4s, color 0.4s;
+}
+.soc svg { flex: none; width: 30px; height: 30px; color: var(--orange); transition: color 0.4s; }
+.soc b { display: block; font: 600 1rem var(--display); text-transform: uppercase; }
+.soc small { color: var(--mute); transition: color 0.4s; }
+.soc:hover { transform: translateY(-6px); background: var(--orange); color: #fff; }
+.soc:hover svg, .soc:hover small { color: #fff; }
+
+/* ---------- Адаптив ---------- */
+@media (max-width: 1080px) {
+  .ccards, .soc-list { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 860px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .ccards, .soc-list { grid-template-columns: 1fr; }
+}

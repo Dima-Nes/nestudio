@@ -1,0 +1,124 @@
+/* ==========================================================
+   dials.css – плоские циферблаты-концепты (чистый CSS).
+   Используются на страницах «Механизмы» и «Как узнать время».
+   Стрелок и оси стрелок нет ни у одного.
+
+   Разметка:
+   <div class="dial dial--nero">           корпус (металл)
+     <div class="dial__face">               сам циферблат
+       …                                    содержимое
+     </div>
+   </div>
+   ========================================================== */
+
+.dial {
+  --size: 320px;                  /* диаметр, меняется классами */
+  --face: #222;                   /* фон циферблата */
+  --mark: #ddd;                   /* цвет меток по краю */
+  --ink:  #eee;                   /* цвет надписей */
+  /* Сталь: конический градиент даёт эффект полированного кольца */
+  --metal: conic-gradient(from 30deg, #f4f6f9, #9aa1ad, #f4f6f9, #6a7180, #f4f6f9);
+
+  position: relative;
+  width: var(--size);
+  aspect-ratio: 1;
+  padding: calc(var(--size) * 0.04);     /* толщина корпуса */
+  border-radius: 50%;
+  background: var(--metal);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+/* Блик на стекле */
+.dial::after {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), transparent 38%);
+  pointer-events: none;
+}
+
+.dial__face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--face);
+  box-shadow: inset 0 0 0 calc(var(--size) * 0.012) rgba(0, 0, 0, 0.5), inset 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Тонкие метки по краю: 60 засечек (360 / 60 = 6°).
+   repeating-conic-gradient рисует лучи, mask оставляет узкое кольцо. */
+.dial__face::before {
+  content: "";
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from -0.4deg, var(--mark) 0 0.8deg, transparent 0.8deg 6deg);
+  -webkit-mask: radial-gradient(circle closest-side, transparent 93%, #000 94%);
+          mask: radial-gradient(circle closest-side, transparent 93%, #000 94%);
+}
+
+.dial__name {
+  position: absolute;
+  left: 0; right: 0;
+  top: 66%;
+  text-align: center;
+  font: 500 calc(var(--size) * 0.045) "Unbounded", sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.dial__brand {
+  position: absolute;
+  left: 0; right: 0;
+  top: 26%;
+  text-align: center;
+  font: 600 calc(var(--size) * 0.03) "Manrope", sans-serif;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.7;
+}
+
+/* Размеры */
+.dial--sm { --size: 220px; }
+.dial--lg { --size: 380px; }
+
+/* ---------- Модели ---------- */
+
+/* Nero: чёрный, для концепта «Точки» (меток нет) */
+.dial--nero { --face: radial-gradient(circle at 35% 30%, #1d1d20, #000 70%); }
+.dial--nero .dial__face::before { display: none; }
+
+/* Grafite: графитовый, для окна секунд */
+.dial--grafite { --face: radial-gradient(circle at 35% 30%, #3b3e45, #131417); --mark: #f3f0ea; --ink: #f3f0ea; }
+
+/* Crema: светлый, для блуждающего часа */
+.dial--crema {
+  --face:
+    repeating-conic-gradient(rgba(120, 90, 30, 0.07) 0 4deg, transparent 4deg 8deg),
+    radial-gradient(circle, #fbf7ee, #e4dcc8);
+  --mark: #2a2a2a;
+  --ink: #2a2a2a;
+}
+
+/* Cobalto: синий, для кольца цифр */
+.dial--cobalto {
+  --face:
+    repeating-radial-gradient(circle, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 6px),
+    radial-gradient(circle at 40% 30%, #3a52ff, #0a1480);
+  --mark: #fff;
+  --ink: #fff;
+}
+
+/* Tv: ретро-форма «телевизор» (как у цифровых часов 70-х) и оранжевая эмаль */
+.dial--tv { border-radius: 26%; }
+.dial--tv::after { border-radius: 24%; }
+.dial--tv .dial__face {
+  border-radius: 22%;
+  background: radial-gradient(circle at 30% 25%, #ff8a4c, #e5470a 70%);
+  --ink: #1b1b1b;
+}
+.dial--tv .dial__face::before { display: none; }

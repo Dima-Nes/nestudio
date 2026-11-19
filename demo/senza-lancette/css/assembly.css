@@ -1,0 +1,154 @@
+/* ==========================================================
+   assembly.css – часы собираются из деталей при прокрутке.
+
+   Как это работает (без JavaScript):
+   1. Секция .assembly очень высокая (900vh). Внутри неё
+      .assembly__stage «прилипает» к экрану (position: sticky).
+   2. У секции есть именованная шкала времени --asm (view-timeline).
+      Её прогресс зависит от того, как далеко пролистана секция.
+   3. У каждой детали (.wt__p) анимация привязана к шкале:
+      animation-timeline: --asm. Прокрутка = «время» анимации.
+   4. Всё в 3D: .wt наклонён, детали разнесены по оси Z.
+      К концу прокрутки детали встают на место.
+   5. Шестерёнки, баланс и ротор ещё и двигаются сами. Для этого у
+      них две анимации сразу: первая привязана к прокрутке (transform),
+      вторая идёт по времени (rotate). Они не мешают друг другу,
+      потому что меняют разные свойства.
+
+   Если браузер не умеет animation-timeline, блок @supports
+   не сработает: посетитель увидит уже собранные часы.
+   ========================================================== */
+
+/* ---------- По умолчанию: часы собраны, подписи списком ---------- */
+.assembly {
+  position: relative;
+  padding: 110px 0;
+  background: var(--black);
+  color: #f3f0ea;
+  overflow: clip;       /* clip, а не hidden: hidden ломает position: sticky у сцены */
+}
+.assembly__stage { position: relative; display: grid; place-items: center; gap: 90px; perspective: 1500px; }
+.assembly .wt { --w: min(46vmin, 400px); margin: 12vmin 0; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; width: min(560px, 100% - 40px); }
+.step { padding-left: 22px; border-left: 2px solid var(--orange); }
+.step b { display: block; font: 600 1.05rem var(--display); text-transform: uppercase; }
+.step span { display: block; margin-top: 4px; color: #a9a59c; font-size: 0.95rem; }
+
+/* ==========================================================
+   Включаем анимацию, только если браузер её умеет
+   ========================================================== */
+@supports (animation-timeline: view()) {
+
+  .assembly { height: 900vh; padding: 0; view-timeline: --asm block; }
+  .assembly__stage { position: sticky; top: 0; height: 100vh; display: block; }
+
+  .assembly .wt {
+    --w: min(40vmin, 380px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: calc(var(--w) / -2) 0 0 calc(var(--w) / -2);
+  }
+
+  /* Детали механизма видны только в этой секции */
+  .assembly .wt__mech { display: block; }
+  .assembly .wt__pattern, .assembly .wt__dots { display: none; }
+
+  /* Подписи этапов: каждая видна только в своём отрезке прокрутки */
+  .steps { position: absolute; left: 5vw; bottom: 9vh; display: block; width: min(440px, 90vw); height: 9em; }
+  .step { position: absolute; inset: 0 0 auto 0; opacity: 0; animation: step-show linear both; animation-timeline: --asm; }
+  .step:nth-child(1) { animation-range: cover 11% cover 24%; }
+  .step:nth-child(2) { animation-range: cover 24% cover 34%; }
+  .step:nth-child(3) { animation-range: cover 34% cover 46%; }
+  .step:nth-child(4) { animation-range: cover 46% cover 57%; }
+  .step:nth-child(5) { animation-range: cover 57% cover 70%; }
+  .step:nth-child(6) { animation-range: cover 70% cover 81%; }
+  .step:nth-child(7) { animation-range: cover 81% cover 90%; animation-name: step-last; }
+
+  /* Общие настройки.
+     ВАЖНО: animation-timeline и animation-range пишем после
+     сокращённой записи animation, иначе она их сбросит. */
+  .assembly .wt,
+  .assembly .wt__p { animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --asm; }
+
+  .assembly .wt { animation-name: tilt; animation-range: cover 11% cover 86%; }
+
+  /* ----- Ремешок ----- */
+  .assembly .wt__strap--top    { animation-name: fly-strap; animation-range: cover 11% cover 22%; }
+  .assembly .wt__strap--bottom { animation-name: fly-strap; animation-range: cover 11% cover 22%; }
+
+  /* ----- Платина и барабан ----- */
+  .assembly .wt__movement      { animation-name: fly-plate;  animation-range: cover 18% cover 27%; }
+  .assembly .wt__barrel        { animation-name: fly-barrel, part-spin; animation-range: cover 24% cover 32%, normal; }
+
+  /* ----- Шестерёнки: каждая прилетает со своей задержкой (--n) и вращается ----- */
+  .assembly .wt__g {
+    animation-name: fly-gear, part-spin;
+    animation-range: cover calc(32% + var(--n) * 1.2%) cover calc(38% + var(--n) * 1.2%), normal;
+  }
+
+  /* ----- Баланс «тикает», ротор качается ----- */
+  .assembly .wt__balance       { animation-name: fly-balance, part-tick; animation-range: cover 44% cover 52%, normal; }
+  .assembly .wt__rotor         { animation-name: fly-rotor, part-sway;   animation-range: cover 50% cover 58%, normal; }
+
+  /* Для деталей с двумя анимациями: вторая идёт по времени, а не по прокрутке */
+  .assembly .wt__barrel,
+  .assembly .wt__g,
+  .assembly .wt__balance,
+  .assembly .wt__rotor {
+    animation-timeline: --asm, auto;
+    animation-timing-function: linear, linear;
+    animation-fill-mode: both, none;
+    animation-iteration-count: 1, infinite;
+  }
+  .assembly .wt__barrel, .assembly .wt__g { animation-duration: auto, var(--spin); animation-direction: normal, var(--dir); }
+  .assembly .wt__balance { animation-duration: auto, 0.7s; animation-direction: normal, alternate; animation-timing-function: linear, ease-in-out; }
+  .assembly .wt__rotor   { animation-duration: auto, 5s;   animation-direction: normal, alternate; animation-timing-function: linear, ease-in-out; }
+
+  /* ----- Корпус и циферблат ----- */
+  .assembly .wt__dial          { animation-name: fly-dial;    animation-range: cover 57% cover 66%; }
+  .assembly .wt__plug          { animation-name: fly-plug;    animation-range: cover 61% cover 68%; }
+  .assembly .wt__markers       { animation-name: fly-markers; animation-range: cover 63% cover 72%; }
+  .assembly .wt__case          { animation-name: fly-case;    animation-range: cover 70% cover 79%; }
+  .assembly .wt__crown         { animation-name: fly-crown;   animation-range: cover 74% cover 82%; }
+  .assembly .wt__bezel         { animation-name: fly-bezel;   animation-range: cover 76% cover 84%; }
+  .assembly .wt__label         { animation-name: fly-label;   animation-range: cover 82% cover 88%; }
+  .assembly .wt__glass         { animation-name: fly-glass;   animation-range: cover 84% cover 90%; }
+}
+
+/* ---------- Ключевые кадры ----------
+   Порядок высот важен: платина опускается первой (до z = 1px),
+   а барабан, шестерни, баланс и ротор ждут ВЫШЕ неё (z больше 0)
+   и потом ложатся сверху. Так детали никогда не проходят друг сквозь друга.
+   from = деталь разобрана, to = деталь на месте.
+   Конечные translateZ совпадают с watch.css (чем больше число, тем выше слой). */
+/* «Камера»: на этапе механизма часы приближаются (scale 1.6),
+   чтобы шестерёнки было хорошо видно, а к концу выпрямляются. */
+@keyframes tilt {
+  0%   { transform: rotateX(62deg) rotateZ(-34deg) scale(0.75); }
+  25%  { transform: rotateX(52deg) rotateZ(-22deg) scale(1.55); }
+  55%  { transform: rotateX(46deg) rotateZ(-14deg) scale(1.45); }
+  100% { transform: rotateX(0)     rotateZ(0)      scale(1); }
+}
+@keyframes fly-strap  { from { transform: translate3d(0, -170%, -260px); } to { transform: translate3d(0, 0, 0); } }   /* нижний ремешок повёрнут на 180°, знак тот же */
+@keyframes fly-plate  { from { transform: translateZ(-160px) rotate(30deg); } to { transform: translateZ(1px) rotate(0); } }
+@keyframes fly-barrel { from { transform: translateZ(40px) scale(1.15); }   to { transform: translateZ(1.5px) scale(1); } }
+@keyframes fly-gear   { from { transform: translateZ(calc(80px + var(--n) * 14px)) scale(1.2); } to { transform: translateZ(2px) scale(1); } }
+@keyframes fly-balance{ from { transform: translateZ(230px) scale(1.2); opacity: 0; } to { transform: translateZ(2.5px) scale(1); opacity: 1; } }
+@keyframes fly-rotor  { from { transform: translateZ(290px) scale(1.2); opacity: 0; } to { transform: translateZ(3px) scale(1); opacity: 1; } }
+@keyframes fly-dial   { from { transform: translateZ(520px) rotate(70deg); }   to { transform: translateZ(4px) rotate(0); } }
+@keyframes fly-plug   { from { transform: translateZ(560px); opacity: 0; }    to { transform: translateZ(8px); opacity: 1; } }
+@keyframes fly-markers{ from { transform: translateZ(640px) rotate(-60deg) scale(1.2); } to { transform: translateZ(10px) rotate(0) scale(1); } }
+@keyframes fly-case   { from { transform: translateZ(760px) rotate(-30deg); } to { transform: translateZ(12px) rotate(0); } }
+@keyframes fly-bezel  { from { transform: translateZ(880px) rotate(110deg) scale(1.1); } to { transform: translateZ(14px) rotate(0) scale(1); } }
+@keyframes fly-crown  { from { transform: translate3d(240%, 0, 220px); }      to { transform: translate3d(0, 0, 12px); } }
+@keyframes fly-label  { from { transform: translateZ(960px); opacity: 0; }    to { transform: translateZ(16px); opacity: 1; } }
+@keyframes fly-glass  { from { transform: translateZ(1040px); }                to { transform: translateZ(18px); } }
+
+@keyframes step-show {
+  0%       { opacity: 0; transform: translateY(24px); }
+  18%, 82% { opacity: 1; transform: none; }
+  100%     { opacity: 0; transform: translateY(-24px); }
+}
+@keyframes step-last { 0% { opacity: 0; transform: translateY(24px); } 30% { opacity: 1; transform: none; } 100% { opacity: 1; transform: none; } }

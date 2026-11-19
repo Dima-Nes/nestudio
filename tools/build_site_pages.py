@@ -250,11 +250,13 @@ from sites_data import SITES, BODY as SITES_BODY, FAQ as SITES_FAQ
 from directions import DIRECTIONS, HOME_FAQ
 
 NOTES = {"demo": "Демо – прототип, который мы собрали для заказчика до договора. Это не официальный сайт организации.",
-         "concept": "Концепт – сайт вымышленного бренда, который мы сделали, чтобы показать свой подход к сайтам товаров."}
+         "concept": "Концепт – сайт вымышленного бренда, который мы сделали, чтобы показать свой подход к сайтам товаров.",
+         "dev": "Проект в разработке: на скриншотах – рабочая версия с тестовыми данными."}
 GROUPS = [("live", "Запущенные сайты", ""),
           ("demo", "Демо для тендеров и клиентов", "Работающие прототипы, которые мы собираем до договора: заказчик видит будущий сайт, а не только смету."),
-          ("concept", "Концепты", "Сайты вымышленных брендов, на которых мы пробуем новые приёмы: интерактив, конструкторы товара, анимацию.")]
-BADGE = {"demo": "Демо", "concept": "Концепт"}
+          ("concept", "Концепты", "Сайты вымышленных брендов, на которых мы пробуем новые приёмы: интерактив, конструкторы товара, анимацию. Их можно открыть и полистать."),
+          ("dev", "В разработке", "Веб-приложения, над которыми мы работаем сейчас.")]
+BADGE = {"demo": "Демо", "concept": "Концепт", "dev": "В разработке"}
 
 
 def plural(n, forms):
@@ -263,28 +265,37 @@ def plural(n, forms):
 
 
 def host(s):
-    return re.sub(r"^https?://|/$", "", s["url"]) if s["url"] else "демо nestudio"
+    if not s["url"]:
+        return "демо nestudio"
+    return re.sub(r"^https?://|/$", "", s["url"] if s["url"].startswith("http") else "nestudio.by" + s["url"])
+
+
+def video_tag(slug, s, big):
+    v = s["video"] + ("" if big else "-m")
+    return (f'<video src="/media/sites/{v}.mp4" poster="/media/sites/{s["video"]}.webp" autoplay muted loop playsinline preload="{"auto" if big else "metadata"}" '
+            f'aria-label="{e(s["feature"][0] if s.get("feature") else s["h1"])}" width="1280" height="800"></video>')
 
 
 def shots(slug, s, big=False):
     """Laptop screenshot in a browser frame with the phone screenshot on top of it."""
     return (f'<div class="site-shots{" big" if big else ""}">'
             f'<div class="site-browser"><div class="site-bar" aria-hidden="true"><i></i><i></i><i></i><span>{e(host(s))}</span></div>'
-            f'<img src="/media/sites/{slug}-d.webp" alt="{e(s["h1"])} – вид на компьютере" width="1280" height="800"{"" if big else " loading=\"lazy\""} decoding="async"></div>'
+            + (video_tag(slug, s, big) if s.get("video") else f'<img src="/media/sites/{slug}-d.webp" alt="{e(s["h1"])} – вид на компьютере" width="1280" height="800"{"" if big else " loading=\"lazy\""} decoding="async">') + '</div>'
             f'<div class="site-phone"><img src="/media/sites/{slug}-m.webp" alt="{e(s["h1"])} – вид на телефоне" width="500" height="1082" loading="lazy" decoding="async"></div></div>')
 
 
 def site_card(slug, s):
     live = s["status"] == "live"
-    btns = (f'<a class="header-cta" href="{e(s["url"])}" target="_blank" rel="noopener">Открыть {e(host(s))} ↗</a>\n        <a class="header-cta ghost" href="/sayty/{slug}/">Подробнее</a>'
-            if live else f'<a class="header-cta" href="/sayty/{slug}/">Подробнее о проекте</a>\n        <a class="header-cta ghost" href="{CONTACT["telegram"]}" target="_blank" rel="noopener">Хочу похожий сайт</a>')
+    label = f"Открыть {host(s)} ↗" if live else "Открыть концепт ↗" if s["status"] == "concept" else "Открыть ↗"
+    btns = (f'<a class="header-cta" href="{e(s["url"])}" target="_blank" rel="noopener">{e(label)}</a>\n        <a class="header-cta ghost" href="/sayty/{slug}/">Подробнее</a>'
+            if s["url"] else f'<a class="header-cta" href="/sayty/{slug}/">Подробнее о проекте</a>\n        <a class="header-cta ghost" href="{CONTACT["telegram"]}" target="_blank" rel="noopener">Хочу похожий сайт</a>')
     return f"""  <article class="site-case" id="{slug}">
     <a class="site-shots-link" href="/sayty/{slug}/" aria-label="{e(s['h1'])}">{shots(slug, s)}</a>
     <div class="site-info">
       <div class="section-title">{e(s['kind'])} · {s['year']}{f' <span class="site-badge">{BADGE[s["status"]]}</span>' if s["status"] in BADGE else ''}</div>
       <h3><a href="/sayty/{slug}/">{e(s['name'])}</a></h3>
       <p class="site-client">{e(s['client'])}</p>
-      <p>{inline(s['lead'])}</p>
+      <p>{inline(s['lead'])}</p>{f'{chr(10)}      <p class="site-feature"><b>{e(s["feature"][0])}.</b> {e(s["feature"][1])}</p>' if s.get("feature") else ''}
       <ul>{''.join(f'<li>{inline(d)}</li>' for d in s['did'][:4])}</ul>
       <div class="site-tags">{''.join(f'<span>{e(t)}</span>' for t in s['tags'])}</div>
       <div class="case-actions">
@@ -310,8 +321,12 @@ def plain(text):
     return re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
 
 
-def home(text, cards):
-    """Fill the generated parts of the portfolio page: header switch, tiles, phone bar, questions."""
+TILE_STATE = {"cards": []}   # video cards, set by home(); used for the video tile on other pages
+
+
+def dir_tiles(active, on_home=False):
+    """The tiles of the lines of work; the one the visitor is in has a frame."""
+    cards = TILE_STATE["cards"]
     n = len(cards)
     by = {attr(c, "data-slug"): c for c in cards}
     best = ["marsel-hug-sportivnyy-klip-s-anime-vstavkami", "srdouble-lift", "foresto-biznes-tsentr-palatstso-reklamnyy-rolik"]
@@ -326,14 +341,28 @@ def home(text, cards):
                     f'<span class="dir-phone"><img src="/media/sites/{keys[min(2, len(keys) - 1)]}-m.webp" alt="" loading="lazy" decoding="async"></span>')
         return "".join(f'<img src="{e(t)}" alt="" loading="lazy" decoding="async">' for t in d.get("thumbs", []))
 
-    def more(d):
-        return f'{n} {plural(n, ("работа", "работы", "работ"))} ↓' if d["more"] == "count" else d["more"]
+    def href(d):
+        if d["key"] == active:   # already here: go to the works below
+            return d["tile_href"] if d["key"] == "video" else "#sayty" if d["key"] == "sites" else d["href"]
+        return "/#works" if d["key"] == "video" else d["href"]
 
-    nav = "".join(f'<a href="{d["href"]}" data-match="{e(d["match"])}">{e(d["nav"])}</a>' for d in DIRECTIONS)
-    tiles = "\n".join(
-        f'      <a class="dir-tile dir-{d["key"]}" href="{d["tile_href"]}"><span class="dir-text"><span class="dir-kicker">Направление {i + 1:02d}</span>'
+    def more(d):
+        if d["more"] == "count":
+            return (f'{n} {plural(n, ("работа", "работы", "работ"))} ' + ("↓" if d["key"] == active else "→")) if n else "Смотреть работы →"
+        return d["more"].replace("→", "↓") if d["key"] == active else d["more"]
+
+    return "\n".join(
+        f'      <a class="dir-tile dir-{d["key"]}{" is-current" if d["key"] == active else ""}" href="{href(d)}"{" aria-current=\"page\"" if d["key"] == active else ""}>'
+        f'<span class="dir-text"><span class="dir-kicker">Направление {i + 1:02d}{" · вы здесь" if d["key"] == active else ""}</span>'
         f'<span class="dir-name">{e(d["name"])}</span><span class="dir-desc">{e(d["desc"])}</span><span class="dir-more">{e(more(d))}</span></span>'
         f'<span class="dir-thumbs">{thumbs(d)}</span></a>' for i, d in enumerate(DIRECTIONS))
+
+
+def home(text, cards):
+    """Fill the generated parts of the portfolio page: header switch, tiles, phone bar, questions."""
+    TILE_STATE["cards"] = cards
+    nav = "".join(f'<a href="{d["href"]}" data-match="{e(d["match"])}">{e(d["nav"])}</a>' for d in DIRECTIONS)
+    tiles = dir_tiles("video", on_home=True)
     bot = ("".join(f'\n    <a href="{d["href"]}" data-match="{e(d["match"])}"{" data-nav=\"works\"" if d["href"] == "/" else ""}>{e(d["nav"])}</a>' for d in DIRECTIONS)
            if len(DIRECTIONS) <= 2 else '\n    <a href="/" data-nav="works">Работы</a>')
     faq_ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
@@ -352,24 +381,34 @@ def home(text, cards):
 def site_page(parts, slug, s, svc_links):
     path, live = f"sayty/{slug}/", s["status"] == "live"
     url = f"{SITE}/{path}"
-    status = (f'сайт работает – <a href="{e(s["url"])}" target="_blank" rel="noopener">{e(host(s))}</a>' if live else e(NOTES[s["status"]]))
+    link = f'<a href="{e(s["url"])}" target="_blank" rel="noopener">{e(host(s))}</a>' if s["url"] else ""
+    status = (f"сайт работает – {link}" if live else f"{e(NOTES[s['status']])} Открыть вживую: {link}" if link else e(NOTES[s["status"]]))
     others = [(k, o) for k, o in SITES.items() if k != slug]
-    body = md(f"## Задача\n{s['task']}\n\n## Что сделали\n" + "\n".join(f"- {d}" for d in s["did"]) + f"\n\n## Результат\n{s['result']}")
+    feature = ""
+    if s.get("feature"):
+        feature = (f'<h2 id="glavnoe">Главное: {e(s["feature"][0].lower())}</h2>\n<p>{e(s["feature"][1])}</p>\n'
+                   + (f'<p><a class="header-cta" href="{e(s["url"])}" target="_blank" rel="noopener">Полистать вживую ↗</a></p>\n' if s["url"] else ""))
+    body = feature + md(f"## Задача\n{s['task']}\n\n## Что сделали\n" + "\n".join(f"- {d}" for d in s["did"]) + f"\n\n## Результат\n{s['result']}")
     if not live:
         body += f'\n<p class="site-demo-note">{e(NOTES[s["status"]])}</p>'
     body += ('\n<h2 id="drugie-sayty">Другие сайты</h2>\n<ul class="site-others">' + "".join(
         f'<li><a href="/sayty/{k}/"><img src="/media/sites/{k}-d.webp" alt="" loading="lazy" decoding="async"><span><b>{e(o["name"])}</b>{e(o["kind"])}</span></a></li>' for k, o in others) + "</ul>")
     work = ({"@type": "WebSite", "name": s["name"].strip("«»"), "url": s["url"]} if live else
-            {"@type": "CreativeWork", "name": s["h1"], "genre": "концепт сайта" if s["status"] == "concept" else "демо сайта", "url": url})
+            {"@type": "CreativeWork", "name": s["h1"], "genre": {"concept": "концепт сайта", "dev": "веб-приложение"}.get(s["status"], "демо сайта"), "url": url})
     work.update({"@id": f"{url}#work", "description": s["desc"], "creator": {"@id": f"{SITE}/#org"}, "dateCreated": s["year"],
                  "image": f"{SITE}/media/sites/{slug}-d.jpg", "keywords": ", ".join(s["tags"]), "inLanguage": "ru"})
+    ld_extra = [work]
+    if s.get("video"):
+        ld_extra.append({"@type": "VideoObject", "name": f'{s["name"]}: {s["feature"][0].lower()}', "description": s["feature"][1],
+                         "thumbnailUrl": f'{SITE}/media/sites/{slug}-d.jpg', "contentUrl": f'{SITE}/media/sites/{s["video"]}.mp4',
+                         "uploadDate": "2026-11-19", "duration": "PT8S", "inLanguage": "ru", "creator": {"@id": f"{SITE}/#org"}})
     aside = ("О проекте", [("Заказчик", e(s["client"])), ("Тип", e(s["kind"])), ("Год", s["year"]), ("Статус", status),
                            ("Что внутри", e(", ".join(s["tags"]))), ("Направления", f'<ul class="svc-list">{svc_links}</ul>')])
     showcase = f'\n  <section class="site-hero" aria-label="Скриншоты">{shots(slug, s, big=True)}</section>\n'
     return page(parts, path, s["title"], s["desc"], s["h1"], s["lead"], [("Сайты", f"{SITE}/sayty/"), (s["name"].strip("«»"), url)],
                 body, aside, None, ("Нужен похожий сайт?", "Расскажите о задаче – покажем демо с вашей структурой до договора."),
-                [work], "Сайты", showcase=showcase, image=f"{SITE}/media/sites/{slug}-d.jpg",
-                second=(f"Открыть {host(s)} ↗", s["url"]) if live else ("Все сайты", "/sayty/"))
+                ld_extra, "Сайты", showcase=showcase, image=f"{SITE}/media/sites/{slug}-d.jpg",
+                second=(f"Открыть {host(s)} ↗", s["url"]) if live else ("Открыть концепт ↗", s["url"]) if s["url"] else ("Все сайты", "/sayty/"), section="sites")
 
 
 def md(text):
@@ -403,12 +442,12 @@ def ld(url, name, crumbs, extra):
     return '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False).replace("</", "<\\/") + "</script>\n"
 
 
-def page(parts, path, title, desc, h1, lead, crumb, body, aside, grid, cta, ldx, label, showcase="", image="", second=("Смотреть работы", "#works")):
+def page(parts, path, title, desc, h1, lead, crumb, body, aside, grid, cta, ldx, label, showcase="", image="", second=("Смотреть работы", "#works"), section="", intro_after=""):
     url = f"{SITE}/{path}"
     image = image or (B.cover(grid[1][0]) if grid and grid[1] else f"{SITE}/media/foresto.jpg")
     grid_html = (f'\n  <h2 class="section-title related-title">{e(grid[0])}</h2>\n  <section class="works" id="works" aria-label="{e(grid[0])}">\n'
                  + "\n".join(B.rooted(c) for c in grid[1]) + "\n  </section>") if grid and grid[1] else ""
-    return B.versioned(B.head(title, desc, url, image, "website", ld(url, h1, crumb, ldx)) + f"""<body class="is-loading" data-page="service">
+    return B.versioned(B.head(title, desc, url, image, "website", ld(url, h1, crumb, ldx)) + f"""<body class="is-loading" data-page="service"{f' data-section="{section}"' if section else ''}>
 {parts['header']}
 
 <main class="page">
@@ -421,7 +460,7 @@ def page(parts, path, title, desc, h1, lead, crumb, body, aside, grid, cta, ldx,
         <a class="header-cta" href="{CONTACT['telegram']}" target="_blank" rel="noopener">Обсудить проект</a>
         <a class="header-cta ghost" href="{second[1]}">{e(second[0])}</a>
       </div>
-    </div>
+    </div>{intro_after}
   </section>
 {showcase}
   <div class="case-layout">
@@ -567,7 +606,8 @@ def build(parts, cards):
                          ("Коротко", [("Направление", "разработка сайтов, второе после видео"), ("Форматы", "сайты компаний, госорганизаций и учреждений образования, сайты доставки, демо для тендеров"),
                                       ("Плюс", "видео, фото и визуалы в одной студии"), ("Направления", f'<ul class="svc-list">{svc_links}</ul>')]),
                          None, ("Нужен сайт?", "Расскажите о задаче – покажем демо с вашей структурой до договора."), sites_ld, "Сайты",
-                         showcase=sites_html(), image=f"{SITE}/media/sites/{next(iter(SITES))}-d.jpg", second=("Смотреть сайты", "#sayty")))
+                         showcase=sites_html(), image=f"{SITE}/media/sites/{next(iter(SITES))}-d.jpg", second=("Смотреть сайты", "#sayty"),
+                         section="sites", intro_after=f'\n    <nav class="dirs" aria-label="Направления студии">\n{dir_tiles("sites")}\n    </nav>'))
     pages.append(("sayty/", "Сайты", ""))
     for slug, s in SITES.items():
         write(f"sayty/{slug}/", site_page(parts, slug, s, svc_links))

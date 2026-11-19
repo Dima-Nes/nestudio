@@ -1,0 +1,181 @@
+/* ==========================================================
+   atelier.css – конфигуратор часов (как на сайтах автомобилей).
+   Весь выбор работает без JavaScript.
+
+   Идея:
+   1. Каждый вариант – скрытая радиокнопка <input type="radio">
+      рядом со своей подписью <label>.
+   2. Блок .atelier следит за выбором селектором :has():
+      .atelier:has(#d-cobalto:checked) { ... }
+      «если внутри отмечен #d-cobalto, поменяй переменные».
+   3. Переменные (--c-dial, --c-case ...) читают часы из watch.css,
+      поэтому часы перекрашиваются мгновенно.
+   4. Цена считается CSS-счётчиком: каждый вариант добавляет
+      свою сумму через counter-increment.
+   ========================================================== */
+
+.atelier {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Скрытые радиокнопки */
+.atelier input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+
+/* ---------- Сцена с часами (залипает при прокрутке) ---------- */
+.cfg__stage {
+  position: sticky;
+  top: 100px;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--stone);
+}
+.cfg__view {
+  display: grid;
+  place-items: center;
+  height: min(52vh, 520px);
+}
+.cfg__view .wt {
+  --w: min(25vh, 260px);
+  /* Подключаем переменные конфигуратора к переменным часов.
+     Если вариант не выбран, берём запасное значение после запятой. */
+  --dial-f:  var(--c-dial,  none);
+  --case-f:  var(--c-case,  none);
+  --strap-f: var(--c-strap, none);
+  --pat:     var(--c-pat,   none);
+  --mk-o:    var(--c-mk,    1);
+  --dots-o:  var(--c-dots,  0);
+  --ink:     var(--c-ink,   #fff);
+  transition: filter 0.3s;
+}
+/* Надписи: показываем только выбранную */
+.wt__label span.t { display: none; }
+.atelier:has(#t-milano:checked) .t-milano,
+.atelier:has(#t-fretta:checked) .t-fretta,
+.atelier:has(#t-qui:checked)    .t-qui { display: block; }
+
+/* Итог под часами */
+.cfg__sum {
+  counter-reset: price 2400;               /* базовая цена модели */
+  padding: 26px 30px 30px;
+  background: var(--ink);
+  color: #fff;
+}
+.cfg__sum h3 { margin: 0 0 14px; text-transform: uppercase; }
+.cfg__sum dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 20px; margin: 0 0 20px; font-size: 0.92rem; }
+.cfg__sum dt { color: #8c887f; }
+.cfg__sum dd { margin: 0; text-align: right; }
+.cfg__sum dd::after { content: var(--v); }      /* текст берём из переменной --v */
+.cfg__row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.price { font: 600 2rem var(--display); letter-spacing: -0.03em; }
+.price::after { content: counter(price) " €"; }    /* итог = сумма всех counter-increment */
+/* Пустые элементы-слагаемые. Их нельзя прятать через display: none,
+   потому что счётчики не работают у нерисуемых элементов. */
+.add { counter-increment: price var(--add, 0); position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------- Панель выбора ---------- */
+.cfg__group { padding: 0 0 30px; margin-bottom: 30px; border-bottom: 1px solid var(--line); }
+.cfg__group h3 { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; text-transform: uppercase; }
+.cfg__group h3 small { font: 600 0.7rem var(--text); letter-spacing: 0.2em; color: var(--mute); }
+.opts { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Круглые образцы цвета */
+.opts label.sw {
+  width: 54px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--c);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s;
+}
+.opts label.sw:hover { transform: scale(1.1); }
+.opts input:checked + label.sw { box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--ink); }
+
+/* Таблетки с текстом (рисунок, метки, надпись) */
+.opts label.pill {
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: var(--paper);
+  font: 700 0.74rem var(--text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+.opts label.pill:hover { background: var(--stone); }
+.opts input:checked + label.pill { background: var(--ink); color: #fff; }
+.opts label.pill small { margin-left: 6px; color: var(--orange); }
+.opts input:checked + label.pill small { color: #ffb08f; }
+
+/* Клавиатурный фокус виден, хотя input скрыт */
+.opts input:focus-visible + label { outline: 3px solid var(--orange); outline-offset: 3px; }
+
+/* ==========================================================
+   Варианты. Каждое правило: «если выбрано X, то задай переменные».
+   --c-* : значение для часов,  --v : текст в итоге,  --add : цена
+   ========================================================== */
+
+/* --- Циферблат: цвет --- */
+.atelier:has(#d-arancio:checked)  { --c-dial: none;                                          --v-dial: "Оранжевый";  --a-dial: 0; }
+.atelier:has(#d-cobalto:checked)  { --c-dial: hue-rotate(185deg) saturate(1.3);              --v-dial: "Синий";  --a-dial: 150; }
+.atelier:has(#d-salvia:checked)   { --c-dial: hue-rotate(95deg) saturate(0.8) brightness(0.9); --v-dial: "Зелёный";  --a-dial: 150; }
+.atelier:has(#d-bordeaux:checked) { --c-dial: hue-rotate(-28deg) saturate(1.2) brightness(0.55); --v-dial: "Бордовый"; --a-dial: 200; }
+.atelier:has(#d-nero:checked)     { --c-dial: grayscale(1) brightness(0.28) contrast(1.3);  --v-dial: "Чёрный";     --a-dial: 200; }
+.atelier:has(#d-neve:checked)     { --c-dial: grayscale(1) brightness(1.45) contrast(0.9); --c-ink: #2a2a2a; --v-dial: "Белый"; --a-dial: 100; }
+.atelier:has(#d-rosa:checked)     { --c-dial: hue-rotate(-45deg) saturate(0.8) brightness(1.25); --v-dial: "Розовый"; --a-dial: 150; }
+.atelier:has(#d-sole:checked)     { --c-dial: hue-rotate(28deg) saturate(1.2) brightness(1.2); --c-ink: #2a2a2a; --v-dial: "Жёлтый"; --a-dial: 100; }
+
+/* --- Рисунок на циферблате --- */
+.atelier:has(#p-liscio:checked)  { --c-pat: none; --v-pat: "Гладкий"; --a-pat: 0; }
+.atelier:has(#p-punti:checked)   { --c-pat: radial-gradient(circle, rgba(0,0,0,.4) 0 1.6px, transparent 2px) 0 0 / 12px 12px; --v-pat: "Точки"; --a-pat: 120; }
+.atelier:has(#p-righe:checked)   { --c-pat: repeating-linear-gradient(90deg, rgba(0,0,0,.2) 0 2px, transparent 2px 9px); --v-pat: "Полосы"; --a-pat: 120; }
+.atelier:has(#p-cerchi:checked)  { --c-pat: repeating-radial-gradient(circle, rgba(0,0,0,.22) 0 2px, transparent 2px 12px); --v-pat: "Круги"; --a-pat: 180; }
+.atelier:has(#p-griglia:checked) { --c-pat: linear-gradient(rgba(0,0,0,.2) 1px, transparent 1px) 0 0 / 14px 14px, linear-gradient(90deg, rgba(0,0,0,.2) 1px, transparent 1px) 0 0 / 14px 14px; --v-pat: "Сетка"; --a-pat: 120; }
+.atelier:has(#p-scacchi:checked) { --c-pat: repeating-conic-gradient(rgba(0,0,0,.24) 0 25%, transparent 0 50%) 0 0 / 22px 22px; --v-pat: "Шашки"; --a-pat: 150; }
+
+/* --- Метки --- */
+.atelier:has(#m-barre:checked)   { --c-mk: 1; --c-dots: 0; --v-mk: "Бруски";   --a-mk: 0; }
+.atelier:has(#m-punti:checked)   { --c-mk: 0; --c-dots: 1; --v-mk: "Точки";   --a-mk: 0; }
+.atelier:has(#m-nessuno:checked) { --c-mk: 0; --c-dots: 0; --v-mk: "Без меток"; --a-mk: 0; }
+
+/* --- Корпус --- */
+.atelier:has(#c-acciaio:checked)  { --c-case: none; --v-case: "Сталь"; --a-case: 0; }
+.atelier:has(#c-oro:checked)      { --c-case: sepia(1) saturate(2.6) hue-rotate(-12deg) brightness(0.95) contrast(1.05); --v-case: "Золото"; --a-case: 900; }
+.atelier:has(#c-rosegold:checked) { --c-case: sepia(1) saturate(1.8) hue-rotate(-32deg); --v-case: "Розовое золото"; --a-case: 900; }
+.atelier:has(#c-nero:checked)     { --c-case: grayscale(1) brightness(0.32) contrast(1.4); --v-case: "Чёрный"; --a-case: 300; }
+
+/* --- Ремешок --- */
+.atelier:has(#s-arancio:checked)  { --c-strap: none; --v-strap: "Оранжевый"; --a-strap: 0; }
+.atelier:has(#s-nero:checked)     { --c-strap: grayscale(1) brightness(0.3) contrast(1.2); --v-strap: "Чёрный"; --a-strap: 0; }
+.atelier:has(#s-cobalto:checked)  { --c-strap: hue-rotate(185deg) saturate(1.3); --v-strap: "Синий"; --a-strap: 0; }
+.atelier:has(#s-salvia:checked)   { --c-strap: hue-rotate(95deg) saturate(0.8) brightness(0.9); --v-strap: "Зелёный"; --a-strap: 0; }
+.atelier:has(#s-bordeaux:checked) { --c-strap: hue-rotate(-28deg) saturate(1.2) brightness(0.55); --v-strap: "Бордовый"; --a-strap: 0; }
+.atelier:has(#s-neve:checked)     { --c-strap: grayscale(1) brightness(1.5); --v-strap: "Белый"; --a-strap: 0; }
+
+/* --- Надпись (текст самой надписи – в HTML, здесь цена и название) --- */
+.atelier:has(#t-milano:checked) { --v-txt: "Milano";       --a-txt: 0; }
+.atelier:has(#t-fretta:checked) { --v-txt: "Senza fretta"; --a-txt: 80; }
+.atelier:has(#t-qui:checked)    { --v-txt: "Ora e qui";    --a-txt: 80; }
+
+/* Подставляем выбранные значения в строки итога и в цену */
+.cfg__sum .l-dial   { --v: var(--v-dial); }
+.cfg__sum .l-pat    { --v: var(--v-pat); }
+.cfg__sum .l-mk     { --v: var(--v-mk); }
+.cfg__sum .l-case   { --v: var(--v-case); }
+.cfg__sum .l-strap  { --v: var(--v-strap); }
+.cfg__sum .l-txt    { --v: var(--v-txt); }
+.add.a-dial  { --add: var(--a-dial, 0); }
+.add.a-pat   { --add: var(--a-pat, 0); }
+.add.a-mk    { --add: var(--a-mk, 0); }
+.add.a-case  { --add: var(--a-case, 0); }
+.add.a-strap { --add: var(--a-strap, 0); }
+.add.a-txt   { --add: var(--a-txt, 0); }
+
+@media (max-width: 980px) {
+  .atelier { grid-template-columns: 1fr; }
+  .cfg__stage { position: static; }
+  .cfg__view { height: 560px; }
+}

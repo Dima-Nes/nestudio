@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier – конструктор часов – Senza Lancette</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="description" content="Соберите свои часы: цвет и рисунок циферблата, метки, металл, ремешок и надпись.">
+
+  <!-- Шрифты Google (есть кириллица). Без интернета сработают запасные из style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/watch.css">
+  <link rel="stylesheet" href="css/atelier.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html" title="На главную"><span class="logo__mark"></span><span>Senza Lancette<small>Milano</small></span></a>
+
+    <!-- Бургер для телефона: скрытый чекбокс + label (css/style.css, раздел 10) -->
+    <input class="burger-toggle" type="checkbox" id="burger">
+    <label class="burger" for="burger" aria-label="Меню"><span></span></label>
+
+    <nav class="nav" aria-label="Главное меню">
+      <a href="index.html"><b>Главная</b></a>
+      <a href="catalog.html"><b>Коллекция</b></a>
+      <a href="gallery.html"><b>Галерея</b></a>
+      <a href="mechanisms.html"><b>Механизмы</b></a>
+      <div class="nav__more">
+        <span tabindex="0">Читать</span>
+        <div class="nav__sub">
+          <a href="inside.html"><b>Время внутри вас</b></a>
+          <a href="how.html"><b>Как узнать время</b></a>
+        </div>
+      </div>
+      <a href="reviews.html"><b>Отзывы</b></a>
+      <a href="contacts.html"><b>Контакты</b></a>
+      <a class="nav__atelier" href="atelier.html"><b>Atelier</b></a>
+    </nav>
+
+    <a class="btn btn--o header__cta" href="atelier.html">Atelier</a>
+  </header>
+
+  <main>
+
+    <section class="page-head">
+      <div class="wrap">
+        <nav class="crumbs" aria-label="Вы здесь"><a href="index.html">Главная</a><span>Atelier</span></nav>
+        <span class="kicker">Atelier</span>
+        <h1 class="display">Создайте<br><em>свои</em><br>часы</h1>
+        <p class="lead">Выбирайте цвет и рисунок циферблата, метки, металл корпуса, ремешок и надпись. Часы слева перекрашиваются сразу, а цена внизу пересчитывается.</p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap atelier">
+
+        <!-- Левая часть: часы и итог -->
+        <div class="cfg__stage">
+          <div class="cfg__view">
+            <div class="wt " aria-hidden="true">
+    <div class="wt__p wt__strap wt__strap--top"></div>
+    <div class="wt__p wt__strap wt__strap--bottom"></div>
+    <div class="wt__p wt__movement"></div>
+    <div class="wt__p wt__dial"></div>
+    <div class="wt__p wt__pattern"></div>
+    <div class="wt__p wt__plug"></div>
+    <div class="wt__p wt__markers"></div>
+    <div class="wt__p wt__dots">
+      <i style="--a:0deg"></i>
+      <i style="--a:30deg"></i>
+      <i style="--a:60deg"></i>
+      <i style="--a:90deg"></i>
+      <i style="--a:120deg"></i>
+      <i style="--a:150deg"></i>
+      <i style="--a:180deg"></i>
+      <i style="--a:210deg"></i>
+      <i style="--a:240deg"></i>
+      <i style="--a:270deg"></i>
+      <i style="--a:300deg"></i>
+      <i style="--a:330deg"></i>
+    </div>
+    <div class="wt__p wt__case"></div>
+    <div class="wt__p wt__crown"></div>
+    <div class="wt__p wt__bezel"></div>
+    <div class="wt__p wt__label"><b>Senza Lancette</b>
+      <span class="t t-milano">Milano</span>
+      <span class="t t-fretta">Senza fretta</span>
+      <span class="t t-qui">Ora e qui</span></div>
+    <div class="wt__p wt__glass"></div>
+  </div>
+          </div>
+
+          <div class="cfg__sum">
+            <!-- Пустые слагаемые для счётчика цены (см. css/atelier.css) -->
+            <span class="add a-dial"></span><span class="add a-pat"></span><span class="add a-mk"></span>
+            <span class="add a-case"></span><span class="add a-strap"></span><span class="add a-txt"></span>
+            <h3>Ваши часы</h3>
+            <dl>
+              <dt>Циферблат</dt><dd class="l-dial"></dd>
+              <dt>Рисунок</dt><dd class="l-pat"></dd>
+              <dt>Метки</dt><dd class="l-mk"></dd>
+              <dt>Корпус</dt><dd class="l-case"></dd>
+              <dt>Ремешок</dt><dd class="l-strap"></dd>
+              <dt>Надпись</dt><dd class="l-txt"></dd>
+            </dl>
+            <div class="cfg__row">
+              <span class="price"></span>
+              <a class="btn btn--o" style="margin:0" href="#ordine">Заказать</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Правая часть: варианты. Радиокнопки стоят рядом со своими подписями. -->
+        <div class="cfg__panel">
+          <div class="cfg__group"><h3>Циферблат</h3><div class="opts">
+            <input type="radio" name="dial" id="d-arancio" checked><label class="sw" for="d-arancio" style="--c:#ff4a0d" title="Оранжевый"></label>
+            <input type="radio" name="dial" id="d-cobalto"><label class="sw" for="d-cobalto" style="--c:#2438ff" title="Синий"></label>
+            <input type="radio" name="dial" id="d-salvia"><label class="sw" for="d-salvia" style="--c:#4a8a62" title="Зелёный"></label>
+            <input type="radio" name="dial" id="d-bordeaux"><label class="sw" for="d-bordeaux" style="--c:#6b1428" title="Бордовый"></label>
+            <input type="radio" name="dial" id="d-nero"><label class="sw" for="d-nero" style="--c:#151515" title="Чёрный"></label>
+            <input type="radio" name="dial" id="d-neve"><label class="sw" for="d-neve" style="--c:#f2f2ee" title="Белый"></label>
+            <input type="radio" name="dial" id="d-rosa"><label class="sw" for="d-rosa" style="--c:#f0709f" title="Розовый"></label>
+            <input type="radio" name="dial" id="d-sole"><label class="sw" for="d-sole" style="--c:#ffc21a" title="Жёлтый"></label>
+          </div></div>
+          <div class="cfg__group"><h3>Рисунок</h3><div class="opts">
+            <input type="radio" name="pat" id="p-liscio" checked><label class="pill" for="p-liscio">Гладкий</label>
+            <input type="radio" name="pat" id="p-punti"><label class="pill" for="p-punti">Точки<small>+120</small></label>
+            <input type="radio" name="pat" id="p-righe"><label class="pill" for="p-righe">Полосы<small>+120</small></label>
+            <input type="radio" name="pat" id="p-cerchi"><label class="pill" for="p-cerchi">Круги<small>+180</small></label>
+            <input type="radio" name="pat" id="p-griglia"><label class="pill" for="p-griglia">Сетка<small>+120</small></label>
+            <input type="radio" name="pat" id="p-scacchi"><label class="pill" for="p-scacchi">Шашки<small>+150</small></label>
+          </div></div>
+          <div class="cfg__group"><h3>Метки</h3><div class="opts">
+            <input type="radio" name="mk" id="m-barre" checked><label class="pill" for="m-barre">Бруски</label>
+            <input type="radio" name="mk" id="m-punti"><label class="pill" for="m-punti">Точки</label>
+            <input type="radio" name="mk" id="m-nessuno"><label class="pill" for="m-nessuno">Без меток</label>
+          </div></div>
+          <div class="cfg__group"><h3>Корпус</h3><div class="opts">
+            <input type="radio" name="case" id="c-acciaio" checked><label class="pill" for="c-acciaio">Сталь</label>
+            <input type="radio" name="case" id="c-nero"><label class="pill" for="c-nero">Чёрный<small>+300</small></label>
+            <input type="radio" name="case" id="c-oro"><label class="pill" for="c-oro">Золото<small>+900</small></label>
+            <input type="radio" name="case" id="c-rosegold"><label class="pill" for="c-rosegold">Розовое золото<small>+900</small></label>
+          </div></div>
+          <div class="cfg__group"><h3>Ремешок</h3><div class="opts">
+            <input type="radio" name="strap" id="s-arancio" checked><label class="sw" for="s-arancio" style="--c:#ff4a0d" title="Оранжевый"></label>
+            <input type="radio" name="strap" id="s-nero"><label class="sw" for="s-nero" style="--c:#151515" title="Чёрный"></label>
+            <input type="radio" name="strap" id="s-cobalto"><label class="sw" for="s-cobalto" style="--c:#2438ff" title="Синий"></label>
+            <input type="radio" name="strap" id="s-salvia"><label class="sw" for="s-salvia" style="--c:#4a8a62" title="Зелёный"></label>
+            <input type="radio" name="strap" id="s-bordeaux"><label class="sw" for="s-bordeaux" style="--c:#6b1428" title="Бордовый"></label>
+            <input type="radio" name="strap" id="s-neve"><label class="sw" for="s-neve" style="--c:#f2f2ee" title="Белый"></label>
+          </div></div>
+          <div class="cfg__group" style="border:0"><h3>Надпись</h3><div class="opts">
+            <input type="radio" name="txt" id="t-milano" checked><label class="pill" for="t-milano">Milano</label>
+            <input type="radio" name="txt" id="t-fretta"><label class="pill" for="t-fretta">Senza fretta<small>+80</small></label>
+            <input type="radio" name="txt" id="t-qui"><label class="pill" for="t-qui">Ora e qui<small>+80</small></label>
+          </div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="ordine">
+      <div class="wrap cols2">
+        <div class="reveal">
+          <span class="kicker">Заказ</span>
+          <h2>Как проходит<br>заказ</h2>
+        </div>
+        <div class="prose reveal">
+          <p><strong>Конфигурация.</strong> Вы собираете часы здесь и нажимаете «Заказать». Мы сохраняем выбор и в течение дня связываемся с вами, чтобы уточнить размер запястья и надпись.</p>
+          <p><strong>Визуализация.</strong> Дизайнер мастерской присылает фотореалистичное изображение ваших часов. Если что-то хочется поменять, это можно сделать бесплатно до начала работы.</p>
+          <p><strong>Изготовление и доставка.</strong> Мастер собирает часы вручную около шести недель. Готовые часы приезжают в деревянной коробке с сертификатом, запасным ремешком и пятилетней гарантией.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec--dark sec">
+      <div class="wrap">
+        <div class="head reveal">
+          <h2>Что входит<br>в заказ</h2>
+          <p>Каждый заказ из Atelier собирается вручную и проходит четыре проверки.</p>
+        </div>
+        <div class="cards3 reveal">
+          <article class="card"><span class="num">6</span><h3>Недель на изготовление</h3><p>Столько времени нужно на эмаль, сборку и проверку хода. Вы получаете письмо с фотографиями на каждом этапе.</p></article>
+          <article class="card"><span class="num">5</span><h3>Лет гарантии</h3><p>Бесплатное обслуживание механизма в нашей мастерской в Милане, включая замену масла и полировку корпуса.</p></article>
+          <article class="card"><span class="num">30</span><h3>Дней на возврат</h3><p>Если часы не подошли по цвету или по ощущению, мы заберём их обратно. Индивидуальная гравировка не возвращается.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p class="footer__big">Senza<br>Lancette</p>
+      <div class="footer__cols">
+        <div>
+          <h4>Senza Lancette</h4>
+          <p>Итальянская мануфактура часов без стрелок. Время здесь показывают цифры, точки и цвет, а не стрелки.</p>
+          <div class="socials">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3.5 2.5 11l6.5 2.5L11.5 20l3.5-4.5 5 3.5z"/><path d="m9 13.5 12.5-10"/></svg></a>
+            <a href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/></svg></a>
+            <a href="https://vk.com/" target="_blank" rel="noopener" aria-label="ВКонтакте"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="16.5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="currentColor">VK</text></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4>Сайт</h4>
+          <a href="index.html">Главная</a>
+          <a href="catalog.html">Коллекция</a>
+          <a href="gallery.html">Галерея</a>
+          <a href="mechanisms.html">Механизмы</a>
+          <a href="atelier.html">Atelier</a>
+        </div>
+        <div>
+          <h4>Читать</h4>
+          <a href="inside.html">Время внутри вас</a>
+          <a href="how.html">Как узнать время</a>
+          <a href="reviews.html">Отзывы</a>
+        </div>
+        <div>
+          <h4>Контакты</h4>
+          <address>Via della Spiga, 12<br>20121 Milano, Italia</address>
+          <a href="tel:+390212345678">+39 02 1234 5678</a>
+          <a href="mailto:ciao@senzalancette.it">ciao@senzalancette.it</a>
+          <a href="contacts.html">Все контакты →</a>
+        </div>
+      </div>
+      <p class="footer__end">© 2026 Senza Lancette. Мануфактура часов без стрелок, Милан.</p>
+    </div>
+  </footer>
+
+<a href="https://nestudio.by/sayty/senza-lancette/" style="position:fixed;left:12px;bottom:12px;z-index:2147483000;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:#111;color:#fff;font:500 13px/1.2 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.25)">Концепт nestudio · вымышленный бренд →</a>
+</body>
+</html>
