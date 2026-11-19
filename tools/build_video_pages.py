@@ -487,7 +487,7 @@ def main():
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8", newline="\n") as f:
         f.write(sitemap(all_cards, [(p, build_site_pages.TODAY) for p, _, _ in site_pages]))
     with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8", newline="\n") as f:
-        f.write(with_item_list(text, all_cards))
+        f.write(with_item_list(build_site_pages.with_dirs(text, all_cards), all_cards))
     print(f"pages: {len(slugs)}, sitemap: {len(urls)} urls")
 
 

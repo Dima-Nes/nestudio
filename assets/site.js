@@ -9,6 +9,10 @@
   function applyTheme(t){ body.classList.toggle('dark', t==='dark'); ti.textContent = t==='dark' ? '☀' : '◐'; store.set('theme', t); }
   applyTheme(store.get('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
   tt.addEventListener('click', () => applyTheme(body.classList.contains('dark') ? 'light' : 'dark'));
+  // header: which line of work this page belongs to (video or websites)
+  const dir = location.pathname.startsWith('/sayty') ? 'sites' : /^\/($|v\/|uslugi\/)/.test(location.pathname) ? 'video' : '';
+  document.querySelectorAll('.dir-nav a').forEach(a => { if (a.dataset.dir === dir) a.setAttribute('aria-current', 'page'); });
+  document.querySelectorAll('.bottom-nav [data-nav="sites"]').forEach(a => a.classList.toggle('current', dir === 'sites'));
   document.querySelectorAll('[data-current-year]').forEach(e => e.textContent = new Date().getFullYear());
 
   // image fallbacks (YouTube maxres/oar -> hq; failed -> gradient placeholder)
