@@ -296,7 +296,7 @@
   position: absolute;
   inset: 3%;
   border-radius: 50%;
-  background: url("../media/img/parts/movement.png") center / 124% no-repeat;
+  background: url("../media/img/parts/movement.webp") center / 124% no-repeat;
 }
 .cw__bal {
   position: absolute;
@@ -305,7 +305,7 @@
   width: calc(var(--s) * 0.3);
   aspect-ratio: 1;
   translate: -50% -50%;
-  background: url("../media/img/parts/balance.png") center / 126% no-repeat;
+  background: url("../media/img/parts/balance.webp") center / 126% no-repeat;
   animation: bal-tick 0.7s ease-in-out infinite alternate;
 }
 @keyframes bal-tick { from { rotate: -35deg; } to { rotate: 35deg; } }

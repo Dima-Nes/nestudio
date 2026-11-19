@@ -10,7 +10,7 @@
   top:  calc(50% + var(--w) * -0.1275);
   width:  calc(var(--w) * 0.15);
   height: calc(var(--w) * 0.15);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.4987);
   background-position: calc(var(--w) * -0.0136) calc(var(--w) * -0.0156);
   --spin: 6.3s;
@@ -22,7 +22,7 @@
   top:  calc(50% + var(--w) * -0.165);
   width:  calc(var(--w) * 0.135);
   height: calc(var(--w) * 0.135);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.432);
   background-position: calc(var(--w) * -0.1485) calc(var(--w) * -0.011);
   --spin: 5.7s;
@@ -34,7 +34,7 @@
   top:  calc(50% + var(--w) * -0.06);
   width:  calc(var(--w) * 0.125);
   height: calc(var(--w) * 0.125);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.4156);
   background-position: calc(var(--w) * -0.2792) calc(var(--w) * -0.013);
   --spin: 5.2s;
@@ -46,7 +46,7 @@
   top:  calc(50% + var(--w) * 0.09);
   width:  calc(var(--w) * 0.11);
   height: calc(var(--w) * 0.11);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.447);
   background-position: calc(var(--w) * -0.0244) calc(var(--w) * -0.1676);
   --spin: 4.6s;
@@ -58,7 +58,7 @@
   top:  calc(50% + var(--w) * 0.0);
   width:  calc(var(--w) * 0.09);
   height: calc(var(--w) * 0.09);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.4114);
   background-position: calc(var(--w) * -0.1607) calc(var(--w) * -0.1607);
   --spin: 3.8s;
@@ -70,7 +70,7 @@
   top:  calc(50% + var(--w) * 0.15);
   width:  calc(var(--w) * 0.1);
   height: calc(var(--w) * 0.1);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.4741);
   background-position: calc(var(--w) * -0.3398) calc(var(--w) * -0.187);
   --spin: 4.2s;
@@ -82,7 +82,7 @@
   top:  calc(50% + var(--w) * 0.0);
   width:  calc(var(--w) * 0.125);
   height: calc(var(--w) * 0.125);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.4267);
   background-position: calc(var(--w) * -0.0133) calc(var(--w) * -0.2883);
   --spin: 5.2s;
@@ -94,7 +94,7 @@
   top:  calc(50% + var(--w) * 0.1875);
   width:  calc(var(--w) * 0.12);
   height: calc(var(--w) * 0.12);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.4151);
   background-position: calc(var(--w) * -0.1476) calc(var(--w) * -0.2805);
   --spin: 5.0s;
@@ -106,7 +106,7 @@
   top:  calc(50% + var(--w) * 0.15);
   width:  calc(var(--w) * 0.13);
   height: calc(var(--w) * 0.13);
-  background-image: url("../media/img/parts/gears.png");
+  background-image: url("../media/img/parts/gears.webp");
   background-size: calc(var(--w) * 0.4437);
   background-position: calc(var(--w) * -0.2999) calc(var(--w) * -0.2999);
   --spin: 5.5s;
@@ -118,7 +118,7 @@
   top:  calc(50% + var(--w) * -0.03);
   width:  calc(var(--w) * 0.26);
   height: calc(var(--w) * 0.26);
-  background-image: url("../media/img/parts/barrel.png");
+  background-image: url("../media/img/parts/barrel.webp");
   background-size: calc(var(--w) * 0.3096);
   background-position: calc(var(--w) * -0.0245) calc(var(--w) * -0.0248);
   --spin: 12s;
@@ -130,7 +130,7 @@
   top:  calc(50% + var(--w) * 0.075);
   width:  calc(var(--w) * 0.22);
   height: calc(var(--w) * 0.22);
-  background-image: url("../media/img/parts/balance.png");
+  background-image: url("../media/img/parts/balance.webp");
   background-size: calc(var(--w) * 0.2768);
   background-position: calc(var(--w) * -0.0281) calc(var(--w) * -0.0286);
 }
@@ -140,7 +140,7 @@
   top:  calc(50% + var(--w) * 0.015);
   width:  calc(var(--w) * 0.46);
   height: calc(var(--w) * 0.2992);
-  background-image: url("../media/img/parts/rotor.png");
+  background-image: url("../media/img/parts/rotor.webp");
   background-size: calc(var(--w) * 0.5245);
   background-position: calc(var(--w) * -0.0318) calc(var(--w) * -0.1844);
   transform-origin: 50% 30%;

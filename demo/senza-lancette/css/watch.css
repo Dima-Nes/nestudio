@@ -54,7 +54,7 @@
 .wt__strap {
   width: calc(var(--w) * 0.433);
   height: calc(var(--w) * 0.501);
-  background-image: url("../media/img/parts/strap.png");
+  background-image: url("../media/img/parts/strap.webp");
   /* масштаб k = 0.433 * w / 204 пикселей: берём прямоугольник x 410..614, y 700..936 */
   background-size: calc(var(--w) * 2.1735);
   background-position: calc(var(--w) * -0.8702) calc(var(--w) * -1.4858);
@@ -67,14 +67,14 @@
 .wt__movement {
   width: calc(var(--w) * 0.73);
   aspect-ratio: 1;
-  background-image: url("../media/img/parts/movement.png");
+  background-image: url("../media/img/parts/movement.webp");
 }
 
 /* ---------- Циферблат ---------- */
 .wt__dial {
   width: calc(var(--w) * 0.637);
   aspect-ratio: 1;
-  background-image: url("../media/img/parts/dial.png");
+  background-image: url("../media/img/parts/dial.webp");
   filter: var(--dial-f);
 }
 
@@ -100,7 +100,7 @@
 .wt__markers {
   width: calc(var(--w) * 0.634);
   aspect-ratio: 1;
-  background-image: url("../media/img/parts/markers.png");
+  background-image: url("../media/img/parts/markers.webp");
   opacity: var(--mk-o);
 }
 
@@ -120,13 +120,13 @@
 .wt__case {
   width: calc(var(--w) * 1.131);
   aspect-ratio: 1;
-  background-image: url("../media/img/parts/case.png");
+  background-image: url("../media/img/parts/case.webp");
   filter: var(--case-f);
 }
 .wt__bezel {
   width: calc(var(--w) * 0.926);
   aspect-ratio: 1;
-  background-image: url("../media/img/parts/bezel.png");
+  background-image: url("../media/img/parts/bezel.webp");
   filter: var(--case-f);
 }
 
@@ -135,7 +135,7 @@
   left: calc(var(--w) * 0.94);
   width: calc(var(--w) * 0.14);
   height: calc(var(--w) * 0.188);
-  background-image: url("../media/img/parts/crown.png");
+  background-image: url("../media/img/parts/crown.webp");
   background-size: calc(var(--w) * 0.5213) auto;
   background-position: calc(var(--w) * -0.2113) calc(var(--w) * -0.168);
   filter: var(--case-f);
