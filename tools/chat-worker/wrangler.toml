@@ -1,0 +1,8 @@
+# Cloudflare Worker: nestudio chat relay. Setup steps: README.md
+name = "nestudio-chat"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[[kv_namespaces]]
+binding = "CHAT"
+id = "PUT_KV_ID_HERE"   # npx wrangler kv namespace create CHAT  -> paste the id

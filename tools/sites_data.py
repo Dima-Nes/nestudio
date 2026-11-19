@@ -92,7 +92,7 @@ SITES = {
 
 "senza-lancette": dict(
   name="Senza Lancette", status="concept", url="/demo/senza-lancette/", year="2026",
-  video="senza-lancette-scroll",
+  video="senza-lancette-scroll", poster="senza-lancette-scroll.webp",
   feature=("Часы собираются при прокрутке",
            "Главный приём сайта: посетитель листает страницу, а детали механизма – ремешок, барабан, шестерёнки, баланс, циферблат, корпус и безель – по очереди встают на место, шестерёнки и ротор вращаются. Анимация сделана на CSS, без тяжёлых скриптов, поэтому страница остаётся быстрой."),
   kind="Концепт сайта бренда часов",

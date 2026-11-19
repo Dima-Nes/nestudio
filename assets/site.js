@@ -355,3 +355,107 @@
   document.querySelectorAll('[data-play]').forEach(b => b.addEventListener('click', () => caseCard && open(caseCard)));
   requestAnimationFrame(() => { body.classList.remove('is-loading'); body.classList.add('is-ready'); });
 })();
+
+/* Scroll videos of the websites: play only while on screen; not with reduced motion or data saver */
+(() => {
+  const vids = document.querySelectorAll('video[data-vis]');
+  if (!vids.length) return;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData);
+  if (calm || !('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.play().catch(() => {}); else e.target.pause(); }), { threshold: .35 });
+  vids.forEach(v => io.observe(v));
+})();
+
+/* Contact button and on-site chat. Messages go to the relay in #chat[data-endpoint] (tools/chat-worker), which
+   forwards them to the studio's Telegram; replies written there come back here. Without a relay the message is
+   copied and Telegram opens, so nothing is lost. */
+(() => {
+  const fab = document.getElementById('contactFab'), btn = document.getElementById('fabBtn'), menu = document.getElementById('fabMenu');
+  const chat = document.getElementById('chat');
+  if (!fab || !btn || !chat) return;
+  const store = { get(k){ try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} } };
+  const KEY = 'ns_chat';
+  const S = store.get(KEY) || { sid: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)), name: '', contact: '', msgs: [], last: 0 };
+  const save = () => store.set(KEY, S);
+  const endpoint = (chat.dataset.endpoint || '').trim();
+  const log = document.getElementById('chatLog'), form = document.getElementById('chatForm'), who = document.getElementById('chatWho'), me = document.getElementById('chatMe'), err = document.getElementById('chatErr');
+  const send = form.querySelector('.chat-send');
+  const fName = form.elements.namedItem('name');   // form.name is the form's own attribute
+  const time = t => new Date(t).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+  function setMenu(open) {
+    fab.classList.toggle('open', open); btn.setAttribute('aria-expanded', open);
+    if (open) { menu.hidden = false; } else { menu.hidden = true; }
+  }
+  btn.addEventListener('click', () => { if (!chat.hidden) { closeChat(); return; } setMenu(!fab.classList.contains('open')); });
+  document.addEventListener('click', e => { if (fab.classList.contains('open') && !fab.contains(e.target)) setMenu(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!chat.hidden) closeChat(); else setMenu(false); } });
+
+  function render() {
+    log.querySelectorAll('.msg.me, .msg.us.reply, .msg.sys').forEach(n => n.remove());
+    S.msgs.forEach(m => {
+      const d = document.createElement('div'); d.className = 'msg ' + (m.from === 'me' ? 'me' : m.from === 'sys' ? 'us sys' : 'us reply');
+      const p = document.createElement('p'); p.textContent = m.text; d.appendChild(p);
+      const s = document.createElement('small'); s.textContent = (m.from === 'us' ? 'nestudio · ' : '') + time(m.t); d.appendChild(s);
+      log.appendChild(d);
+    });
+    log.scrollTop = log.scrollHeight;
+    const known = !!S.contact;
+    who.hidden = known; me.hidden = !known;
+    if (known) { me.innerHTML = ''; me.append('Ответим: ' + (S.name ? S.name + ', ' : '') + S.contact + ' · '); const b = document.createElement('button'); b.type = 'button'; b.textContent = 'изменить'; b.onclick = () => { who.hidden = false; me.hidden = true; fName.value = S.name; form.contact.value = S.contact; form.contact.focus(); }; me.appendChild(b); }
+  }
+  function openChat() {
+    setMenu(false); chat.hidden = false; void chat.offsetWidth; chat.classList.add('open');
+    render(); (S.contact ? form.text : form.contact).focus({ preventScroll: true }); poll();
+  }
+  function closeChat() { chat.classList.remove('open'); setTimeout(() => { chat.hidden = true; }, 300); stopPoll(); btn.focus({ preventScroll: true }); }
+  document.querySelectorAll('[data-chat-open]').forEach(b => b.addEventListener('click', openChat));
+  chat.querySelector('[data-chat-close]').addEventListener('click', closeChat);
+  form.text.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); form.requestSubmit(); } });
+  form.text.addEventListener('input', () => { form.text.style.height = 'auto'; form.text.style.height = Math.min(form.text.scrollHeight, 140) + 'px'; });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault(); err.textContent = '';
+    if (!who.hidden) { S.name = fName.value.trim(); S.contact = form.contact.value.trim(); }
+    const text = form.text.value.trim();
+    if (!S.contact || S.contact.replace(/[^\d@a-zA-Z]/g, '').length < 5) { who.hidden = false; me.hidden = true; err.textContent = 'Оставьте телефон или ник в Telegram, чтобы мы могли ответить.'; form.contact.focus(); return; }
+    if (!text) { err.textContent = 'Напишите сообщение.'; form.text.focus(); return; }
+    const msg = { from: 'me', text, t: Date.now() };
+    if (!endpoint) { fallback(text); return; }
+    send.disabled = true;
+    try {
+      const r = await fetch(endpoint.replace(/\/$/, '') + '/msg', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sid: S.sid, name: S.name, contact: S.contact, text, page: location.href, website: form.website.value }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.ok) throw new Error(j.error || r.status);
+      S.msgs.push(msg); if (S.msgs.filter(m => m.from === 'me').length === 1) S.msgs.push({ from: 'sys', text: 'Сообщение у нас. Ответим здесь – окно можно закрыть, ответ сохранится, – или напишем на ' + S.contact + '.', t: Date.now() });
+      save(); form.text.value = ''; form.text.style.height = ''; render(); poll();
+    } catch (x) {
+      err.textContent = 'Не получилось отправить. Скопировали ваш текст – откроем Telegram, вставьте его туда.'; fallback(text, true);
+    } finally { send.disabled = false; }
+  });
+  function fallback(text, quiet) {
+    const body = text + '\n\n' + (S.name ? S.name + ', ' : '') + S.contact;
+    if (navigator.clipboard) navigator.clipboard.writeText(body).catch(() => {});
+    S.msgs.push({ from: 'me', text, t: Date.now() });
+    S.msgs.push({ from: 'sys', text: 'Текст скопирован. Сейчас откроется наш Telegram @nestudiopro – вставьте сообщение и отправьте. Или позвоните: +375 44 713-88-69.', t: Date.now() });
+    save(); form.text.value = ''; render();
+    if (!quiet) err.textContent = '';
+    setTimeout(() => window.open('https://t.me/nestudiopro', '_blank', 'noopener'), 600);
+  }
+
+  // replies from Telegram: ask the relay every few seconds while the chat is open
+  let timer = null, idle = 0;
+  function stopPoll() { clearTimeout(timer); timer = null; }
+  async function poll() {
+    stopPoll();
+    if (!endpoint || chat.hidden || !S.msgs.some(m => m.from === 'me')) return;
+    try {
+      const r = await fetch(endpoint.replace(/\/$/, '') + '/msg?sid=' + encodeURIComponent(S.sid) + '&after=' + (S.last || 0));
+      const j = await r.json();
+      if (j.ok && j.replies && j.replies.length) { j.replies.forEach(x => { S.msgs.push({ from: 'us', text: x.text, t: x.t }); S.last = Math.max(S.last || 0, x.t); }); save(); render(); idle = 0; }
+      else idle++;
+    } catch (x) { idle++; }
+    if (idle < 180) timer = setTimeout(poll, idle < 20 ? 4000 : 10000);
+  }
+})();

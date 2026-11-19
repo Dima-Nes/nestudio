@@ -270,17 +270,25 @@ def host(s):
     return re.sub(r"^https?://|/$", "", s["url"] if s["url"].startswith("http") else "nestudio.by" + s["url"])
 
 
+def vid(slug, s):
+    """Scroll-through video of the site (tools/site_scroll_video.mjs) or a special one named in sites_data."""
+    v = s.get("video") or f"{slug}-scroll"
+    return v if os.path.exists(os.path.join(ROOT, "media", "sites", v + ".mp4")) else ""
+
+
 def video_tag(slug, s, big):
-    v = s["video"] + ("" if big else "-m")
-    return (f'<video src="/media/sites/{v}.mp4" poster="/media/sites/{s["video"]}.webp" autoplay muted loop playsinline preload="{"auto" if big else "metadata"}" '
-            f'aria-label="{e(s["feature"][0] if s.get("feature") else s["h1"])}" width="1280" height="800"></video>')
+    v = vid(slug, s)
+    poster = s.get("poster") or f"{slug}-d.webp"
+    # no autoplay: site.js plays a video only while it is on screen (and never with reduced motion or data saver)
+    return (f'<video src="/media/sites/{v}{"" if big else "-m"}.mp4" poster="/media/sites/{poster}" muted loop playsinline preload="none" data-vis '
+            f'aria-label="{e(s["feature"][0] if s.get("feature") else s["h1"] + " – видео: страница пролистывается")}" width="1280" height="800"></video>')
 
 
 def shots(slug, s, big=False):
     """Laptop screenshot in a browser frame with the phone screenshot on top of it."""
     return (f'<div class="site-shots{" big" if big else ""}">'
             f'<div class="site-browser"><div class="site-bar" aria-hidden="true"><i></i><i></i><i></i><span>{e(host(s))}</span></div>'
-            + (video_tag(slug, s, big) if s.get("video") else f'<img src="/media/sites/{slug}-d.webp" alt="{e(s["h1"])} – вид на компьютере" width="1280" height="800"{"" if big else " loading=\"lazy\""} decoding="async">') + '</div>'
+            + (video_tag(slug, s, big) if vid(slug, s) else f'<img src="/media/sites/{slug}-d.webp" alt="{e(s["h1"])} – вид на компьютере" width="1280" height="800"{"" if big else " loading=\"lazy\""} decoding="async">') + '</div>'
             f'<div class="site-phone"><img src="/media/sites/{slug}-m.webp" alt="{e(s["h1"])} – вид на телефоне" width="500" height="1082" loading="lazy" decoding="async"></div></div>')
 
 
@@ -363,8 +371,6 @@ def home(text, cards):
     TILE_STATE["cards"] = cards
     nav = "".join(f'<a href="{d["href"]}" data-match="{e(d["match"])}">{e(d["nav"])}</a>' for d in DIRECTIONS)
     tiles = dir_tiles("video", on_home=True)
-    bot = ("".join(f'\n    <a href="{d["href"]}" data-match="{e(d["match"])}"{" data-nav=\"works\"" if d["href"] == "/" else ""}>{e(d["nav"])}</a>' for d in DIRECTIONS)
-           if len(DIRECTIONS) <= 2 else '\n    <a href="/" data-nav="works">Работы</a>')
     faq_ld = json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(a)}} for q, a in HOME_FAQ]}, ensure_ascii=False).replace("</", "<\\/")
     faq = (f'<!-- HOMEFAQ -->\n  <section class="home-faq" id="voprosy" aria-label="Частые вопросы">\n    <h2 class="section-title related-title">Частые вопросы</h2>\n'
@@ -372,7 +378,6 @@ def home(text, cards):
            + f'  </section>\n  <script type="application/ld+json">{faq_ld}</script>\n  <!-- /HOMEFAQ -->')
     for mark, html_ in (("DIRNAV", f'<!-- DIRNAV --><nav class="dir-nav" aria-label="Направления">{nav}</nav><!-- /DIRNAV -->'),
                         ("DIRS", f'<!-- DIRS --><nav class="dirs" aria-label="Направления студии">\n{tiles}\n    </nav><!-- /DIRS -->'),
-                        ("BOTNAV", f'<!-- BOTNAV -->{bot}\n    <!-- /BOTNAV -->'),
                         ("HOMEFAQ", faq)):
         text = re.sub(rf"<!-- {mark} -->.*?<!-- /{mark} -->", lambda m: html_, text, flags=re.S)
     return text
@@ -398,10 +403,12 @@ def site_page(parts, slug, s, svc_links):
     work.update({"@id": f"{url}#work", "description": s["desc"], "creator": {"@id": f"{SITE}/#org"}, "dateCreated": s["year"],
                  "image": f"{SITE}/media/sites/{slug}-d.jpg", "keywords": ", ".join(s["tags"]), "inLanguage": "ru"})
     ld_extra = [work]
-    if s.get("video"):
-        ld_extra.append({"@type": "VideoObject", "name": f'{s["name"]}: {s["feature"][0].lower()}', "description": s["feature"][1],
-                         "thumbnailUrl": f'{SITE}/media/sites/{slug}-d.jpg', "contentUrl": f'{SITE}/media/sites/{s["video"]}.mp4',
-                         "uploadDate": "2026-11-19", "duration": "PT8S", "inLanguage": "ru", "creator": {"@id": f"{SITE}/#org"}})
+    if vid(slug, s):
+        f = s.get("feature")
+        ld_extra.append({"@type": "VideoObject", "name": f'{s["name"]}: ' + (f[0].lower() if f else "как выглядит сайт"),
+                         "description": f[1] if f else f'Видео пролистывания: {s["desc"]}',
+                         "thumbnailUrl": f'{SITE}/media/sites/{slug}-d.jpg', "contentUrl": f'{SITE}/media/sites/{vid(slug, s)}.mp4',
+                         "uploadDate": "2026-11-20", "inLanguage": "ru", "creator": {"@id": f"{SITE}/#org"}})
     aside = ("О проекте", [("Заказчик", e(s["client"])), ("Тип", e(s["kind"])), ("Год", s["year"]), ("Статус", status),
                            ("Что внутри", e(", ".join(s["tags"]))), ("Направления", f'<ul class="svc-list">{svc_links}</ul>')])
     showcase = f'\n  <section class="site-hero" aria-label="Скриншоты">{shots(slug, s, big=True)}</section>\n'

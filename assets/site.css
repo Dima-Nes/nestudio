@@ -3316,3 +3316,64 @@ html:has(.vmodal.open) #site-bottom-nav{display:none}
 @media (max-width:1000px){[data-section="sites"] .case-layout{grid-template-columns:1fr;gap:28px}}
 .site-browser video{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;background:#0b0b0c}
 .site-feature{border-left:3px solid var(--text);padding-left:12px}
+
+/* Contact button (replaces the phone bottom bar) and the on-site chat */
+#site-bottom-nav{position:static!important;height:auto!important;display:block!important;pointer-events:auto!important;transform:none!important}
+body{padding-bottom:0!important}
+.contact-fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:2147483001;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.fab{width:56px;height:56px;border-radius:50%;border:0;background:var(--surface-strong);color:var(--surface-strong-text);display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.18);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.fab:hover{transform:translateY(-2px)}
+.fab:active{transform:scale(.96)}
+.fab .ic{width:26px;height:26px}
+.fab span{grid-area:1/1;display:grid;transition:opacity .3s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
+.fab .fab-off{opacity:0;transform:rotate(-90deg) scale(.6)}
+.contact-fab.open .fab .fab-on{opacity:0;transform:rotate(90deg) scale(.6)}
+.contact-fab.open .fab .fab-off{opacity:1;transform:none}
+.fab-menu{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.fab-menu[hidden]{display:none}
+.fab-item{display:inline-flex;align-items:center;gap:8px;padding:10px 16px 10px 12px;border-radius:999px;border:1px solid var(--surface-border);background:var(--nav-bg);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--text);font:inherit;font-size:15px;font-weight:var(--fw-medium);text-decoration:none;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.08);opacity:0;transform:translateY(12px);animation:fabin .5s cubic-bezier(.22,1,.36,1) forwards}
+.fab-item .ic{width:20px;height:20px}
+.fab-item:hover{background:var(--surface);border-color:var(--text)}
+.fab-item:nth-last-child(1){animation-delay:0s}.fab-item:nth-last-child(2){animation-delay:.05s}.fab-item:nth-last-child(3){animation-delay:.1s}.fab-item:nth-last-child(4){animation-delay:.15s}
+@keyframes fabin{to{opacity:1;transform:none}}
+html:has(.vmodal.open) .contact-fab,html:has(.vmodal.open) .chat{display:none}
+.chat{position:fixed;right:16px;bottom:calc(88px + env(safe-area-inset-bottom,0px));z-index:2147483002;width:min(380px,calc(100vw - 32px));max-height:min(620px,calc(100dvh - 120px));display:flex;flex-direction:column;background:var(--surface);color:var(--text);border:1px solid var(--surface-border);border-radius:24px;box-shadow:0 24px 60px rgba(0,0,0,.2);overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .3s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
+.chat[hidden]{display:none}
+.chat.open{opacity:1;transform:none}
+.chat-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:16px 16px 12px 20px;border-bottom:1px solid var(--surface-border)}
+.chat-h b{display:block;font-size:16px;font-weight:var(--fw-semibold)}
+.chat-h span{display:block;font-size:13px;line-height:1.4;color:var(--muted);margin-top:2px}
+.chat-x{border:0;background:none;color:var(--muted);width:36px;height:36px;border-radius:50%;display:grid;place-items:center;cursor:pointer;flex:none}
+.chat-x:hover{background:var(--card);color:var(--text)}
+.chat-x .ic{width:20px;height:20px}
+.chat-log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px;min-height:120px}
+.msg{max-width:85%;display:flex;flex-direction:column}
+.msg p{margin:0;padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.us{align-self:flex-start}.msg.us p{background:var(--card);border-bottom-left-radius:6px}
+.msg.me{align-self:flex-end}.msg.me p{background:var(--surface-strong);color:var(--surface-strong-text);border-bottom-right-radius:6px}
+.msg small{font-size:11px;color:var(--muted);margin:4px 8px 0}
+.msg.me small{align-self:flex-end}
+.chat-f{padding:12px 16px 16px;border-top:1px solid var(--surface-border);display:flex;flex-direction:column;gap:8px}
+.chat-who{display:grid;gap:8px}
+.chat-f input,.chat-f textarea{width:100%;border:1px solid var(--surface-border);background:var(--bg);color:var(--text);border-radius:14px;padding:10px 12px;font:inherit;font-size:15px;outline:0;transition:border-color .3s cubic-bezier(.22,1,.36,1)}
+.chat-f input:focus,.chat-f textarea:focus{border-color:var(--text)}
+.chat-f textarea{resize:none;min-height:44px;max-height:140px}
+.chat-row{display:flex;gap:8px;align-items:flex-end}
+.chat-send{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--surface-strong);color:var(--surface-strong-text);display:grid;place-items:center;cursor:pointer;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .3s}
+.chat-send:active{transform:scale(.94)}
+.chat-send[disabled]{opacity:.5;cursor:default}
+.chat-send .ic{width:20px;height:20px}
+.chat-me{margin:0;font-size:13px;color:var(--muted)}
+.chat-me button{border:0;background:none;padding:0;color:var(--text);text-decoration:underline;text-underline-offset:3px;font:inherit;cursor:pointer}
+.chat-err{margin:0;font-size:13px;color:#c0392b;min-height:0}
+.chat-err:empty{display:none}
+.chat-note{margin:0;font-size:11px;line-height:1.4;color:var(--muted)}
+.chat .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+@media (max-width:640px){
+  .contact-fab{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .chat{left:8px;right:8px;width:auto;bottom:calc(8px + env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 72px);border-radius:24px}
+  html:has(.chat.open) .contact-fab{display:none}
+}
+@media (prefers-reduced-motion:reduce){.fab,.fab span,.fab-item,.chat{transition:none;animation:none;opacity:1;transform:none}}
+.chat-who[hidden],.chat-me[hidden]{display:none}
+.msg.us p{background:var(--bg);border:1px solid var(--surface-border)}

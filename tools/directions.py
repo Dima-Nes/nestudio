@@ -1,11 +1,11 @@
 """Lines of work of the studio, in order of priority. Every place that lists them is built from here:
-the switch in the header, the tiles under the portfolio title, the phone bottom bar and llms.txt.
+the switch in the header, the tiles under the portfolio title and llms.txt.
 
 To add a new line of work (for example logos and banners):
   1. give it its own section, e.g. /dizayn/ with a page in build_site_pages.py (as /sayty/ is built from sites_data.py);
   2. add an entry below. `match` is the start of the addresses that belong to it (the header highlights it there);
      `thumbs` is a list of image paths for the tile (or leave it empty).
-The phone bottom bar shows every line of work while there are at most two; with more it shows one «Работы» link.
+On phones the switch stays in the header; contacts and the chat live in the round button at the bottom right.
 """
 
 DIRECTIONS = [
