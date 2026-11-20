@@ -3377,3 +3377,53 @@ html:has(.vmodal.open) .contact-fab,html:has(.vmodal.open) .chat{display:none}
 @media (prefers-reduced-motion:reduce){.fab,.fab span,.fab-item,.chat{transition:none;animation:none;opacity:1;transform:none}}
 .chat-who[hidden],.chat-me[hidden]{display:none}
 .msg.us p{background:var(--bg);border:1px solid var(--surface-border)}
+
+/* Contact menu v2: coloured round buttons in brand colours, label on the left (order: call, Telegram, Viber, WhatsApp, MAX, mail, chat) */
+.fab-menu{gap:10px}
+.fab-item{display:flex;align-items:center;gap:12px;padding:0;border:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:0;color:var(--text);text-decoration:none;cursor:pointer;font:inherit}
+.fab-item[hidden]{display:none}
+.fab-item:hover{background:none;border:0}
+.fab-c{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none;box-shadow:0 6px 18px rgba(0,0,0,.18);transition:transform .5s cubic-bezier(.22,1,.36,1),box-shadow .3s cubic-bezier(.22,1,.36,1)}
+.fab-c .ic{width:24px;height:24px}
+.fab-item:hover .fab-c,.fab-item:focus-visible .fab-c{transform:scale(1.08);box-shadow:0 10px 24px rgba(0,0,0,.22)}
+.fab-item:active .fab-c{transform:scale(.96)}
+.fab-l{background:var(--surface);color:var(--text);border:1px solid var(--surface-border);padding:6px 12px;border-radius:999px;font-size:14px;line-height:20px;font-weight:var(--fw-semibold);white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.fi-call .fab-c{background:#2fb553}
+.fi-tg .fab-c{background:#2aabee}
+.fi-viber .fab-c{background:#7360f2}
+.fi-wa .fab-c{background:#25d366}
+.fi-max .fab-c{background:#4f5bff}
+.fi-mail .fab-c{background:#ea4335}
+.fi-chat .fab-c{background:var(--surface-strong);color:var(--surface-strong-text)}
+.fi-wa .fab-c .ic,.fi-tg .fab-c .ic,.fi-viber .fab-c .ic{width:26px;height:26px}
+.max-t{font-weight:800;font-size:13px;letter-spacing:.03em;line-height:1}
+.fab-item:nth-last-child(1){animation-delay:0s}.fab-item:nth-last-child(2){animation-delay:.04s}.fab-item:nth-last-child(3){animation-delay:.08s}.fab-item:nth-last-child(4){animation-delay:.12s}.fab-item:nth-last-child(5){animation-delay:.16s}.fab-item:nth-last-child(6){animation-delay:.2s}.fab-item:nth-last-child(7){animation-delay:.24s}
+.contact-fab.open::before{content:"";position:fixed;inset:0;background:rgba(0,0,0,.18);z-index:-1;animation:fadein .3s ease forwards}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* mail panel */
+.mailbox{max-height:none}
+.mail-b{padding:20px;display:grid;gap:8px}
+.mail-a{font-size:20px;line-height:28px;font-weight:var(--fw-semibold);margin:0 0 8px;user-select:all;overflow-wrap:anywhere}
+.mail-btn{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:14px;border:1px solid var(--surface-border);background:var(--bg);color:var(--text);font:inherit;font-size:15px;text-decoration:none;cursor:pointer;transition:border-color .3s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
+.mail-btn:hover{border-color:var(--text)}
+.mail-btn:active{transform:scale(.98)}
+.mail-btn.primary{background:var(--surface-strong);color:var(--surface-strong-text);border-color:transparent}
+.mail-btn .ic{width:20px;height:20px;flex:none}
+.mail-ok{font-size:13px;margin:4px 0 0;color:var(--muted)}
+.mail-ok:empty{display:none}
+html:has(.vmodal.open) .mailbox{display:none}
+@media (max-width:640px){html:has(.mailbox.open) .contact-fab{display:none}}
+
+/* chat: buttons in the fallback message */
+.msg .acts{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0}
+.msg .acts a{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;color:#fff;font-size:14px;font-weight:var(--fw-semibold);text-decoration:none}
+.msg .acts a .ic{width:18px;height:18px}
+
+/* footer social icons */
+.socials{display:flex;gap:8px;margin-top:8px}
+.socials .so{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--text);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.socials .so:hover{transform:translateY(-2px)}
+.socials .so[hidden]{display:none}
+.socials .so .ic{width:18px;height:18px}
+@media (prefers-reduced-motion:reduce){.fab-c,.mail-btn,.socials .so{transition:none}.contact-fab.open::before{animation:none;opacity:1}}

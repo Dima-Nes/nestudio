@@ -387,15 +387,37 @@
     fab.classList.toggle('open', open); btn.setAttribute('aria-expanded', open);
     if (open) { menu.hidden = false; } else { menu.hidden = true; }
   }
-  btn.addEventListener('click', () => { if (!chat.hidden) { closeChat(); return; } setMenu(!fab.classList.contains('open')); });
-  document.addEventListener('click', e => { if (fab.classList.contains('open') && !fab.contains(e.target)) setMenu(false); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!chat.hidden) closeChat(); else setMenu(false); } });
+  const mail = document.getElementById('mailbox');
+  btn.addEventListener('click', () => { if (!chat.hidden) { closeChat(); return; } if (mail && !mail.hidden) { closeMail(); return; } setMenu(!fab.classList.contains('open')); });
+  // a click outside the menu (or on the dimmed backdrop, which belongs to the button block) closes it
+  document.addEventListener('click', e => { if (fab.classList.contains('open') && (!fab.contains(e.target) || e.target === fab)) setMenu(false); });
+  menu.addEventListener('click', e => { if (e.target.closest('a.fab-item')) setTimeout(() => setMenu(false), 150); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (!chat.hidden) closeChat(); else if (mail && !mail.hidden) closeMail(); else setMenu(false); } });
+
+  // mail: works without a mail app – copy the address or write through Gmail
+  function openMail() { setMenu(false); if (!chat.hidden) closeChat(); mail.hidden = false; void mail.offsetWidth; mail.classList.add('open'); mail.querySelector('[data-mail-copy]').focus({ preventScroll: true }); }
+  function closeMail() { mail.classList.remove('open'); setTimeout(() => { mail.hidden = true; }, 300); btn.focus({ preventScroll: true }); }
+  if (mail) {
+    document.querySelectorAll('[data-mail-open]').forEach(b => b.addEventListener('click', openMail));
+    mail.querySelector('[data-mail-close]').addEventListener('click', closeMail);
+    mail.querySelector('[data-mail-copy]').addEventListener('click', () => {
+      const a = document.getElementById('mailAddr').textContent.trim(), ok = document.getElementById('mailOk');
+      const done = () => { ok.textContent = 'Адрес скопирован: ' + a; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(a).then(done, () => { selectAddr(); ok.textContent = 'Адрес выделен – нажмите «Копировать».'; });
+      else { selectAddr(); ok.textContent = 'Адрес выделен – нажмите «Копировать».'; }
+    });
+  }
+  function selectAddr() { const r = document.createRange(); r.selectNodeContents(document.getElementById('mailAddr')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); }
 
   function render() {
     log.querySelectorAll('.msg.me, .msg.us.reply, .msg.sys').forEach(n => n.remove());
     S.msgs.forEach(m => {
       const d = document.createElement('div'); d.className = 'msg ' + (m.from === 'me' ? 'me' : m.from === 'sys' ? 'us sys' : 'us reply');
-      const p = document.createElement('p'); p.textContent = m.text; d.appendChild(p);
+      const p = document.createElement('p'); p.textContent = m.text;
+      if (m.acts) { const a = document.createElement('span'); a.className = 'acts';
+        a.innerHTML = '<a href="https://t.me/nestudiopro" target="_blank" rel="noopener" style="background:#2aabee">Открыть Telegram</a><a href="tel:+375447138869" style="background:#2fb553">Позвонить</a>';
+        p.appendChild(a); }
+      d.appendChild(p);
       const s = document.createElement('small'); s.textContent = (m.from === 'us' ? 'nestudio · ' : '') + time(m.t); d.appendChild(s);
       log.appendChild(d);
     });
@@ -405,7 +427,7 @@
     if (known) { me.innerHTML = ''; me.append('Ответим: ' + (S.name ? S.name + ', ' : '') + S.contact + ' · '); const b = document.createElement('button'); b.type = 'button'; b.textContent = 'изменить'; b.onclick = () => { who.hidden = false; me.hidden = true; fName.value = S.name; form.contact.value = S.contact; form.contact.focus(); }; me.appendChild(b); }
   }
   function openChat() {
-    setMenu(false); chat.hidden = false; void chat.offsetWidth; chat.classList.add('open');
+    setMenu(false); if (mail && !mail.hidden) closeMail(); chat.hidden = false; void chat.offsetWidth; chat.classList.add('open');
     render(); (S.contact ? form.text : form.contact).focus({ preventScroll: true }); poll();
   }
   function closeChat() { chat.classList.remove('open'); setTimeout(() => { chat.hidden = true; }, 300); stopPoll(); btn.focus({ preventScroll: true }); }
@@ -431,17 +453,16 @@
       S.msgs.push(msg); if (S.msgs.filter(m => m.from === 'me').length === 1) S.msgs.push({ from: 'sys', text: 'Сообщение у нас. Ответим здесь – окно можно закрыть, ответ сохранится, – или напишем на ' + S.contact + '.', t: Date.now() });
       save(); form.text.value = ''; form.text.style.height = ''; render(); poll();
     } catch (x) {
-      err.textContent = 'Не получилось отправить. Скопировали ваш текст – откроем Telegram, вставьте его туда.'; fallback(text, true);
+      err.textContent = 'Не получилось отправить. Ваш текст скопирован – отправьте его в Telegram или позвоните.'; fallback(text, true);
     } finally { send.disabled = false; }
   });
   function fallback(text, quiet) {
     const body = text + '\n\n' + (S.name ? S.name + ', ' : '') + S.contact;
     if (navigator.clipboard) navigator.clipboard.writeText(body).catch(() => {});
     S.msgs.push({ from: 'me', text, t: Date.now() });
-    S.msgs.push({ from: 'sys', text: 'Текст скопирован. Сейчас откроется наш Telegram @nestudiopro – вставьте сообщение и отправьте. Или позвоните: +375 44 713-88-69.', t: Date.now() });
+    S.msgs.push({ from: 'sys', text: 'Онлайн-чат скоро заработает. Пока ваш текст скопирован – отправьте его нам в Telegram @nestudiopro или позвоните: +375 44 713-88-69.', t: Date.now(), acts: true });
     save(); form.text.value = ''; render();
     if (!quiet) err.textContent = '';
-    setTimeout(() => window.open('https://t.me/nestudiopro', '_blank', 'noopener'), 600);
   }
 
   // replies from Telegram: ask the relay every few seconds while the chat is open
